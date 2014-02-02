@@ -15,6 +15,10 @@
 		// Set to true by default
 		this.edited = true;
 		
+		// A flag indicating whether the program has been run before
+		// Primarily used for checking if values should be reset
+		this.done = false;
+		
 		// Initial program counter
 		// Increased when .Block and .Word is used/modified
 		this.programCounter = 0;
@@ -87,6 +91,14 @@
 		    this.memory[i] = [0,0,0,0];
 		  }
 		
+		// Stores initial values for memory
+		// Used in resetting the program
+		this.initMemory = [];
+		
+		// Stores initial values for variables
+		// Used in resetting the program
+		this.initVariables = [];
+
 		// Converts a number to a hexidecimal with defined padding
 		this.decimalToHex = function(d, padding) {
 		  var hex = Number(d).toString(16);
@@ -121,6 +133,13 @@
 					value = value + hex[length-i];
 				}
 				this.register[index][1] = parseInt(value, 16);
+			}
+		};
+
+		// Clears the values of the registers
+		this.clearRegister = function() {
+			for(var i = 0; i < 16; i++){
+				this.register[i][1] = 0;
 			}
 		};
 		
@@ -161,23 +180,27 @@
 					// hex length checking goes here.
 					hex = this.decimalToHex(hex, 4);
 				    // Store in memory and update program counter
-					this.memory[memLine++] = [hex[0], hex[1], hex[2], hex[3]];
+					this.memory[memLine] = [hex[0], hex[1], hex[2], hex[3]];
+					this.initMemory[memLine++] = [hex[0], hex[1], hex[2], hex[3]];
 					this.programCounter++;
 					this.startCounter = this.programCounter;
 					// Store variable for display
-					this.variables[index++] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, arg1];
+					this.variables[index] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, arg1];
+					this.initVariables[index] = [this.variables[index][0], this.variables[index++][1]];
 					break;
 				
 				case ".Block": // .Block before program
 					// Reserve number of rows indicated by argument
 					var arg1 = table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue;
 					for(var i = 0; i < arg1; i++) {
-						this.memory[memLine++] = [0, 0, 0, 0];
+						this.memory[memLine] = ['0', '0', '0', '0'];
+						this.initMemory[memLine++] = ['0', '0', '0', '0'];
 						this.programCounter++;
 					}
 					// Store variable for display
 					// Note: May behave strangely with multiple Words
-					this.variables[index++] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, 0];
+					this.variables[index] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, 0];
+					this.initVariables[index] = [this.variables[index][0], this.variables[index++][1]];
 					break;
 					
 				case "LoadImm":  // 0000b LoadImm
@@ -573,7 +596,8 @@
 			// Create cells in variable array for these registers
 			for(var i = 0; i < 16; i++){
 				if(this.register[i][2]){
-					this.variables[index++] = [this.register[i][0], 0];
+					this.variables[index] = [this.register[i][0], 0];
+					this.initVariables[index] = [this.variables[index][0], this.variables[index++][1]];
 				}
 			}
 			// Signal that program has been parsed
@@ -891,7 +915,7 @@
 			for (var i = 0; i < numCells; i++) {										// iterate throughout the cells
 				table.rows[this.programCounter].cells[i].style.color = '#000000';			// highlight all cells black
 			}
-			this.programCounter = this.startCounter;
+			this.done = true;
 		};
 		
 		// Evaluates the command at the given line.
@@ -971,6 +995,9 @@
 				this.init();
 				console.log("Program Initialized");
 			} 
+			if(this.done){
+				this.reset();
+			}
 			if(!this.stop) {
 									// grab the number of cells for this row
 				var previousCounter = this.programCounter;
@@ -994,12 +1021,40 @@
 				this.init();
 				console.log("Program Initialized");
 			}
-				this.intervalID = setInterval(function() {parser.walk();}, 1000);
+			if(this.done) {
+				this.reset();
+			}
+			this.intervalID = setInterval(function() {parser.walk();}, 1000);
 			console.log(this.variables.toString());
-			// Need to find some way of restoring to original state once complete
-			// Either through init or resetting edited flag to false
+			// Convert Run button to Pause and Walk to Reset
 		};	
 			
+
+		// Pauses execution of program
+		this.pause = function() {
+			clearInterval(this.intervalID);
+			// Convert Pause button to Run and Reset to Walk
+		};
+		
+		// Resets the program counter and restores program to original state
+		this.reset = function() {
+			this.programCounter = this.startCounter;
+			// Need to reset Memory
+			for(var i = 0; i < this.programCounter; i++) {
+				this.memory[i][0] = this.initMemory[i][0];
+				this.memory[i][1] = this.initMemory[i][1];
+				this.memory[i][2] = this.initMemory[i][2];
+				this.memory[i][3] = this.initMemory[i][3];
+			}
+			for(var i = 0; i < this.variables.length; i ++) {
+				this.variables[i][0] = this.initVariables[i][0];
+				this.variables[i][1] = this.initVariables[i][1];
+			}
+			this.clearRegister();
+			this.done = false;
+		};
+		
+		// Returns the current value of the program counter
 		this.returncounter = function(){
 			console.log(this.programCounter);
 			var progcount = this.programCounter;
