@@ -112,8 +112,12 @@
 								</div>
 								<div class='col-lg-4 col-lg-offset-1 col-md-4 col-md-offset-1'>
 									<div id='table' style='width: 90px'>
-										<table id='variables' class='table table-bordered' ng-repeat='var in variables'>
-											<td>{{var.title}}</td>
+										<table id='variables' class='table table-bordered' ng-repeat='varM in varMemory'>
+											<td>{{varM.title}}</td>
+											
+										</table>
+										<table id='variables' class='table table-bordered' ng-repeat='varR in variables'>
+											<td>{{varR.title}}</td>
 											
 										</table>
 									</div>
@@ -262,8 +266,8 @@
 		</div>
 		<div class ='row'>
 			<div id='editor_button_group' class='col-lg-3 col-md-3 btn-group-horizontal'>
-				<button type='button' class='btn btn-default' ng-click='run()'>Run</button>
-				<button type='button' class='btn btn-default' ng-click='walk()'>Walk</button>
+				<button id='run11.3' type='button' class='btn btn-default' ng-click='run()'>Run</button>
+				<button id='walk11.3' type='button' class='btn btn-default' ng-click='walk()'>Walk</button>
 				<button type='button' class='btn btn-default'>2/16</button>
 			</div>
 		</div>

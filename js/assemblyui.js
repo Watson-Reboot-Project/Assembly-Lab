@@ -2,7 +2,7 @@
 	
 	.provider('assembler', function(){
 		
-	var assembler = function(tableName, varTable, figureMode){
+	var assembler = function(tableName, varTable, figureMode, figureNumber){
 		this.tableName = tableName;
 		
 		var parser = this;
@@ -11,6 +11,12 @@
 		// True for Figure, False if Architecture
 		this.figureMode = figureMode;
 		
+		// Used in building of figure, as well as dictating which figure is being used
+		this.figureNumber = figureNumber;
+		
+		this._runButton = document.getElementById("run11.3");
+		this._walkButton = document.getElementById("walk11.3");
+		this.runMode = false;
 		// Has the table been edited recently?
 		// Set to true by default
 		this.edited = true;
@@ -48,7 +54,9 @@
 		
 		// List of used variables
 		// More important in figure mode
-		this.variables = [];
+		this.varMemory = [];
+		
+		this.varRegister = [];
 		
 		// List of memory labels
 		// Helps with memory lookup
@@ -97,7 +105,8 @@
 		
 		// Stores initial values for variables
 		// Used in resetting the program
-		this.initVariables = [];
+		this.initVarMemory = [];
+		this.initVarRegister = [];
 
 		// Converts a number to a hexidecimal with defined padding
 		this.decimalToHex = function(d, padding) {
@@ -185,8 +194,8 @@
 					this.programCounter++;
 					this.startCounter = this.programCounter;
 					// Store variable for display
-					this.variables[index] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, arg1];
-					this.initVariables[index] = [this.variables[index][0], this.variables[index++][1]];
+					this.varMemory[index] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, arg1];
+					this.initVarMemory[index] = [this.varMemory[index][0], this.varMemory[index++][1]];
 					break;
 				
 				case ".Block": // .Block before program
@@ -199,8 +208,8 @@
 					}
 					// Store variable for display
 					// Note: May behave strangely with multiple Words
-					this.variables[index] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, 0];
-					this.initVariables[index] = [this.variables[index][0], this.variables[index++][1]];
+					this.varMemory[index] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, 0];
+					this.initVarMemory[index] = [this.varMemory[index][0], this.varMemory[index++][1]];
 					break;
 					
 				case "LoadImm":  // 0000b LoadImm
@@ -596,8 +605,8 @@
 			// Create cells in variable array for these registers
 			for(var i = 0; i < 16; i++){
 				if(this.register[i][2]){
-					this.variables[index] = [this.register[i][0], 0];
-					this.initVariables[index] = [this.variables[index][0], this.variables[index++][1]];
+					this.varRegister[index] = [this.register[i][0], 0];
+					this.initVarRegister[index] = [this.varRegister[index][0], this.varRegister[index++][1]];
 				}
 			}
 			// Signal that program has been parsed
@@ -621,9 +630,9 @@
 				this.negativeFlag = 1;
 			}
 			// Update value in Variable array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg1][0]){
-					this.variables[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg1][0]){
+					this.varRegister[i][1] = this.register[reg1][1];
 					break;
 				}
 			}
@@ -650,9 +659,9 @@
 			}
 
 			// Update value in Variable array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg1][0]){
-					this.variables[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg1][0]){
+					this.varRegister[i][1] = this.register[reg1][1];
 				}
 			}
 			// Debugging/Demo code
@@ -672,10 +681,10 @@
 			for(var i = 0; i < this.labels.length; i++){
 				// Find variable name by memory location
 				if(x == this.labels[i][1]){
-					for(var j = 0; j < this.variables.length;j++){
+					for(var j = 0; j < this.varMemory.length;j++){
 						// Find variable by label
-						if(this.variables[j][0]==this.labels[i][0]){
-							this.variables[j][1] = this.register[reg][1];
+						if(this.varMemory[j][0]==this.labels[i][0]){
+							this.varMemory[j][1] = this.register[reg][1];
 						}
 					}
 				}
@@ -691,9 +700,9 @@
 			this.register[reg1][1]=this.register[reg2][1]&this.register[reg3][1];
 			this.checkRegister(reg1);
 			// Update Variable array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg1][0]){
-					this.variables[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg1][0]){
+					this.varRegister[i][1] = this.register[reg1][1];
 				}
 			}
 		};
@@ -704,9 +713,9 @@
 			this.register[reg1][1]=this.register[reg2][1]|this.register[reg3][1];
 			this.checkRegister(reg1);
 			// Update the Variable array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg1][0]){
-					this.variables[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg1][0]){
+					this.varRegister[i][1] = this.register[reg1][1];
 				}
 			}
 		};
@@ -717,9 +726,9 @@
 			this.register[reg1][1] = ~this.register[reg2][1];
 			this.checkRegister(reg1);
 			// Update the Variable array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg1][0]){
-					this.variables[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg1][0]){
+					this.varRegister[i][1] = this.register[reg1][1];
 				}
 			}
 		};
@@ -733,8 +742,8 @@
 			this.checkRegister(reg1);
 			// Update the variable array
 			for(var i = 0; i < 16; i++){
-				if(this.variables[i][0] == this.register[reg1][0]){
-					this.variables[i][1] = this.register[reg1][1];
+				if(this.varRegister[i][0] == this.register[reg1][0]){
+					this.varRegister[i][1] = this.register[reg1][1];
 				}
 			}
 		};
@@ -747,9 +756,9 @@
 			this.register[reg1][1] = this.register[reg2][1] >>> tBits;
 			this.checkRegister(reg1);
 			// Update the variable array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg1][0]){
-					this.variables[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg1][0]){
+					this.varRegister[i][1] = this.register[reg1][1];
 				}
 			}
 		};
@@ -764,8 +773,8 @@
 				if(x == this.labels[i][1]){
 					for(var j = 0; j < this.labels.length;j++){
 						// Update via label name
-						if(this.variables[j][0]==this.labels[i][0]){
-							this.variables[j][1] = this.register[reg1][1];
+						if(this.varMemory[j][0]==this.labels[i][0]){
+							this.varMemory[j][1] = this.register[reg1][1];
 						}
 					}
 				}
@@ -780,9 +789,9 @@
 			// Store value into register
 			this.register[reg][1] = parseInt(num[0]+num[1]+num[2]+num[3], 16);
 			// Update Variable array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg][0]){
-					this.variables[i][1] = this.register[reg][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg][0]){
+					this.varRegister[i][1] = this.register[reg][1];
 				}
 			}
 			// Debug/Demo Code
@@ -796,9 +805,9 @@
 			// Parse and store value into register
 			this.register[reg][1] = parseInt(value1 + value2, 16);
 			// Update Variable array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg][0]){
-					this.variables[i][1] = this.register[reg][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg][0]){
+					this.varRegister[i][1] = this.register[reg][1];
 				}
 			}
 			// Debug/Demo code
@@ -811,9 +820,9 @@
 			// Reference and store value
 			this.register[reg1][1] = this.memory[this.register[reg2][1]];
 			// Update Variable Array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg1][0]){
-					this.variables[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg1][0]){
+					this.varRegister[i][1] = this.register[reg1][1];
 				}
 			}
 		};
@@ -910,11 +919,6 @@
 		this.halt = function() {
 			clearInterval(this.intervalID);
 			this.stop = true;
-			var table = document.getElementById(tableName);
-			var numCells = table.rows[this.programCounter].cells.length;
-			for (var i = 0; i < numCells; i++) {										// iterate throughout the cells
-				table.rows[this.programCounter].cells[i].style.color = '#000000';			// highlight all cells black
-			}
 			this.done = true;
 		};
 		
@@ -1025,7 +1029,8 @@
 				this.reset();
 			}
 			this.intervalID = setInterval(function() {parser.walk();}, 1000);
-			console.log(this.variables.toString());
+			console.log(this.varMemory.toString());
+			console.log(this.varRegister.toString());
 			// Convert Run button to Pause and Walk to Reset
 		};	
 			
@@ -1046,12 +1051,53 @@
 				this.memory[i][2] = this.initMemory[i][2];
 				this.memory[i][3] = this.initMemory[i][3];
 			}
-			for(var i = 0; i < this.variables.length; i ++) {
-				this.variables[i][0] = this.initVariables[i][0];
-				this.variables[i][1] = this.initVariables[i][1];
+			for(var i = 0; i < this.varMemory.length; i++) {
+				this.varMemory[i][0] = this.initVarMemory[i][0];
+				this.varMemory[i][1] = this.initVarMemory[i][1];
+			}
+			for(var i = 0; i < this.varRegister.length; i++) {
+				this.varRegister[i][0] = this.initVarRegister[i][0];
+				this.varRegister[i][1] = this.initVarRegister[i][0];
+			}
+			var table = document.getElementById(this.tableName);
+			var numCells = table.rows[this.programCounter].cells.length;
+			for(var j = 0; j < table.rows.length; j ++){					// iterate through all rows
+				for (var i = 0; i < numCells; i++) {						// iterate throughout the cells
+					table.rows[j].cells[i].style.color = '#000000';			// highlight all cells black
+				}
 			}
 			this.clearRegister();
 			this.done = false;
+		};
+		
+		this.runButton = function() {
+			if(!this.runMode) {
+				// Change to Pause and Reset
+				this._runButton.innerText = "Pause";
+				this._walkButton.innerText = "Reset";
+				this.run();
+			} else {
+				
+				// Pause 
+				this.runMode = false;
+				this._runButton.innerText = "Run";
+				this._walkButton.innerText = "Walk";
+				this.pause();
+			}
+		};
+		
+		this.walkButton = function() {
+			if(!this.runMode) {
+				// Call reset
+				// Change to Run and Walk
+				this.runMode = false;
+				this._runButton.innerText = "Run";
+				this._walkButton.innerText = "Walk";
+				this.reset();
+			} else {
+				// Call Walk
+				this.walk();
+			}
 		};
 		
 		// Returns the current value of the program counter
@@ -1086,16 +1132,18 @@
 			$scope.bool = bool;
 			
 			$scope.assembler = new assembler(tableName, varTable, bool);
-			var variables = $scope.assembler.variables;
-			$scope.variables = [{title: variables[0]}, 
-								{title: variables[1]},
-			                    {title: variables[2]}, 
-								{title: variables[3]},
-			                    {title: variables[4]}, 
-								{title: variables[5]},
-			                    {title: variables[6]},
-								{title: variables[7]}
+			var varMemory = $scope.assembler.varMemory;
+			var varRegister = $scope.assembler.varRegister;
+			$scope.varMemory = [{title: varMemory[0]}, 
+								{title: varMemory[1]},
+			                    {title: varMemory[2]}
 			                    ];
+			$scope.varRegister =[{title: varRegister[0]},
+				                    {title: varRegister[1]}, 
+									{title: varRegister[2]},
+				                    {title: varRegister[3]},
+									{title: varRegister[4]}
+				                    ];
 			var register = $scope.assembler.register;
 			$scope.register = [{content: register[0][0], value: register[0][1]},
 			                   {content: register[1][0], value: register[1][1]},
