@@ -401,19 +401,20 @@
 												</thead>
 												<tbody>
 													<tr>
-														<td>0</td>
+														<td ng-repeat='carry in carryFlag'>{{carry.content}}</td>
 														<td>Carry Flag</td>
+														
 													</tr>
 													<tr>
-														<td>0</td>
+														<td ng-repeat='negative in negativeFlag'>{{negative.content}}</td>
 														<td>Negative Flag</td>
 													</tr>
 													<tr>
-														<td>0</td>
+														<td ng-repeat='zero in zeroFlag'>{{zero.content}}</td>
 														<td>Zero Flag</td>
 													</tr>
 													<tr>
-														<td>0</td>
+														<td ng-repeat='overflow in overflowFlag'>{{overflow.content}}</td>
 														<td>Overflow Flag</td>
 													</tr>
 												</tbody>
