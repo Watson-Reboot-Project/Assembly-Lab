@@ -32,14 +32,16 @@ video {
 }
 
 .spanMem {
-	height:300px !important;
-	width:350px !important;
+	height:300px;
+	width:200px;
+	border: 1px solid black;
 	overflow-y:scroll;
 }
 
 .spanReg {
 	height:300px;
-	width:225px !important;
+	width:200px;
+	border: 1px solid black;
 	overflow-y:scroll;
 }
 

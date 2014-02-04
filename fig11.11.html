@@ -9,14 +9,14 @@
 		</style>
 		
 		<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
-		<title>Figure 11.6</title>
+		<title>Figure 11.11</title>
 		<link rel='stylesheet' href='lib/css/bootstrap-3.css'>
 	</head>
 	
 	<!-- controller for the lab -->
 	<body>
 	
-		<h1 class='text-center'>Figure 11.6</h1>
+		<h1 class='text-center'>Figure 11.11</h1>
 		<hr />
 	<!-- main container for the index -->
 	<div ng-app='assembly' ng-controller='assemblycontroller' class='container'>
@@ -38,46 +38,57 @@
 				<tr>
 									<td></td>
 									<td>*</td>
-									<td>MINORS</td>
-									<td>.Word</td>
+									<td>I</td>
+									<td>.Block</td>
+									<td>1</td>
+									<td></td>
+									<td></td>
+									<td>;</td>
+									<td>var i;  //  Numeric</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td>A</td>
+									<td>.Block</td>
+									<td>30</td>
+									<td></td>
+									<td></td>
+									<td>;</td>
+									<td>var a = new array(30); // Numeric</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td></td>
+									<td>LoadImm</td>
+									<td>RegA</td>
 									<td>0</td>
 									<td></td>
-									<td></td>
 									<td>;</td>
-									<td>declare and initialize the number of 'minors' to 0.</td>
+									<td></td>
 								</tr>
 								<tr>
 									<td></td>
 									<td>*</td>
-									<td>ADULTS</td>
-									<td>.Word</td>
-									<td>0</td>
 									<td></td>
+									<td>Store</td>
+									<td>RegA</td>
+									<td>I</td>
 									<td></td>
 									<td>;</td>
-									<td>declare and initialize the number of 'adults' to 0.</td>
+									<td>i = 0;</td>
 								</tr>
 								<tr>
 									<td></td>
 									<td>*</td>
-									<td>AGE</td>
-									<td>.Word</td>
-									<td>21</td>
-									<td></td>
-									<td></td>
-									<td>;</td>
-									<td>declare and initialize the 'age' of the person to 21.</td>
-								</tr>
-								<tr>
-									<td></td>
-									<td>*</td>
-									<td>IF</td>
+									<td>LOOP</td>
 									<td>Load</td>
 									<td>RegA</td>
-									<td>AGE</td>
+									<td>I</td>
 									<td></td>
 									<td>;</td>
-									<td>load the value of variable 'age' into register A.</td>
+									<td>while (i  < 30) </td>
 								</tr>
 								<tr>
 									<td></td>
@@ -85,10 +96,10 @@
 									<td></td>
 									<td>LoadImm</td>
 									<td>RegB</td>
-									<td>18</td>
+									<td>30</td>
 									<td></td>
 									<td>;</td>
-									<td>load the constant value 18 into register B.</td>
+									<td></td>
 								</tr>
 								<tr>
 									<td></td>
@@ -99,139 +110,139 @@
 									<td>RegB</td>
 									<td></td>
 									<td>;</td>
-									<td>compare registers A & B &#45; i.e., the value of 'age' to 18</td>
+									<td></td>
 								</tr>
 								<tr>
 									<td></td>
 									<td>*</td>
 									<td></td>
 									<td>Branch</td>
-									<td>LT</td>
-									<td>THEN</td>
+									<td>GE</td>
+									<td>ENDLP</td>
 									<td></td>
 									<td>;</td>
-									<td>IF 'age' is less than 18 branch to 'then'.</td>
-								</tr>
-								<tr>
-									<td></td>
-									<td>*</td>
-									<td></td>
-									<td>Jump</td>
-									<td>ELSE</td>
-									<td></td>
-									<td></td>
-									<td>;</td>
-									<td>otherwise jump to 'else'.</td>
-								</tr>
-								<tr>
-									<td></td>
-									<td>*</td>
-									<td>THEN</td>
-									<td>Load</td>
-									<td>Reg0</td>
-									<td>MINORS</td>
-									<td></td>
-									<td>;</td>
-									<td>THEN: load the number of minors into register 0.</td>
+									<td>{</td>
 								</tr>
 								<tr>
 									<td></td>
 									<td>*</td>
 									<td></td>
 									<td>LoadImm</td>
-									<td>Reg1</td>
+									<td>RegA</td>
 									<td>1</td>
 									<td></td>
 									<td>;</td>
-									<td>load the constant value 1 into register 1.</td>
+									<td>Register A assigned the base address of array a</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td></td>
+									<td>Load</td>
+									<td>RegB</td>
+									<td>I</td>
+									<td></td>
+									<td>;</td>
+									<td>Register B assigned the value of subscript i </td>
 								</tr>
 								<tr>
 									<td></td>
 									<td>*</td>
 									<td></td>
 									<td>Add</td>
-									<td>Reg0</td>
-									<td>Reg0</td>
-									<td>Reg1</td>
+									<td>RegC</td>
+									<td>RegA</td>
+									<td>RegB</td>
 									<td>;</td>
-									<td>add contents of register 1 to register 0.</td>
-								</tr>
-								<tr>
-									<td></td>
-									<td>*</td>
-									<td></td>
-									<td>Store</td>
-									<td>Reg0</td>
-									<td>MINORS</td>
-									<td></td>
-									<td>;</td>
-									<td>update number of minors from register 0.</td>
-								</tr>
-								<tr>
-									<td></td>
-									<td>*</td>
-									<td></td>
-									<td>Jump</td>
-									<td>ENDIF</td>
-									<td></td>
-									<td></td>
-									<td>;</td>
-									<td>go to the statement labelled 'endif'.</td>
-								</tr>
-								<tr>
-									<td></td>
-									<td>*</td>
-									<td>ELSE</td>
-									<td>Load</td>
-									<td>reg0</td>
-									<td>ADULTS</td>
-									<td></td>
-									<td>;</td>
-									<td>ELSE: load the number of adults into register 0. </td>
+									<td>Register C assigned  the address of a[i]</td>
 								</tr>
 								<tr>
 									<td></td>
 									<td>*</td>
 									<td></td>
 									<td>LoadImm</td>
-									<td>Reg1</td>
+									<td>RegD</td>
+									<td>-1</td>
+									<td></td>
+									<td>;</td>
+									<td>Register D assigned the constant  -1</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td></td>
+									<td>StoreInd</td>
+									<td>RegD</td>
+									<td>RegC</td>
+									<td></td>
+									<td>;</td>
+									<td>a[i] = -1;</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td></td>
+									<td>Load</td>
+									<td>RegA</td>
+									<td>I</td>
+									<td></td>
+									<td>;</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td></td>
+									<td>LoadImm</td>
+									<td>RegB</td>
 									<td>1</td>
 									<td></td>
 									<td>;</td>
-									<td>load the constant value  1 into register 1</td>
+									<td></td>
 								</tr>
 								<tr>
 									<td></td>
 									<td>*</td>
 									<td></td>
 									<td>Add</td>
-									<td>Reg0</td>
-									<td>Reg0</td>
-									<td>Reg1</td>
+									<td>RegC</td>
+									<td>RegA</td>
+									<td>RegB</td>
 									<td>;</td>
-									<td>add contents of register 1 to register 0.</td>
+									<td></td>
 								</tr>
 								<tr>
 									<td></td>
 									<td>*</td>
 									<td></td>
 									<td>Store</td>
-									<td>Reg0</td>
-									<td>ADULTS</td>
+									<td>RegC</td>
+									<td>I</td>
 									<td></td>
 									<td>;</td>
-									<td>update number of adults from register 0.</td>
+									<td>i = i + 1;</td>
 								</tr>
 								<tr>
 									<td></td>
 									<td>*</td>
-									<td>ENDIF</td>
-									<td>HALT</td>
+									<td></td>
+									<td>Jump</td>
+									<td>LOOP</td>
+									<td></td>
+									<td></td>
+									<td>;</td>
+									<td>}</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td>ENDLP</td>
+									<td>Halt</td>
 									<td></td>
 									<td></td>
 									<td></td>
 									<td>;</td>
-									<td>halt execution of this assembly language program.</td>
+									<td></td>
 								</tr>
 			</table>
 		</div>

@@ -2,7 +2,7 @@
 	
 	.provider('assembler', function(){
 		
-	var assembler = function(tableName, varTable, figureMode, figureNumber){
+	var assembler = function(tableName, varTable, figureMode){
 		this.tableName = tableName;
 		
 		var parser = this;
@@ -11,12 +11,6 @@
 		// True for Figure, False if Architecture
 		this.figureMode = figureMode;
 		
-		// Used in building of figure, as well as dictating which figure is being used
-		this.figureNumber = figureNumber;
-		
-		this._runButton = document.getElementById("run11.3");
-		this._walkButton = document.getElementById("walk11.3");
-		this.runMode = false;
 		// Has the table been edited recently?
 		// Set to true by default
 		this.edited = true;
@@ -28,6 +22,10 @@
 		// Initial program counter
 		// Increased when .Block and .Word is used/modified
 		this.programCounter = 0;
+		
+		this.previousCounter = 0;
+		
+		this.offSet = 0;
 		
 		// Current program counter
 		// Kept constant
@@ -54,9 +52,7 @@
 		
 		// List of used variables
 		// More important in figure mode
-		this.varMemory = [];
-		
-		this.varRegister = [];
+		this.variables = [];
 		
 		// List of memory labels
 		// Helps with memory lookup
@@ -105,8 +101,7 @@
 		
 		// Stores initial values for variables
 		// Used in resetting the program
-		this.initVarMemory = [];
-		this.initVarRegister = [];
+		this.initVariables = [];
 
 		// Converts a number to a hexidecimal with defined padding
 		this.decimalToHex = function(d, padding) {
@@ -162,16 +157,15 @@
 			var progLine = 0;
 			var memLine = 0;
 			var refLine = 0;
-			var offSet = 0;
 			var index = 0;
 			
 			// Populate the labels array for memory lookup
 			while(progLine<table.rows.length){
 				if(table.rows[progLine].cells[this.labelNum].firstChild != null && table.rows[progLine].cells[this.labelNum].firstChild.nodeValue != null){
 					var ref = table.rows[progLine].cells[this.labelNum].firstChild.nodeValue;
-					this.labels[refLine++] = [ref, progLine + offSet];
+					this.labels[refLine++] = [ref, progLine + this.offSet];
 					if(table.rows[progLine].cells[this.cmdNum].firstChild.nodeValue == ".Block") {
-						offSet+=parseInt(table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue, 10)-1;
+						this.offSet+=parseInt(table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue, 10)-1;
 					}
 				}
 				progLine++;
@@ -194,8 +188,8 @@
 					this.programCounter++;
 					this.startCounter = this.programCounter;
 					// Store variable for display
-					this.varMemory[index] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, arg1];
-					this.initVarMemory[index] = [this.varMemory[index][0], this.varMemory[index++][1]];
+					this.variables[index] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, arg1];
+					this.initVariables[index] = [this.variables[index][0], this.variables[index++][1]];
 					break;
 				
 				case ".Block": // .Block before program
@@ -208,8 +202,8 @@
 					}
 					// Store variable for display
 					// Note: May behave strangely with multiple Words
-					this.varMemory[index] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, 0];
-					this.initVarMemory[index] = [this.varMemory[index][0], this.varMemory[index++][1]];
+					this.variables[index] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, 0];
+					this.initVariables[index] = [this.variables[index][0], this.variables[index++][1]];
 					break;
 					
 				case "LoadImm":  // 0000b LoadImm
@@ -580,7 +574,7 @@
 					var arg1, arg2, label;
 					arg1 = 0;
 					// Find memory location to jump to
-					label = table.rows[progLine].cells[this.arg1].firstChild.nodeValue;
+					label = table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue;
 					for(var i = 0; i < this.labels.length; i++){
 						if(this.labels[i][0] == label) {
 							arg2 = this.labels[i][1];
@@ -589,6 +583,7 @@
 					}
 					// convert to hex to store in memory
 					var hex = parseInt(arg2,10);
+					console.log(hex);
 					// hex length checking goes here.
 					hex = this.decimalToHex(hex, 2);
 				    // Store in memory
@@ -605,8 +600,8 @@
 			// Create cells in variable array for these registers
 			for(var i = 0; i < 16; i++){
 				if(this.register[i][2]){
-					this.varRegister[index] = [this.register[i][0], 0];
-					this.initVarRegister[index] = [this.varRegister[index][0], this.varRegister[index++][1]];
+					this.variables[index] = [this.register[i][0], 0];
+					this.initVariables[index] = [this.variables[index][0], this.variables[index++][1]];
 				}
 			}
 			// Signal that program has been parsed
@@ -630,9 +625,9 @@
 				this.negativeFlag = 1;
 			}
 			// Update value in Variable array
-			for(var i = 0; i < this.varRegister.length; i++){
-				if(this.varRegister[i][0] == this.register[reg1][0]){
-					this.varRegister[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.variables.length; i++){
+				if(this.variables[i][0] == this.register[reg1][0]){
+					this.variables[i][1] = this.register[reg1][1];
 					break;
 				}
 			}
@@ -652,16 +647,16 @@
 			} else { 
 				this.zeroFlag = 0;
 			}
-			if(this.register[reg1][1] >= -1){
+			if(this.register[reg1][1] <= -1){
 				this.negativeFlag = 1;
 			} else {
-				this.negativeFlag = 1;
+				this.negativeFlag = 0;
 			}
 
 			// Update value in Variable array
-			for(var i = 0; i < this.varRegister.length; i++){
-				if(this.varRegister[i][0] == this.register[reg1][0]){
-					this.varRegister[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.variables.length; i++){
+				if(this.variables[i][0] == this.register[reg1][0]){
+					this.variables[i][1] = this.register[reg1][1];
 				}
 			}
 			// Debugging/Demo code
@@ -681,10 +676,10 @@
 			for(var i = 0; i < this.labels.length; i++){
 				// Find variable name by memory location
 				if(x == this.labels[i][1]){
-					for(var j = 0; j < this.varMemory.length;j++){
+					for(var j = 0; j < this.variables.length;j++){
 						// Find variable by label
-						if(this.varMemory[j][0]==this.labels[i][0]){
-							this.varMemory[j][1] = this.register[reg][1];
+						if(this.variables[j][0]==this.labels[i][0]){
+							this.variables[j][1] = this.register[reg][1];
 						}
 					}
 				}
@@ -700,9 +695,9 @@
 			this.register[reg1][1]=this.register[reg2][1]&this.register[reg3][1];
 			this.checkRegister(reg1);
 			// Update Variable array
-			for(var i = 0; i < this.varRegister.length; i++){
-				if(this.varRegister[i][0] == this.register[reg1][0]){
-					this.varRegister[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.variables.length; i++){
+				if(this.variables[i][0] == this.register[reg1][0]){
+					this.variables[i][1] = this.register[reg1][1];
 				}
 			}
 		};
@@ -713,9 +708,9 @@
 			this.register[reg1][1]=this.register[reg2][1]|this.register[reg3][1];
 			this.checkRegister(reg1);
 			// Update the Variable array
-			for(var i = 0; i < this.varRegister.length; i++){
-				if(this.varRegister[i][0] == this.register[reg1][0]){
-					this.varRegister[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.variables.length; i++){
+				if(this.variables[i][0] == this.register[reg1][0]){
+					this.variables[i][1] = this.register[reg1][1];
 				}
 			}
 		};
@@ -726,9 +721,9 @@
 			this.register[reg1][1] = ~this.register[reg2][1];
 			this.checkRegister(reg1);
 			// Update the Variable array
-			for(var i = 0; i < this.varRegister.length; i++){
-				if(this.varRegister[i][0] == this.register[reg1][0]){
-					this.varRegister[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.variables.length; i++){
+				if(this.variables[i][0] == this.register[reg1][0]){
+					this.variables[i][1] = this.register[reg1][1];
 				}
 			}
 		};
@@ -742,8 +737,8 @@
 			this.checkRegister(reg1);
 			// Update the variable array
 			for(var i = 0; i < 16; i++){
-				if(this.varRegister[i][0] == this.register[reg1][0]){
-					this.varRegister[i][1] = this.register[reg1][1];
+				if(this.variables[i][0] == this.register[reg1][0]){
+					this.variables[i][1] = this.register[reg1][1];
 				}
 			}
 		};
@@ -756,9 +751,9 @@
 			this.register[reg1][1] = this.register[reg2][1] >>> tBits;
 			this.checkRegister(reg1);
 			// Update the variable array
-			for(var i = 0; i < this.varRegister.length; i++){
-				if(this.varRegister[i][0] == this.register[reg1][0]){
-					this.varRegister[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.variables.length; i++){
+				if(this.variables[i][0] == this.register[reg1][0]){
+					this.variables[i][1] = this.register[reg1][1];
 				}
 			}
 		};
@@ -773,8 +768,8 @@
 				if(x == this.labels[i][1]){
 					for(var j = 0; j < this.labels.length;j++){
 						// Update via label name
-						if(this.varMemory[j][0]==this.labels[i][0]){
-							this.varMemory[j][1] = this.register[reg1][1];
+						if(this.variables[j][0]==this.labels[i][0]){
+							this.variables[j][1] = this.register[reg1][1];
 						}
 					}
 				}
@@ -789,9 +784,9 @@
 			// Store value into register
 			this.register[reg][1] = parseInt(num[0]+num[1]+num[2]+num[3], 16);
 			// Update Variable array
-			for(var i = 0; i < this.varRegister.length; i++){
-				if(this.varRegister[i][0] == this.register[reg][0]){
-					this.varRegister[i][1] = this.register[reg][1];
+			for(var i = 0; i < this.variables.length; i++){
+				if(this.variables[i][0] == this.register[reg][0]){
+					this.variables[i][1] = this.register[reg][1];
 				}
 			}
 			// Debug/Demo Code
@@ -805,9 +800,9 @@
 			// Parse and store value into register
 			this.register[reg][1] = parseInt(value1 + value2, 16);
 			// Update Variable array
-			for(var i = 0; i < this.varRegister.length; i++){
-				if(this.varRegister[i][0] == this.register[reg][0]){
-					this.varRegister[i][1] = this.register[reg][1];
+			for(var i = 0; i < this.variables.length; i++){
+				if(this.variables[i][0] == this.register[reg][0]){
+					this.variables[i][1] = this.register[reg][1];
 				}
 			}
 			// Debug/Demo code
@@ -820,9 +815,9 @@
 			// Reference and store value
 			this.register[reg1][1] = this.memory[this.register[reg2][1]];
 			// Update Variable Array
-			for(var i = 0; i < this.varRegister.length; i++){
-				if(this.varRegister[i][0] == this.register[reg1][0]){
-					this.varRegister[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.variables.length; i++){
+				if(this.variables[i][0] == this.register[reg1][0]){
+					this.variables[i][1] = this.register[reg1][1];
 				}
 			}
 		};
@@ -841,76 +836,92 @@
 				}else{
 					this.zeroFlag = 0;
 				}
+				console.log("Compare "+this.register[reg1][0]+" and "+this.register[reg2][0]);
 		};
 
 		// Observes flags set by Compare and adjusts program counter accordingly
-		this.branch = function(cond, address){
+		this.branch = function(cond, addr1, addr2){
+			console.log("Branch "+cond);
+			console.log("Neg "+this.negativeFlag);
+			console.log("Zero "+this.zeroFlag);
 			if (cond == "0"){
-				//EQ
-					if(this.zeroFlag == 1){
-						this.jump(address);
-					}
+			//EQ
+				if(this.zeroFlag == 1){
+					this.jump(addr1, addr2);
+					return;
 				}
-				if (cond == "1"){
-				//NE
-					if(this.zeroFlag == 0){
-						this.jump(address);
-					}
+			}
+			else if (cond == "1"){
+			//NE
+				if(this.zeroFlag == 0){
+					this.jump(addr1, addr2);
+					return;
 				}
-				if (cond == "2"){
-				//LT
-					if(this.negativeFlag == 1){
-						this.jump(address);
-					}
+			}
+			else if (cond == "2"){
+			//LT
+				if(this.negativeFlag == 1){
+					this.jump(addr1, addr2);
+					return;
 				}
-				if (cond == "3"){
-				//LE
-					if(this.zeroFlag == 1 || negativeFlag == 1){
-						this.jump(address);
-					}
+			}
+			else if (cond == "3"){
+			//LE
+				if(this.zeroFlag == 1 || this.negativeFlag == 1){
+					this.jump(addr1, addr2);
+					return;
 				}
-				if (cond == "4"){
-				//GT
-					if(this.zeroFlag == 0 || negativeFlag == 0){
-						this.jump(address);
-					}
+			}
+			else if (cond == "4"){
+			//GT
+				if(this.zeroFlag == 0 && this.negativeFlag == 0){
+					this.jump(addr1, addr2);
+					return;
 				}
-				if (cond == "5"){
-				//GE
-					if(this.negativeFlag == 0){
-						this.jump(address);
-					}
+			}
+			else if (cond == "5"){
+			//GE
+				if(this.negativeFlag == 0){
+					this.jump(addr1, addr2);
+					return;
 				}
-				if (cond == "6"){
-				//CARY
-					if(this.carryFlag == 1){
-						this.jump(address);
-					}
+			}
+			else if (cond == "6"){
+			//CARY
+				if(this.carryFlag == 1){
+					this.jump(addr1, addr2);
+					return;
 				}
-				if (cond == "7"){
-				//Neg
-					if(this.negativeFlag == 1){
-						this.jump(address);
-					}
+			}
+			else if (cond == "7"){
+			//Neg
+				if(this.negativeFlag == 1){
+					this.jump(addr1, addr2);
+					return;
 				}
-				if (cond == "8"){
-				//Zero
-					if(this.zeroFlag == 1){
-						this.jump(address);
-					}
+			}
+			else if (cond == "8"){
+			//Zero
+				if(this.zeroFlag == 1){
+					this.jump(addr1, addr2);
+					return;
 				}
-				if (cond == "9"){
-				//over
-					if(this.overflowFlag == 1){
-						this.jump(address);
-					}
+			}
+			else if (cond == "9"){
+			//over
+				if(this.overflowFlag == 1){
+					this.jump(addr1, addr2);
+					return;
 				}
+			}
+			this.programCounter++;
+				
 		};
 		
 		// Sets program counter to be equal to the given memory address
 		this.jump = function(addr1, addr2){
-			var num = this.memory[parseInt(addr1 + addr2, 16)];
-			this.programCounter = parseInt(num[0]+num[1], 16);;
+			this.programCounter = parseInt(addr1+addr2, 16);
+			console.log("Jump "+addr1+addr2);
 		};
 		
 		// Sets the stop flag to true.
@@ -919,6 +930,11 @@
 		this.halt = function() {
 			clearInterval(this.intervalID);
 			this.stop = true;
+			var table = document.getElementById(tableName);
+			var numCells = table.rows[this.programCounter].cells.length;
+			for (var i = 0; i < numCells; i++) {										// iterate throughout the cells
+				table.rows[this.programCounter].cells[i].style.color = '#000000';			// highlight all cells black
+			}
 			this.done = true;
 		};
 		
@@ -983,6 +999,7 @@
 					this.branch(this.memory[line][1],this.memory[line][2],this.memory[line][3]);
 					break;
 				case 14: // 1110b Jump
+					console.log(this.memory[line][2] + "" + this.memory[line][3]);
 					this.jump(this.memory[line][2],this.memory[line][3]);
 					break;
 				case 15: // 1111b Halt
@@ -994,24 +1011,26 @@
 		// Walks through one step of the program
 		this.walk = function() {
 			var table = document.getElementById(this.tableName);
-			var numCells = table.rows[this.programCounter].cells.length;
+			var numCells = table.rows[this.programCounter-this.offSet].cells.length;
 			if(this.edited) {
 				this.init();
+				this.previousCounter = this.programCounter;
 				console.log("Program Initialized");
 			} 
 			if(this.done){
 				this.reset();
 			}
 			if(!this.stop) {
-									// grab the number of cells for this row
-				var previousCounter = this.programCounter;
+				
 				for (var i = 0; i < numCells; i++) {										// iterate throughout the cells
-					table.rows[this.programCounter].cells[i].style.color = '#FF0000';		// highlight all cells red
+					table.rows[this.previousCounter-this.offSet].cells[i].style.color = '#000000';			// highlight all cells black
+				}					// grab the number of cells for this row
+				this.previousCounter = this.programCounter;
+				for (var i = 0; i < numCells; i++) {										// iterate throughout the cells
+					table.rows[this.programCounter-this.offSet].cells[i].style.color = '#FF0000';		// highlight all cells red
 				}
 				parser.eval(this.programCounter);
-				for (var i = 0; i < numCells; i++) {										// iterate throughout the cells
-					table.rows[previousCounter-1].cells[i].style.color = '#000000';			// highlight all cells black
-				}
+				
 			} else {
 				this.stop = false;
 			}
@@ -1028,16 +1047,15 @@
 			if(this.done) {
 				this.reset();
 			}
-			this.intervalID = setInterval(function() {parser.walk();}, 1000);
-			console.log(this.varMemory.toString());
-			console.log(this.varRegister.toString());
+			//this.intervalID = setInterval(function() {parser.walk();}, 1000);
+			console.log(this.variables.toString());
 			// Convert Run button to Pause and Walk to Reset
 		};	
 			
 
 		// Pauses execution of program
 		this.pause = function() {
-			clearInterval(this.intervalID);
+			//clearInterval(this.intervalID);
 			// Convert Pause button to Run and Reset to Walk
 		};
 		
@@ -1051,53 +1069,12 @@
 				this.memory[i][2] = this.initMemory[i][2];
 				this.memory[i][3] = this.initMemory[i][3];
 			}
-			for(var i = 0; i < this.varMemory.length; i++) {
-				this.varMemory[i][0] = this.initVarMemory[i][0];
-				this.varMemory[i][1] = this.initVarMemory[i][1];
+			for(var i = 0; i < this.variables.length; i ++) {
+				this.variables[i][0] = this.initVariables[i][0];
+				this.variables[i][1] = this.initVariables[i][1];
 			}
-			for(var i = 0; i < this.varRegister.length; i++) {
-				this.varRegister[i][0] = this.initVarRegister[i][0];
-				this.varRegister[i][1] = this.initVarRegister[i][0];
-			}
-			var table = document.getElementById(this.tableName);
-			var numCells = table.rows[this.programCounter].cells.length;
-			for(var j = 0; j < table.rows.length; j ++){					// iterate through all rows
-				for (var i = 0; i < numCells; i++) {						// iterate throughout the cells
-					table.rows[j].cells[i].style.color = '#000000';			// highlight all cells black
-				}
-			}
-			this.clearRegister();
+			//this.clearRegister();
 			this.done = false;
-		};
-		
-		this.runButton = function() {
-			if(!this.runMode) {
-				// Change to Pause and Reset
-				this._runButton.innerText = "Pause";
-				this._walkButton.innerText = "Reset";
-				this.run();
-			} else {
-				
-				// Pause 
-				this.runMode = false;
-				this._runButton.innerText = "Run";
-				this._walkButton.innerText = "Walk";
-				this.pause();
-			}
-		};
-		
-		this.walkButton = function() {
-			if(!this.runMode) {
-				// Call reset
-				// Change to Run and Walk
-				this.runMode = false;
-				this._runButton.innerText = "Run";
-				this._walkButton.innerText = "Walk";
-				this.reset();
-			} else {
-				// Call Walk
-				this.walk();
-			}
 		};
 		
 		// Returns the current value of the program counter
@@ -1116,7 +1093,7 @@
 	
 	});
 	
-	tabsstuff.controller('assemblycontroller', function($scope, assembler){
+	tabsstuff.controller('assemblycontroller', function($scope, assembler, $interval){
 		
 			$scope.tabs = [];
 			
@@ -1125,337 +1102,20 @@
 
 			var tableName = "program";
 			var varTable = "variables";
-			var bool = true;
+			var bool = false;
 			
-			$scope.tableName = tableName;
-			$scope.varTable = varTable;
-			$scope.bool = bool;
-			
+
 			$scope.assembler = new assembler(tableName, varTable, bool);
-			var varMemory = $scope.assembler.varMemory;
-			var varRegister = $scope.assembler.varRegister;
-			$scope.varMemory = [{title: varMemory[0]}, 
-								{title: varMemory[1]},
-			                    {title: varMemory[2]}
-			                    ];
-			$scope.varRegister =[{title: varRegister[0]},
-				                    {title: varRegister[1]}, 
-									{title: varRegister[2]},
-				                    {title: varRegister[3]},
-									{title: varRegister[4]}
-				                    ];
-			var register = $scope.assembler.register;
-			$scope.register = [{content: register[0][0], value: register[0][1]},
-			                   {content: register[1][0], value: register[1][1]},
-			                   {content: register[2][0], value: register[2][1]},
-			                   {content: register[3][0], value: register[3][1]},
-			                   {content: register[4][0], value: register[4][1]},
-			                   {content: register[5][0], value: register[5][1]},
-			                   {content: register[6][0], value: register[6][1]},
-			                   {content: register[7][0], value: register[7][1]},
-			                   {content: register[8][0], value: register[8][1]},
-			                   {content: register[9][0], value: register[9][1]},
-			                   {content: register[10][0], value: register[10][1]},
-			                   {content: register[11][0], value: register[11][1]},
-			                   {content: register[12][0], value: register[12][1]},
-			                   {content: register[13][0], value: register[13][1]},
-			                   {content: register[14][0], value: register[14][1]},
-			                   {content: register[15][0], value: register[15][1]},
-			                   ];
-			var counter = $scope.assembler.returncounter();
-			$scope.counter = [{content:counter}];
-			var memory = $scope.assembler.memory;
-			$scope.memory = [{memno: 0, content: memory[0], code: "Total"},
-			                 {memno: 1, content: memory[1], code: "ABC"},
-			                 {memno: 2, content: memory[2], code: "XYZ"},
-			                 {memno: 3, content: memory[3]},
-			                 {memno: 4, content: memory[4]},
-			                 {memno: 5, content: memory[5]},
-			                 {memno: 6, content: memory[6]},
-			                 {memno: 7, content: memory[7]},
-			                 {memno: 8, content: memory[8]},
-			                 {memno: 9, content: memory[9]},
-			                 {memno: 0, content: memory[0]},
-			                 {memno: 0, content: memory[11]},
-			                 {memno: 0, content: memory[12]},
-			                 {memno: 0, content: memory[13]},
-			                 {memno: 0, content: memory[14]},
-			                 {memno: 0, content: memory[15]},
-			                 {memno: 0, content: memory[16]},
-			                 {memno: 0, content: memory[17]},
-			                 {memno: 0, content: memory[18]},
-			                 {memno: 0, content: memory[19]},
-			                 {memno: 0, content: memory[20]},
-			                 {memno: 0, content: memory[21]},
-			                 {memno: 0, content: memory[22]},
-			                 {memno: 0, content: memory[23]},
-			                 {memno: 0, content: memory[24]},
-			                 {memno: 0, content: memory[25]},
-			                 {memno: 0, content: memory[26]},
-			                 {memno: 0, content: memory[27]},
-			                 {memno: 0, content: memory[28]},
-			                 {memno: 0, content: memory[29]},
-			                 {memno: 0, content: memory[30]},
-			                 {memno: 0, content: memory[31]},
-			                 {memno: 0, content: memory[32]},
-			                 {memno: 0, content: memory[33]},
-			                 {memno: 0, content: memory[34]},
-			                 {memno: 0, content: memory[35]},
-			                 {memno: 0, content: memory[36]},
-			                 {memno: 0, content: memory[37]},
-			                 {memno: 0, content: memory[38]},
-			                 {memno: 0, content: memory[39]},
-			                 {memno: 0, content: memory[40]},
-			                 {memno: 0, content: memory[41]},
-			                 {memno: 0, content: memory[42]},
-			                 {memno: 0, content: memory[43]},
-			                 {memno: 0, content: memory[44]},
-			                 {memno: 0, content: memory[45]},
-			                 {memno: 0, content: memory[46]},
-			                 {memno: 0, content: memory[47]},
-			                 {memno: 0, content: memory[48]},
-			                 {memno: 0, content: memory[49]},
-			                 {memno: 0, content: memory[50]},
-			                 {memno: 0, content: memory[51]},
-			                 {memno: 0, content: memory[52]},
-			                 {memno: 0, content: memory[53]},
-			                 {memno: 0, content: memory[54]},
-			                 {memno: 0, content: memory[55]},
-			                 {memno: 0, content: memory[56]},
-			                 {memno: 0, content: memory[57]},
-			                 {memno: 0, content: memory[58]},
-			                 {memno: 0, content: memory[59]},
-			                 {memno: 0, content: memory[60]},
-			                 {memno: 0, content: memory[61]},
-			                 {memno: 0, content: memory[62]},
-			                 {memno: 0, content: memory[63]},
-			                 {memno: 0, content: memory[64]},
-			                 {memno: 0, content: memory[65]},
-			                 {memno: 0, content: memory[66]},
-			                 {memno: 0, content: memory[67]},
-			                 {memno: 0, content: memory[68]},
-			                 {memno: 0, content: memory[69]},
-			                 {memno: 0, content: memory[70]},
-			                 {memno: 0, content: memory[71]},
-			                 {memno: 0, content: memory[72]},
-			                 {memno: 0, content: memory[73]},
-			                 {memno: 0, content: memory[74]},
-			                 {memno: 0, content: memory[75]},
-			                 {memno: 0, content: memory[76]},
-			                 {memno: 0, content: memory[77]},
-			                 {memno: 0, content: memory[78]},
-			                 {memno: 0, content: memory[79]},
-			                 {memno: 0, content: memory[80]},
-			                 {memno: 0, content: memory[81]},
-			                 {memno: 0, content: memory[82]},
-			                 {memno: 0, content: memory[83]},
-			                 {memno: 0, content: memory[84]},
-			                 {memno: 0, content: memory[85]},
-			                 {memno: 0, content: memory[86]},
-			                 {memno: 0, content: memory[87]},
-			                 {memno: 0, content: memory[88]},
-			                 {memno: 0, content: memory[89]},
-			                 {memno: 0, content: memory[90]},
-			                 {memno: 0, content: memory[91]},
-			                 {memno: 0, content: memory[92]},
-			                 {memno: 0, content: memory[93]},
-			                 {memno: 0, content: memory[94]},
-			                 {memno: 0, content: memory[95]},
-			                 {memno: 0, content: memory[96]},
-			                 {memno: 0, content: memory[97]},
-			                 {memno: 0, content: memory[98]},
-			                 {memno: 0, content: memory[99]},
-			                 {memno: 0, content: memory[100]},
-			                 {memno: 0, content: memory[101]},
-			                 {memno: 0, content: memory[102]},
-			                 {memno: 0, content: memory[103]},
-			                 {memno: 0, content: memory[104]},
-			                 {memno: 0, content: memory[105]},
-			                 {memno: 0, content: memory[106]},
-			                 {memno: 0, content: memory[107]},
-			                 {memno: 0, content: memory[108]},
-			                 {memno: 0, content: memory[109]},
-			                 {memno: 0, content: memory[110]},
-			                 {memno: 0, content: memory[111]},
-			                 {memno: 0, content: memory[112]},
-			                 {memno: 0, content: memory[113]},
-			                 {memno: 0, content: memory[114]},
-			                 {memno: 0, content: memory[115]},
-			                 {memno: 0, content: memory[116]},
-			                 {memno: 0, content: memory[117]},
-			                 {memno: 0, content: memory[118]},
-			                 {memno: 0, content: memory[119]},
-			                 {memno: 0, content: memory[120]},
-			                 {memno: 0, content: memory[121]},
-			                 {memno: 0, content: memory[122]},
-			                 {memno: 0, content: memory[123]},
-			                 {memno: 0, content: memory[124]},
-			                 {memno: 0, content: memory[125]},
-			                 {memno: 0, content: memory[126]},
-			                 {memno: 0, content: memory[127]},
-			                 {memno: 0, content: memory[128]},
-			                 {memno: 0, content: memory[129]},
-			                 {memno: 0, content: memory[120]},
-			                 {memno: 0, content: memory[121]},
-			                 {memno: 0, content: memory[122]},
-			                 {memno: 0, content: memory[123]},
-			                 {memno: 0, content: memory[124]},
-			                 {memno: 0, content: memory[125]},
-			                 {memno: 0, content: memory[126]},
-			                 {memno: 0, content: memory[127]},
-			                 {memno: 0, content: memory[128]},
-			                 {memno: 0, content: memory[129]},
-			                 {memno: 0, content: memory[130]},
-			                 {memno: 0, content: memory[131]},
-			                 {memno: 0, content: memory[132]},
-			                 {memno: 0, content: memory[133]},
-			                 {memno: 0, content: memory[134]},
-			                 {memno: 0, content: memory[135]},
-			                 {memno: 0, content: memory[136]},
-			                 {memno: 0, content: memory[137]},
-			                 {memno: 0, content: memory[138]},
-			                 {memno: 0, content: memory[139]},
-			                 {memno: 0, content: memory[140]},
-			                 {memno: 0, content: memory[141]},
-			                 {memno: 0, content: memory[142]},
-			                 {memno: 0, content: memory[143]},
-			                 {memno: 0, content: memory[144]},
-			                 {memno: 0, content: memory[145]},
-			                 {memno: 0, content: memory[146]},
-			                 {memno: 0, content: memory[147]},
-			                 {memno: 0, content: memory[148]},
-			                 {memno: 0, content: memory[149]},
-			                 {memno: 0, content: memory[150]},
-			                 {memno: 0, content: memory[151]},
-			                 {memno: 0, content: memory[152]},
-			                 {memno: 0, content: memory[153]},
-			                 {memno: 0, content: memory[154]},
-			                 {memno: 0, content: memory[155]},
-			                 {memno: 0, content: memory[156]},
-			                 {memno: 0, content: memory[157]},
-			                 {memno: 0, content: memory[158]},
-			                 {memno: 0, content: memory[159]},
-			                 {memno: 0, content: memory[160]},
-			                 {memno: 0, content: memory[161]},
-			                 {memno: 0, content: memory[162]},
-			                 {memno: 0, content: memory[163]},
-			                 {memno: 0, content: memory[164]},
-			                 {memno: 0, content: memory[165]},
-			                 {memno: 0, content: memory[166]},
-			                 {memno: 0, content: memory[167]},
-			                 {memno: 0, content: memory[168]},
-			                 {memno: 0, content: memory[169]},
-			                 {memno: 0, content: memory[170]},
-			                 {memno: 0, content: memory[171]},
-			                 {memno: 0, content: memory[172]},
-			                 {memno: 0, content: memory[173]},
-			                 {memno: 0, content: memory[174]},
-			                 {memno: 0, content: memory[175]},
-			                 {memno: 0, content: memory[176]},
-			                 {memno: 0, content: memory[177]},
-			                 {memno: 0, content: memory[178]},
-			                 {memno: 0, content: memory[179]},
-			                 {memno: 0, content: memory[180]},
-			                 {memno: 0, content: memory[181]},
-			                 {memno: 0, content: memory[182]},
-			                 {memno: 0, content: memory[183]},
-			                 {memno: 0, content: memory[184]},
-			                 {memno: 0, content: memory[185]},
-			                 {memno: 0, content: memory[186]},
-			                 {memno: 0, content: memory[187]},
-			                 {memno: 0, content: memory[188]},
-			                 {memno: 0, content: memory[189]},
-			                 {memno: 0, content: memory[190]},
-			                 {memno: 0, content: memory[191]},
-			                 {memno: 0, content: memory[192]},
-			                 {memno: 0, content: memory[193]},
-			                 {memno: 0, content: memory[194]},
-			                 {memno: 0, content: memory[195]},
-			                 {memno: 0, content: memory[196]},
-			                 {memno: 0, content: memory[197]},
-			                 {memno: 0, content: memory[198]},
-			                 {memno: 0, content: memory[199]},
-			                 {memno: 0, content: memory[200]},
-			                 {memno: 0, content: memory[201]},
-			                 {memno: 0, content: memory[202]},
-			                 {memno: 0, content: memory[203]},
-			                 {memno: 0, content: memory[204]},
-			                 {memno: 0, content: memory[205]},
-			                 {memno: 0, content: memory[206]},
-			                 {memno: 0, content: memory[207]},
-			                 {memno: 0, content: memory[208]},
-			                 {memno: 0, content: memory[209]},
-			                 {memno: 0, content: memory[210]},
-			                 {memno: 0, content: memory[211]},
-			                 {memno: 0, content: memory[212]},
-			                 {memno: 0, content: memory[213]},
-			                 {memno: 0, content: memory[214]},
-			                 {memno: 0, content: memory[215]},
-			                 {memno: 0, content: memory[216]},
-			                 {memno: 0, content: memory[217]},
-			                 {memno: 0, content: memory[218]},
-			                 {memno: 0, content: memory[219]},
-			                 {memno: 0, content: memory[220]},
-			                 {memno: 0, content: memory[221]},
-			                 {memno: 0, content: memory[222]},
-			                 {memno: 0, content: memory[223]},
-			                 {memno: 0, content: memory[224]},
-			                 {memno: 0, content: memory[225]},
-			                 {memno: 0, content: memory[226]},
-			                 {memno: 0, content: memory[227]},
-			                 {memno: 0, content: memory[228]},
-			                 {memno: 0, content: memory[229]},
-			                 {memno: 0, content: memory[220]},
-			                 {memno: 0, content: memory[221]},
-			                 {memno: 0, content: memory[222]},
-			                 {memno: 0, content: memory[223]},
-			                 {memno: 0, content: memory[224]},
-			                 {memno: 0, content: memory[225]},
-			                 {memno: 0, content: memory[226]},
-			                 {memno: 0, content: memory[227]},
-			                 {memno: 0, content: memory[228]},
-			                 {memno: 0, content: memory[229]},
-			                 {memno: 0, content: memory[230]},
-			                 {memno: 0, content: memory[231]},
-			                 {memno: 0, content: memory[232]},
-			                 {memno: 0, content: memory[233]},
-			                 {memno: 0, content: memory[234]},
-			                 {memno: 0, content: memory[235]},
-			                 {memno: 0, content: memory[236]},
-			                 {memno: 0, content: memory[237]},
-			                 {memno: 0, content: memory[238]},
-			                 {memno: 0, content: memory[239]},
-			                 {memno: 0, content: memory[240]},
-			                 {memno: 0, content: memory[241]},
-			                 {memno: 0, content: memory[242]},
-			                 {memno: 0, content: memory[243]},
-			                 {memno: 0, content: memory[244]},
-			                 {memno: 0, content: memory[245]},
-			                 {memno: 0, content: memory[246]},
-			                 {memno: 0, content: memory[247]},
-			                 {memno: 0, content: memory[248]},
-			                 {memno: 0, content: memory[249]},
-			                 {memno: 0, content: memory[250]},
-			                 {memno: 0, content: memory[251]},
-			                 {memno: 0, content: memory[252]},
-			                 {memno: 0, content: memory[253]},
-			                 {memno: 0, content: memory[254]},
-			                 {memno: 0, content: memory[255]}
-			                 ];
 			
-			$scope.run = function(){
-				$scope.assembler.run();
-				var counter = $scope.assembler.returncounter();
-				$scope.counter = [{content:counter}];
-				$scope.variables = [{title: variables[0]}, 
-									{title: variables[1]},
-				                    {title: variables[2]}, 
-									{title: variables[3]},
-				                    {title: variables[4]}, 
-									{title: variables[5]},
-				                    {title: variables[6]},
-									{title: variables[7]}
+			$scope.architecture = function(){
+				var variables = $scope.assembler.variables;
+				$scope.variables = [{title: variables[0], titletoo: variables[5]}, 
+									{title: variables[1], titletoo: variables[6]},
+				                    {title: variables[2], titletoo: variables[7]}, 
+									{title: variables[3], titletoo: variables[8]},
+				                    {title: variables[4], titletoo: variables[9]}, 
 				                    ];
+				var register = $scope.assembler.register;
 				$scope.register = [{content: register[0][0], value: register[0][1]},
 				                   {content: register[1][0], value: register[1][1]},
 				                   {content: register[2][0], value: register[2][1]},
@@ -1473,594 +1133,94 @@
 				                   {content: register[14][0], value: register[14][1]},
 				                   {content: register[15][0], value: register[15][1]},
 				                   ];
-				$scope.memory = [{memno: 0, content: memory[0], code: "Total"},
-				                 {memno: 1, content: memory[1], code: "ABC"},
-				                 {memno: 2, content: memory[2], code: "XYZ"},
-				                 {memno: 3, content: memory[3]},
-				                 {memno: 4, content: memory[4]},
-				                 {memno: 5, content: memory[5]},
-				                 {memno: 6, content: memory[6]},
-				                 {memno: 7, content: memory[7]},
-				                 {memno: 8, content: memory[8]},
-				                 {memno: 9, content: memory[9]},
-				                 {memno: 0, content: memory[0]},
-				                 {memno: 0, content: memory[11]},
-				                 {memno: 0, content: memory[12]},
-				                 {memno: 0, content: memory[13]},
-				                 {memno: 0, content: memory[14]},
-				                 {memno: 0, content: memory[15]},
-				                 {memno: 0, content: memory[16]},
-				                 {memno: 0, content: memory[17]},
-				                 {memno: 0, content: memory[18]},
-				                 {memno: 0, content: memory[19]},
-				                 {memno: 0, content: memory[20]},
-				                 {memno: 0, content: memory[21]},
-				                 {memno: 0, content: memory[22]},
-				                 {memno: 0, content: memory[23]},
-				                 {memno: 0, content: memory[24]},
-				                 {memno: 0, content: memory[25]},
-				                 {memno: 0, content: memory[26]},
-				                 {memno: 0, content: memory[27]},
-				                 {memno: 0, content: memory[28]},
-				                 {memno: 0, content: memory[29]},
-				                 {memno: 0, content: memory[30]},
-				                 {memno: 0, content: memory[31]},
-				                 {memno: 0, content: memory[32]},
-				                 {memno: 0, content: memory[33]},
-				                 {memno: 0, content: memory[34]},
-				                 {memno: 0, content: memory[35]},
-				                 {memno: 0, content: memory[36]},
-				                 {memno: 0, content: memory[37]},
-				                 {memno: 0, content: memory[38]},
-				                 {memno: 0, content: memory[39]},
-				                 {memno: 0, content: memory[40]},
-				                 {memno: 0, content: memory[41]},
-				                 {memno: 0, content: memory[42]},
-				                 {memno: 0, content: memory[43]},
-				                 {memno: 0, content: memory[44]},
-				                 {memno: 0, content: memory[45]},
-				                 {memno: 0, content: memory[46]},
-				                 {memno: 0, content: memory[47]},
-				                 {memno: 0, content: memory[48]},
-				                 {memno: 0, content: memory[49]},
-				                 {memno: 0, content: memory[50]},
-				                 {memno: 0, content: memory[51]},
-				                 {memno: 0, content: memory[52]},
-				                 {memno: 0, content: memory[53]},
-				                 {memno: 0, content: memory[54]},
-				                 {memno: 0, content: memory[55]},
-				                 {memno: 0, content: memory[56]},
-				                 {memno: 0, content: memory[57]},
-				                 {memno: 0, content: memory[58]},
-				                 {memno: 0, content: memory[59]},
-				                 {memno: 0, content: memory[60]},
-				                 {memno: 0, content: memory[61]},
-				                 {memno: 0, content: memory[62]},
-				                 {memno: 0, content: memory[63]},
-				                 {memno: 0, content: memory[64]},
-				                 {memno: 0, content: memory[65]},
-				                 {memno: 0, content: memory[66]},
-				                 {memno: 0, content: memory[67]},
-				                 {memno: 0, content: memory[68]},
-				                 {memno: 0, content: memory[69]},
-				                 {memno: 0, content: memory[70]},
-				                 {memno: 0, content: memory[71]},
-				                 {memno: 0, content: memory[72]},
-				                 {memno: 0, content: memory[73]},
-				                 {memno: 0, content: memory[74]},
-				                 {memno: 0, content: memory[75]},
-				                 {memno: 0, content: memory[76]},
-				                 {memno: 0, content: memory[77]},
-				                 {memno: 0, content: memory[78]},
-				                 {memno: 0, content: memory[79]},
-				                 {memno: 0, content: memory[80]},
-				                 {memno: 0, content: memory[81]},
-				                 {memno: 0, content: memory[82]},
-				                 {memno: 0, content: memory[83]},
-				                 {memno: 0, content: memory[84]},
-				                 {memno: 0, content: memory[85]},
-				                 {memno: 0, content: memory[86]},
-				                 {memno: 0, content: memory[87]},
-				                 {memno: 0, content: memory[88]},
-				                 {memno: 0, content: memory[89]},
-				                 {memno: 0, content: memory[90]},
-				                 {memno: 0, content: memory[91]},
-				                 {memno: 0, content: memory[92]},
-				                 {memno: 0, content: memory[93]},
-				                 {memno: 0, content: memory[94]},
-				                 {memno: 0, content: memory[95]},
-				                 {memno: 0, content: memory[96]},
-				                 {memno: 0, content: memory[97]},
-				                 {memno: 0, content: memory[98]},
-				                 {memno: 0, content: memory[99]},
-				                 {memno: 0, content: memory[100]},
-				                 {memno: 0, content: memory[101]},
-				                 {memno: 0, content: memory[102]},
-				                 {memno: 0, content: memory[103]},
-				                 {memno: 0, content: memory[104]},
-				                 {memno: 0, content: memory[105]},
-				                 {memno: 0, content: memory[106]},
-				                 {memno: 0, content: memory[107]},
-				                 {memno: 0, content: memory[108]},
-				                 {memno: 0, content: memory[109]},
-				                 {memno: 0, content: memory[110]},
-				                 {memno: 0, content: memory[111]},
-				                 {memno: 0, content: memory[112]},
-				                 {memno: 0, content: memory[113]},
-				                 {memno: 0, content: memory[114]},
-				                 {memno: 0, content: memory[115]},
-				                 {memno: 0, content: memory[116]},
-				                 {memno: 0, content: memory[117]},
-				                 {memno: 0, content: memory[118]},
-				                 {memno: 0, content: memory[119]},
-				                 {memno: 0, content: memory[120]},
-				                 {memno: 0, content: memory[121]},
-				                 {memno: 0, content: memory[122]},
-				                 {memno: 0, content: memory[123]},
-				                 {memno: 0, content: memory[124]},
-				                 {memno: 0, content: memory[125]},
-				                 {memno: 0, content: memory[126]},
-				                 {memno: 0, content: memory[127]},
-				                 {memno: 0, content: memory[128]},
-				                 {memno: 0, content: memory[129]},
-				                 {memno: 0, content: memory[120]},
-				                 {memno: 0, content: memory[121]},
-				                 {memno: 0, content: memory[122]},
-				                 {memno: 0, content: memory[123]},
-				                 {memno: 0, content: memory[124]},
-				                 {memno: 0, content: memory[125]},
-				                 {memno: 0, content: memory[126]},
-				                 {memno: 0, content: memory[127]},
-				                 {memno: 0, content: memory[128]},
-				                 {memno: 0, content: memory[129]},
-				                 {memno: 0, content: memory[130]},
-				                 {memno: 0, content: memory[131]},
-				                 {memno: 0, content: memory[132]},
-				                 {memno: 0, content: memory[133]},
-				                 {memno: 0, content: memory[134]},
-				                 {memno: 0, content: memory[135]},
-				                 {memno: 0, content: memory[136]},
-				                 {memno: 0, content: memory[137]},
-				                 {memno: 0, content: memory[138]},
-				                 {memno: 0, content: memory[139]},
-				                 {memno: 0, content: memory[140]},
-				                 {memno: 0, content: memory[141]},
-				                 {memno: 0, content: memory[142]},
-				                 {memno: 0, content: memory[143]},
-				                 {memno: 0, content: memory[144]},
-				                 {memno: 0, content: memory[145]},
-				                 {memno: 0, content: memory[146]},
-				                 {memno: 0, content: memory[147]},
-				                 {memno: 0, content: memory[148]},
-				                 {memno: 0, content: memory[149]},
-				                 {memno: 0, content: memory[150]},
-				                 {memno: 0, content: memory[151]},
-				                 {memno: 0, content: memory[152]},
-				                 {memno: 0, content: memory[153]},
-				                 {memno: 0, content: memory[154]},
-				                 {memno: 0, content: memory[155]},
-				                 {memno: 0, content: memory[156]},
-				                 {memno: 0, content: memory[157]},
-				                 {memno: 0, content: memory[158]},
-				                 {memno: 0, content: memory[159]},
-				                 {memno: 0, content: memory[160]},
-				                 {memno: 0, content: memory[161]},
-				                 {memno: 0, content: memory[162]},
-				                 {memno: 0, content: memory[163]},
-				                 {memno: 0, content: memory[164]},
-				                 {memno: 0, content: memory[165]},
-				                 {memno: 0, content: memory[166]},
-				                 {memno: 0, content: memory[167]},
-				                 {memno: 0, content: memory[168]},
-				                 {memno: 0, content: memory[169]},
-				                 {memno: 0, content: memory[170]},
-				                 {memno: 0, content: memory[171]},
-				                 {memno: 0, content: memory[172]},
-				                 {memno: 0, content: memory[173]},
-				                 {memno: 0, content: memory[174]},
-				                 {memno: 0, content: memory[175]},
-				                 {memno: 0, content: memory[176]},
-				                 {memno: 0, content: memory[177]},
-				                 {memno: 0, content: memory[178]},
-				                 {memno: 0, content: memory[179]},
-				                 {memno: 0, content: memory[180]},
-				                 {memno: 0, content: memory[181]},
-				                 {memno: 0, content: memory[182]},
-				                 {memno: 0, content: memory[183]},
-				                 {memno: 0, content: memory[184]},
-				                 {memno: 0, content: memory[185]},
-				                 {memno: 0, content: memory[186]},
-				                 {memno: 0, content: memory[187]},
-				                 {memno: 0, content: memory[188]},
-				                 {memno: 0, content: memory[189]},
-				                 {memno: 0, content: memory[190]},
-				                 {memno: 0, content: memory[191]},
-				                 {memno: 0, content: memory[192]},
-				                 {memno: 0, content: memory[193]},
-				                 {memno: 0, content: memory[194]},
-				                 {memno: 0, content: memory[195]},
-				                 {memno: 0, content: memory[196]},
-				                 {memno: 0, content: memory[197]},
-				                 {memno: 0, content: memory[198]},
-				                 {memno: 0, content: memory[199]},
-				                 {memno: 0, content: memory[200]},
-				                 {memno: 0, content: memory[201]},
-				                 {memno: 0, content: memory[202]},
-				                 {memno: 0, content: memory[203]},
-				                 {memno: 0, content: memory[204]},
-				                 {memno: 0, content: memory[205]},
-				                 {memno: 0, content: memory[206]},
-				                 {memno: 0, content: memory[207]},
-				                 {memno: 0, content: memory[208]},
-				                 {memno: 0, content: memory[209]},
-				                 {memno: 0, content: memory[210]},
-				                 {memno: 0, content: memory[211]},
-				                 {memno: 0, content: memory[212]},
-				                 {memno: 0, content: memory[213]},
-				                 {memno: 0, content: memory[214]},
-				                 {memno: 0, content: memory[215]},
-				                 {memno: 0, content: memory[216]},
-				                 {memno: 0, content: memory[217]},
-				                 {memno: 0, content: memory[218]},
-				                 {memno: 0, content: memory[219]},
-				                 {memno: 0, content: memory[220]},
-				                 {memno: 0, content: memory[221]},
-				                 {memno: 0, content: memory[222]},
-				                 {memno: 0, content: memory[223]},
-				                 {memno: 0, content: memory[224]},
-				                 {memno: 0, content: memory[225]},
-				                 {memno: 0, content: memory[226]},
-				                 {memno: 0, content: memory[227]},
-				                 {memno: 0, content: memory[228]},
-				                 {memno: 0, content: memory[229]},
-				                 {memno: 0, content: memory[220]},
-				                 {memno: 0, content: memory[221]},
-				                 {memno: 0, content: memory[222]},
-				                 {memno: 0, content: memory[223]},
-				                 {memno: 0, content: memory[224]},
-				                 {memno: 0, content: memory[225]},
-				                 {memno: 0, content: memory[226]},
-				                 {memno: 0, content: memory[227]},
-				                 {memno: 0, content: memory[228]},
-				                 {memno: 0, content: memory[229]},
-				                 {memno: 0, content: memory[230]},
-				                 {memno: 0, content: memory[231]},
-				                 {memno: 0, content: memory[232]},
-				                 {memno: 0, content: memory[233]},
-				                 {memno: 0, content: memory[234]},
-				                 {memno: 0, content: memory[235]},
-				                 {memno: 0, content: memory[236]},
-				                 {memno: 0, content: memory[237]},
-				                 {memno: 0, content: memory[238]},
-				                 {memno: 0, content: memory[239]},
-				                 {memno: 0, content: memory[240]},
-				                 {memno: 0, content: memory[241]},
-				                 {memno: 0, content: memory[242]},
-				                 {memno: 0, content: memory[243]},
-				                 {memno: 0, content: memory[244]},
-				                 {memno: 0, content: memory[245]},
-				                 {memno: 0, content: memory[246]},
-				                 {memno: 0, content: memory[247]},
-				                 {memno: 0, content: memory[248]},
-				                 {memno: 0, content: memory[249]},
-				                 {memno: 0, content: memory[250]},
-				                 {memno: 0, content: memory[251]},
-				                 {memno: 0, content: memory[252]},
-				                 {memno: 0, content: memory[253]},
-				                 {memno: 0, content: memory[254]},
-				                 {memno: 0, content: memory[255]}
-				                 ];
+				var counter = $scope.assembler.returncounter();
+				$scope.counter = [{content:counter}];
+				var memory = $scope.assembler.memory;
+				$scope.memory = [{memno: 0, content: memory[0], code: "Total"},{memno: 1, content: memory[1], code: "ABC"},{memno: 2, content: memory[2], code: "XYZ"},{memno: 3, content: memory[3]},
+				                {memno: 4, content: memory[4]},{memno: 5, content: memory[5]},{memno: 6, content: memory[6]},{memno: 7, content: memory[7]},{memno: 8, content: memory[8]},{memno: 9, content: memory[9]},{memno: 0, content: memory[10]},
+								{memno: 0, content: memory[11]},{memno: 0, content: memory[12]},{memno: 0, content: memory[13]},{memno: 0, content: memory[14]},{memno: 0, content: memory[15]},{memno: 0, content: memory[16]},
+								{memno: 0, content: memory[17]},{memno: 0, content: memory[18]},{memno: 0, content: memory[19]},{memno: 0, content: memory[20]},{memno: 0, content: memory[21]},{memno: 0, content: memory[22]},{memno: 0, content: memory[23]},
+								{memno: 0, content: memory[24]},{memno: 0, content: memory[25]},{memno: 0, content: memory[26]},{memno: 0, content: memory[27]},{memno: 0, content: memory[28]},{memno: 0, content: memory[29]},
+								{memno: 0, content: memory[30]},{memno: 0, content: memory[31]},{memno: 32, content: memory[32]},{memno: 33, content: memory[33]},{memno: 0, content: memory[34]},{memno: 0, content: memory[35]},
+								{memno: 0, content: memory[36]},{memno: 0, content: memory[37]},{memno: 0, content: memory[38]},{memno: 0, content: memory[39]},{memno: 0, content: memory[40]},{memno: 0, content: memory[41]},
+								{memno: 0, content: memory[42]},{memno: 0, content: memory[43]},{memno: 0, content: memory[44]},{memno: 0, content: memory[45]},{memno: 0, content: memory[46]},{memno: 0, content: memory[47]},
+								{memno: 0, content: memory[48]},{memno: 0, content: memory[49]},{memno: 0, content: memory[50]},{memno: 0, content: memory[51]},{memno: 0, content: memory[52]},{memno: 0, content: memory[53]},
+								{memno: 0, content: memory[54]},{memno: 0, content: memory[55]},{memno: 0, content: memory[56]},{memno: 0, content: memory[57]},{memno: 0, content: memory[58]},{memno: 0, content: memory[59]},{memno: 0, content: memory[60]},
+								{memno: 0, content: memory[61]},{memno: 0, content: memory[62]},{memno: 0, content: memory[63]},{memno: 0, content: memory[64]},{memno: 0, content: memory[65]},{memno: 0, content: memory[66]},
+								{memno: 0, content: memory[67]},{memno: 0, content: memory[68]},{memno: 0, content: memory[69]},{memno: 0, content: memory[70]},{memno: 0, content: memory[71]},{memno: 0, content: memory[72]},
+								{memno: 0, content: memory[73]},{memno: 0, content: memory[74]},{memno: 0, content: memory[75]},{memno: 0, content: memory[76]},{memno: 0, content: memory[77]},{memno: 0, content: memory[78]},
+								{memno: 0, content: memory[79]},{memno: 0, content: memory[80]},{memno: 0, content: memory[81]},{memno: 0, content: memory[82]},{memno: 0, content: memory[83]},{memno: 0, content: memory[84]},
+								{memno: 0, content: memory[85]},{memno: 0, content: memory[86]},{memno: 0, content: memory[87]},{memno: 0, content: memory[88]},{memno: 0, content: memory[89]},{memno: 0, content: memory[90]},
+								{memno: 0, content: memory[91]},{memno: 0, content: memory[92]},{memno: 0, content: memory[93]},{memno: 0, content: memory[94]},{memno: 0, content: memory[95]},{memno: 0, content: memory[96]},
+								{memno: 0, content: memory[97]},{memno: 0, content: memory[98]},{memno: 0, content: memory[99]},{memno: 0, content: memory[100]},{memno: 0, content: memory[101]},{memno: 0, content: memory[102]},
+								{memno: 0, content: memory[103]},{memno: 0, content: memory[104]},{memno: 0, content: memory[105]},{memno: 0, content: memory[106]},{memno: 0, content: memory[107]},{memno: 0, content: memory[108]},
+								{memno: 0, content: memory[109]},{memno: 0, content: memory[110]},{memno: 0, content: memory[111]},{memno: 0, content: memory[112]},{memno: 0, content: memory[113]},{memno: 0, content: memory[114]},
+								{memno: 0, content: memory[115]},{memno: 0, content: memory[116]},{memno: 0, content: memory[117]},{memno: 0, content: memory[118]},{memno: 0, content: memory[119]},{memno: 0, content: memory[120]},
+								{memno: 0, content: memory[121]},{memno: 0, content: memory[122]},{memno: 0, content: memory[123]},{memno: 0, content: memory[124]},{memno: 0, content: memory[125]},{memno: 0, content: memory[126]},
+								{memno: 0, content: memory[127]},{memno: 0, content: memory[128]},{memno: 0, content: memory[129]},{memno: 0, content: memory[120]},{memno: 0, content: memory[121]},{memno: 0, content: memory[122]},
+								{memno: 0, content: memory[123]},{memno: 0, content: memory[124]},{memno: 0, content: memory[125]},{memno: 0, content: memory[126]},{memno: 0, content: memory[127]},{memno: 0, content: memory[128]},
+								{memno: 0, content: memory[129]},{memno: 0, content: memory[130]},{memno: 0, content: memory[131]},{memno: 0, content: memory[132]},{memno: 0, content: memory[133]},{memno: 0, content: memory[134]},
+								{memno: 0, content: memory[135]},{memno: 0, content: memory[136]},{memno: 0, content: memory[137]},{memno: 0, content: memory[138]},{memno: 0, content: memory[139]},{memno: 0, content: memory[140]},
+								{memno: 0, content: memory[141]},{memno: 0, content: memory[142]},{memno: 0, content: memory[143]},{memno: 0, content: memory[144]},{memno: 0, content: memory[145]},{memno: 0, content: memory[146]},
+								{memno: 0, content: memory[147]},{memno: 0, content: memory[148]},{memno: 0, content: memory[149]},{memno: 0, content: memory[150]},{memno: 0, content: memory[151]},{memno: 0, content: memory[152]},
+								{memno: 0, content: memory[153]},{memno: 0, content: memory[154]},{memno: 0, content: memory[155]},{memno: 0, content: memory[156]},{memno: 0, content: memory[157]},{memno: 0, content: memory[158]},
+								{memno: 0, content: memory[159]},{memno: 0, content: memory[160]},{memno: 0, content: memory[161]},{memno: 0, content: memory[162]},{memno: 0, content: memory[163]},{memno: 0, content: memory[164]},
+								{memno: 0, content: memory[165]},{memno: 0, content: memory[166]},{memno: 0, content: memory[167]},{memno: 0, content: memory[168]},{memno: 0, content: memory[169]},{memno: 0, content: memory[170]},
+								{memno: 0, content: memory[171]},{memno: 0, content: memory[172]},{memno: 0, content: memory[173]},{memno: 0, content: memory[174]},{memno: 0, content: memory[175]},{memno: 0, content: memory[176]},
+								{memno: 0, content: memory[177]},{memno: 0, content: memory[178]},{memno: 0, content: memory[179]},{memno: 0, content: memory[180]},{memno: 0, content: memory[181]},{memno: 0, content: memory[182]},
+								{memno: 0, content: memory[183]},{memno: 0, content: memory[184]},{memno: 0, content: memory[185]},{memno: 0, content: memory[186]},{memno: 0, content: memory[187]},{memno: 0, content: memory[188]},
+								{memno: 0, content: memory[189]},{memno: 0, content: memory[190]},{memno: 0, content: memory[191]},{memno: 0, content: memory[192]},{memno: 0, content: memory[193]},{memno: 0, content: memory[194]},
+								{memno: 0, content: memory[195]},{memno: 0, content: memory[196]},{memno: 0, content: memory[197]},{memno: 0, content: memory[198]},{memno: 0, content: memory[199]},{memno: 0, content: memory[200]},
+								{memno: 0, content: memory[201]},{memno: 0, content: memory[202]},{memno: 0, content: memory[203]},{memno: 0, content: memory[204]},{memno: 0, content: memory[205]},{memno: 0, content: memory[206]},
+								{memno: 0, content: memory[207]},{memno: 0, content: memory[208]},{memno: 0, content: memory[209]},{memno: 0, content: memory[210]},{memno: 0, content: memory[211]},{memno: 0, content: memory[212]},
+								{memno: 0, content: memory[213]},{memno: 0, content: memory[214]},{memno: 0, content: memory[215]},{memno: 0, content: memory[216]},{memno: 0, content: memory[217]},{memno: 0, content: memory[218]},
+								{memno: 0, content: memory[219]},{memno: 0, content: memory[220]},{memno: 0, content: memory[221]},{memno: 0, content: memory[222]},{memno: 0, content: memory[223]},{memno: 0, content: memory[224]},
+								{memno: 0, content: memory[225]},{memno: 0, content: memory[226]},{memno: 0, content: memory[227]},{memno: 0, content: memory[228]},{memno: 0, content: memory[229]},{memno: 0, content: memory[220]},
+								{memno: 0, content: memory[221]},{memno: 0, content: memory[222]},{memno: 0, content: memory[223]},{memno: 0, content: memory[224]},{memno: 0, content: memory[225]},{memno: 0, content: memory[226]},
+								{memno: 0, content: memory[227]},{memno: 0, content: memory[228]},{memno: 0, content: memory[229]},{memno: 0, content: memory[230]},{memno: 0, content: memory[231]},{memno: 0, content: memory[232]},
+								{memno: 0, content: memory[233]},{memno: 0, content: memory[234]},{memno: 0, content: memory[235]},{memno: 0, content: memory[236]},{memno: 0, content: memory[237]},{memno: 0, content: memory[238]},
+								{memno: 0, content: memory[239]},{memno: 0, content: memory[240]},{memno: 0, content: memory[241]},{memno: 0, content: memory[242]},{memno: 0, content: memory[243]},{memno: 0, content: memory[244]},
+								{memno: 0, content: memory[245]},{memno: 0, content: memory[246]},{memno: 0, content: memory[247]},{memno: 0, content: memory[248]},{memno: 0, content: memory[249]},{memno: 0, content: memory[250]},
+								{memno: 0, content: memory[251]},{memno: 0, content: memory[252]},{memno: 0, content: memory[253]},{memno: 0, content: memory[254]},{memno: 0, content: memory[255]}
+								];
+			};
+			
+			$scope.architecture();
+			
+			$scope.pause = function(){
+				$scope.assembler.pause();
+				$scope.architecture();
+				$interval.cancel(intervalId);
+			};
+			
+			
+			
+			$scope.reset = function(){
+				$scope.assembler.reset();
+				$scope.architecture();
+				$interval.cancel(intervalId);
+
 			};
 			
 			$scope.walk = function(){
-				$scope.assembler.walk();
-				var counter = $scope.assembler.returncounter();
-
-				$scope.counter = [{content:counter}];
-				$scope.variables = [{title: variables[0]}, 
-									{title: variables[1]},
-				                    {title: variables[2]}, 
-									{title: variables[3]},
-				                    {title: variables[4]}, 
-									{title: variables[5]},
-				                    {title: variables[6]},
-									{title: variables[7]}
-				                    ];
-				$scope.register = [{content: register[0][0], value: register[0][1]},
-				                   {content: register[1][0], value: register[1][1]},
-				                   {content: register[2][0], value: register[2][1]},
-				                   {content: register[3][0], value: register[3][1]},
-				                   {content: register[4][0], value: register[4][1]},
-				                   {content: register[5][0], value: register[5][1]},
-				                   {content: register[6][0], value: register[6][1]},
-				                   {content: register[7][0], value: register[7][1]},
-				                   {content: register[8][0], value: register[8][1]},
-				                   {content: register[9][0], value: register[9][1]},
-				                   {content: register[10][0], value: register[10][1]},
-				                   {content: register[11][0], value: register[11][1]},
-				                   {content: register[12][0], value: register[12][1]},
-				                   {content: register[13][0], value: register[13][1]},
-				                   {content: register[14][0], value: register[14][1]},
-				                   {content: register[15][0], value: register[15][1]},
-				                   ];
-				$scope.memory = [{memno: 0, content: memory[0], code: "Total"},
-				                 {memno: 1, content: memory[1], code: "ABC"},
-				                 {memno: 2, content: memory[2], code: "XYZ"},
-				                 {memno: 3, content: memory[3]},
-				                 {memno: 4, content: memory[4]},
-				                 {memno: 5, content: memory[5]},
-				                 {memno: 6, content: memory[6]},
-				                 {memno: 7, content: memory[7]},
-				                 {memno: 8, content: memory[8]},
-				                 {memno: 9, content: memory[9]},
-				                 {memno: 0, content: memory[0]},
-				                 {memno: 0, content: memory[11]},
-				                 {memno: 0, content: memory[12]},
-				                 {memno: 0, content: memory[13]},
-				                 {memno: 0, content: memory[14]},
-				                 {memno: 0, content: memory[15]},
-				                 {memno: 0, content: memory[16]},
-				                 {memno: 0, content: memory[17]},
-				                 {memno: 0, content: memory[18]},
-				                 {memno: 0, content: memory[19]},
-				                 {memno: 0, content: memory[20]},
-				                 {memno: 0, content: memory[21]},
-				                 {memno: 0, content: memory[22]},
-				                 {memno: 0, content: memory[23]},
-				                 {memno: 0, content: memory[24]},
-				                 {memno: 0, content: memory[25]},
-				                 {memno: 0, content: memory[26]},
-				                 {memno: 0, content: memory[27]},
-				                 {memno: 0, content: memory[28]},
-				                 {memno: 0, content: memory[29]},
-				                 {memno: 0, content: memory[30]},
-				                 {memno: 0, content: memory[31]},
-				                 {memno: 0, content: memory[32]},
-				                 {memno: 0, content: memory[33]},
-				                 {memno: 0, content: memory[34]},
-				                 {memno: 0, content: memory[35]},
-				                 {memno: 0, content: memory[36]},
-				                 {memno: 0, content: memory[37]},
-				                 {memno: 0, content: memory[38]},
-				                 {memno: 0, content: memory[39]},
-				                 {memno: 0, content: memory[40]},
-				                 {memno: 0, content: memory[41]},
-				                 {memno: 0, content: memory[42]},
-				                 {memno: 0, content: memory[43]},
-				                 {memno: 0, content: memory[44]},
-				                 {memno: 0, content: memory[45]},
-				                 {memno: 0, content: memory[46]},
-				                 {memno: 0, content: memory[47]},
-				                 {memno: 0, content: memory[48]},
-				                 {memno: 0, content: memory[49]},
-				                 {memno: 0, content: memory[50]},
-				                 {memno: 0, content: memory[51]},
-				                 {memno: 0, content: memory[52]},
-				                 {memno: 0, content: memory[53]},
-				                 {memno: 0, content: memory[54]},
-				                 {memno: 0, content: memory[55]},
-				                 {memno: 0, content: memory[56]},
-				                 {memno: 0, content: memory[57]},
-				                 {memno: 0, content: memory[58]},
-				                 {memno: 0, content: memory[59]},
-				                 {memno: 0, content: memory[60]},
-				                 {memno: 0, content: memory[61]},
-				                 {memno: 0, content: memory[62]},
-				                 {memno: 0, content: memory[63]},
-				                 {memno: 0, content: memory[64]},
-				                 {memno: 0, content: memory[65]},
-				                 {memno: 0, content: memory[66]},
-				                 {memno: 0, content: memory[67]},
-				                 {memno: 0, content: memory[68]},
-				                 {memno: 0, content: memory[69]},
-				                 {memno: 0, content: memory[70]},
-				                 {memno: 0, content: memory[71]},
-				                 {memno: 0, content: memory[72]},
-				                 {memno: 0, content: memory[73]},
-				                 {memno: 0, content: memory[74]},
-				                 {memno: 0, content: memory[75]},
-				                 {memno: 0, content: memory[76]},
-				                 {memno: 0, content: memory[77]},
-				                 {memno: 0, content: memory[78]},
-				                 {memno: 0, content: memory[79]},
-				                 {memno: 0, content: memory[80]},
-				                 {memno: 0, content: memory[81]},
-				                 {memno: 0, content: memory[82]},
-				                 {memno: 0, content: memory[83]},
-				                 {memno: 0, content: memory[84]},
-				                 {memno: 0, content: memory[85]},
-				                 {memno: 0, content: memory[86]},
-				                 {memno: 0, content: memory[87]},
-				                 {memno: 0, content: memory[88]},
-				                 {memno: 0, content: memory[89]},
-				                 {memno: 0, content: memory[90]},
-				                 {memno: 0, content: memory[91]},
-				                 {memno: 0, content: memory[92]},
-				                 {memno: 0, content: memory[93]},
-				                 {memno: 0, content: memory[94]},
-				                 {memno: 0, content: memory[95]},
-				                 {memno: 0, content: memory[96]},
-				                 {memno: 0, content: memory[97]},
-				                 {memno: 0, content: memory[98]},
-				                 {memno: 0, content: memory[99]},
-				                 {memno: 0, content: memory[100]},
-				                 {memno: 0, content: memory[101]},
-				                 {memno: 0, content: memory[102]},
-				                 {memno: 0, content: memory[103]},
-				                 {memno: 0, content: memory[104]},
-				                 {memno: 0, content: memory[105]},
-				                 {memno: 0, content: memory[106]},
-				                 {memno: 0, content: memory[107]},
-				                 {memno: 0, content: memory[108]},
-				                 {memno: 0, content: memory[109]},
-				                 {memno: 0, content: memory[110]},
-				                 {memno: 0, content: memory[111]},
-				                 {memno: 0, content: memory[112]},
-				                 {memno: 0, content: memory[113]},
-				                 {memno: 0, content: memory[114]},
-				                 {memno: 0, content: memory[115]},
-				                 {memno: 0, content: memory[116]},
-				                 {memno: 0, content: memory[117]},
-				                 {memno: 0, content: memory[118]},
-				                 {memno: 0, content: memory[119]},
-				                 {memno: 0, content: memory[120]},
-				                 {memno: 0, content: memory[121]},
-				                 {memno: 0, content: memory[122]},
-				                 {memno: 0, content: memory[123]},
-				                 {memno: 0, content: memory[124]},
-				                 {memno: 0, content: memory[125]},
-				                 {memno: 0, content: memory[126]},
-				                 {memno: 0, content: memory[127]},
-				                 {memno: 0, content: memory[128]},
-				                 {memno: 0, content: memory[129]},
-				                 {memno: 0, content: memory[120]},
-				                 {memno: 0, content: memory[121]},
-				                 {memno: 0, content: memory[122]},
-				                 {memno: 0, content: memory[123]},
-				                 {memno: 0, content: memory[124]},
-				                 {memno: 0, content: memory[125]},
-				                 {memno: 0, content: memory[126]},
-				                 {memno: 0, content: memory[127]},
-				                 {memno: 0, content: memory[128]},
-				                 {memno: 0, content: memory[129]},
-				                 {memno: 0, content: memory[130]},
-				                 {memno: 0, content: memory[131]},
-				                 {memno: 0, content: memory[132]},
-				                 {memno: 0, content: memory[133]},
-				                 {memno: 0, content: memory[134]},
-				                 {memno: 0, content: memory[135]},
-				                 {memno: 0, content: memory[136]},
-				                 {memno: 0, content: memory[137]},
-				                 {memno: 0, content: memory[138]},
-				                 {memno: 0, content: memory[139]},
-				                 {memno: 0, content: memory[140]},
-				                 {memno: 0, content: memory[141]},
-				                 {memno: 0, content: memory[142]},
-				                 {memno: 0, content: memory[143]},
-				                 {memno: 0, content: memory[144]},
-				                 {memno: 0, content: memory[145]},
-				                 {memno: 0, content: memory[146]},
-				                 {memno: 0, content: memory[147]},
-				                 {memno: 0, content: memory[148]},
-				                 {memno: 0, content: memory[149]},
-				                 {memno: 0, content: memory[150]},
-				                 {memno: 0, content: memory[151]},
-				                 {memno: 0, content: memory[152]},
-				                 {memno: 0, content: memory[153]},
-				                 {memno: 0, content: memory[154]},
-				                 {memno: 0, content: memory[155]},
-				                 {memno: 0, content: memory[156]},
-				                 {memno: 0, content: memory[157]},
-				                 {memno: 0, content: memory[158]},
-				                 {memno: 0, content: memory[159]},
-				                 {memno: 0, content: memory[160]},
-				                 {memno: 0, content: memory[161]},
-				                 {memno: 0, content: memory[162]},
-				                 {memno: 0, content: memory[163]},
-				                 {memno: 0, content: memory[164]},
-				                 {memno: 0, content: memory[165]},
-				                 {memno: 0, content: memory[166]},
-				                 {memno: 0, content: memory[167]},
-				                 {memno: 0, content: memory[168]},
-				                 {memno: 0, content: memory[169]},
-				                 {memno: 0, content: memory[170]},
-				                 {memno: 0, content: memory[171]},
-				                 {memno: 0, content: memory[172]},
-				                 {memno: 0, content: memory[173]},
-				                 {memno: 0, content: memory[174]},
-				                 {memno: 0, content: memory[175]},
-				                 {memno: 0, content: memory[176]},
-				                 {memno: 0, content: memory[177]},
-				                 {memno: 0, content: memory[178]},
-				                 {memno: 0, content: memory[179]},
-				                 {memno: 0, content: memory[180]},
-				                 {memno: 0, content: memory[181]},
-				                 {memno: 0, content: memory[182]},
-				                 {memno: 0, content: memory[183]},
-				                 {memno: 0, content: memory[184]},
-				                 {memno: 0, content: memory[185]},
-				                 {memno: 0, content: memory[186]},
-				                 {memno: 0, content: memory[187]},
-				                 {memno: 0, content: memory[188]},
-				                 {memno: 0, content: memory[189]},
-				                 {memno: 0, content: memory[190]},
-				                 {memno: 0, content: memory[191]},
-				                 {memno: 0, content: memory[192]},
-				                 {memno: 0, content: memory[193]},
-				                 {memno: 0, content: memory[194]},
-				                 {memno: 0, content: memory[195]},
-				                 {memno: 0, content: memory[196]},
-				                 {memno: 0, content: memory[197]},
-				                 {memno: 0, content: memory[198]},
-				                 {memno: 0, content: memory[199]},
-				                 {memno: 0, content: memory[200]},
-				                 {memno: 0, content: memory[201]},
-				                 {memno: 0, content: memory[202]},
-				                 {memno: 0, content: memory[203]},
-				                 {memno: 0, content: memory[204]},
-				                 {memno: 0, content: memory[205]},
-				                 {memno: 0, content: memory[206]},
-				                 {memno: 0, content: memory[207]},
-				                 {memno: 0, content: memory[208]},
-				                 {memno: 0, content: memory[209]},
-				                 {memno: 0, content: memory[210]},
-				                 {memno: 0, content: memory[211]},
-				                 {memno: 0, content: memory[212]},
-				                 {memno: 0, content: memory[213]},
-				                 {memno: 0, content: memory[214]},
-				                 {memno: 0, content: memory[215]},
-				                 {memno: 0, content: memory[216]},
-				                 {memno: 0, content: memory[217]},
-				                 {memno: 0, content: memory[218]},
-				                 {memno: 0, content: memory[219]},
-				                 {memno: 0, content: memory[220]},
-				                 {memno: 0, content: memory[221]},
-				                 {memno: 0, content: memory[222]},
-				                 {memno: 0, content: memory[223]},
-				                 {memno: 0, content: memory[224]},
-				                 {memno: 0, content: memory[225]},
-				                 {memno: 0, content: memory[226]},
-				                 {memno: 0, content: memory[227]},
-				                 {memno: 0, content: memory[228]},
-				                 {memno: 0, content: memory[229]},
-				                 {memno: 0, content: memory[220]},
-				                 {memno: 0, content: memory[221]},
-				                 {memno: 0, content: memory[222]},
-				                 {memno: 0, content: memory[223]},
-				                 {memno: 0, content: memory[224]},
-				                 {memno: 0, content: memory[225]},
-				                 {memno: 0, content: memory[226]},
-				                 {memno: 0, content: memory[227]},
-				                 {memno: 0, content: memory[228]},
-				                 {memno: 0, content: memory[229]},
-				                 {memno: 0, content: memory[230]},
-				                 {memno: 0, content: memory[231]},
-				                 {memno: 0, content: memory[232]},
-				                 {memno: 0, content: memory[233]},
-				                 {memno: 0, content: memory[234]},
-				                 {memno: 0, content: memory[235]},
-				                 {memno: 0, content: memory[236]},
-				                 {memno: 0, content: memory[237]},
-				                 {memno: 0, content: memory[238]},
-				                 {memno: 0, content: memory[239]},
-				                 {memno: 0, content: memory[240]},
-				                 {memno: 0, content: memory[241]},
-				                 {memno: 0, content: memory[242]},
-				                 {memno: 0, content: memory[243]},
-				                 {memno: 0, content: memory[244]},
-				                 {memno: 0, content: memory[245]},
-				                 {memno: 0, content: memory[246]},
-				                 {memno: 0, content: memory[247]},
-				                 {memno: 0, content: memory[248]},
-				                 {memno: 0, content: memory[249]},
-				                 {memno: 0, content: memory[250]},
-				                 {memno: 0, content: memory[251]},
-				                 {memno: 0, content: memory[252]},
-				                 {memno: 0, content: memory[253]},
-				                 {memno: 0, content: memory[254]},
-				                 {memno: 0, content: memory[255]}
-				                 ];
+				$scope.done = $scope.assembler.done;
+				if($scope.done == true){
+					$interval.cancel(intervalId);
+				};	
+				if($scope.done == false){
+					$scope.assembler.walk();
+				};
+				$scope.architecture();
+				
+			};
+		
+			var intervalId;
+			
+			$scope.run = function(){
+				$scope.assembler.run();
+				$scope.architecture();
+				intervalId = $interval($scope.walk, 1000);
 			};
 			
-		
+
 	});
