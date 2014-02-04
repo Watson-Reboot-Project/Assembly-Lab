@@ -9,14 +9,14 @@ table td {
 </style>
 
 <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
-<title>Figure 11.4</title>
+<title>Figure 11.6</title>
 <link rel='stylesheet' href='lib/css/bootstrap-3.css'>
 </head>
 
 <!-- controller for the lab -->
 <body ng-controller='assemblycontroller'>
 
-	<h1 class='text-center'>Figure 11.4</h1>
+	<h1 class='text-center'>Figure 11.6</h1>
 	<hr />
 
 	<!-- main container for the index -->
@@ -25,8 +25,7 @@ table td {
 
 			<!-- begining of the tabs -->
 			<tabset> <!-- demo tab - shows all of the information for the current lab -->
-			<tab heading='Figure'>
-			<br>
+			<tab heading='Figure'> <br>
 			<div class='container'>
 				<div class='row'>
 					<div class='col-lg-4 col-md-4'>
@@ -38,19 +37,37 @@ table td {
 								<tr>
 									<td></td>
 									<td>*</td>
-									<td>X</td>
+									<td>MINORS</td>
 									<td>.Word</td>
-									<td>15</td>
+									<td>0</td>
 									<td></td>
 									<td></td>
 								</tr>
 								<tr>
 									<td></td>
 									<td>*</td>
+									<td>ADULTS</td>
+									<td>.Word</td>
+									<td>0</td>
 									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td>AGE</td>
+									<td>.Word</td>
+									<td>21</td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td>IF</td>
 									<td>Load</td>
 									<td>RegA</td>
-									<td>X</td>
+									<td>AGE</td>
 									<td></td>
 								</tr>
 								<tr>
@@ -59,6 +76,51 @@ table td {
 									<td></td>
 									<td>LoadImm</td>
 									<td>RegB</td>
+									<td>18</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td></td>
+									<td>Compare</td>
+									<td>RegA</td>
+									<td>RegB</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td></td>
+									<td>Branch</td>
+									<td>LT</td>
+									<td>THEN</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td></td>
+									<td>Jump</td>
+									<td>ELSE</td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td>THEN</td>
+									<td>Load</td>
+									<td>Reg0</td>
+									<td>Minors</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td></td>
+									<td>LoadImm</td>
+									<td>Reg1</td>
 									<td>1</td>
 									<td></td>
 								</tr>
@@ -66,10 +128,10 @@ table td {
 									<td></td>
 									<td>*</td>
 									<td></td>
-									<td>Sub</td>
+									<td>Add</td>
 									<td>Reg0</td>
-									<td>RegA</td>
-									<td>RegB</td>
+									<td>Reg0</td>
+									<td>Reg1</td>
 								</tr>
 								<tr>
 									<td></td>
@@ -77,20 +139,81 @@ table td {
 									<td></td>
 									<td>Store</td>
 									<td>Reg0</td>
-									<td>X</td>
+									<td>MINORS</td>
 									<td></td>
 								</tr>
 								<tr>
 									<td></td>
 									<td>*</td>
 									<td></td>
-									<td>Halt</td>
+									<td>Jump</td>
+									<td>ENDIF</td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td>ELSE</td>
+									<td>Load</td>
+									<td>reg0</td>
+									<td>ADULTS</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td></td>
+									<td>LoadImm</td>
+									<td>Reg1</td>
+									<td>1</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td></td>
+									<td>Add</td>
+									<td>Reg0</td>
+									<td>Reg0</td>
+									<td>Reg1</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td></td>
+									<td>Store</td>
+									<td>Reg0</td>
+									<td>ADULTS</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>*</td>
+									<td>ENDIF</td>
+									<td>HALT</td>
 									<td></td>
 									<td></td>
 									<td></td>
 								</tr>
 							</table>
 						</div>
+						<h4>Variables</h4>
+						<table id="variables">
+							<tr>
+								<td>MINORS</td>
+								<td>0</td>
+							</tr>
+							<tr>
+								<td>ADULTS</td>
+								<td>0</td>
+							</tr>
+							<tr>
+								<td>AGE</td>
+								<td>21</td>
+							</tr>
+						</table>
+
 					</div>
 					<div class='col-lg-4 col-lg-offset-1 col-md-4 col-md-offset-1'>
 						<div id='table' style='width: 90px'>
@@ -109,8 +232,7 @@ table td {
 				</div>
 			</div>
 			</tab> <!-- editor tab where you can make changes to the code --> <tab
-				heading='Editor' disabled='true'>
-			<br>
+				heading='Editor' disabled='true'> <br>
 			<div class='container'>
 				<div class='row'>
 					<div class='col-lg-4 col-lg-offset-2 col-md-4 col-md-offset-2'>
@@ -175,8 +297,7 @@ table td {
 			</div>
 
 			</tab> <!-- tab containing the memory, register, program counters, and flags -->
-			<tab heading='CPU'>
-			<br>
+			<tab heading='CPU'> <br>
 			<div class='container'>
 				<div class='row'>
 					<div class='col-lg-4 col-md-4'>
