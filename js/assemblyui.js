@@ -4,60 +4,63 @@
 		
 	var assembler = function(tableName, varTable, figureMode){
 		this.tableName = tableName;
-		
+
 		var parser = this;
 		this.intervalID;
 		// Determines if in Figure or Architecture mode
 		// True for Figure, False if Architecture
 		this.figureMode = figureMode;
-		
+
 		// Has the table been edited recently?
 		// Set to true by default
 		this.edited = true;
-		
+
 		// A flag indicating whether the program has been run before
 		// Primarily used for checking if values should be reset
 		this.done = false;
-		
+
 		// Initial program counter
 		// Increased when .Block and .Word is used/modified
 		this.programCounter = 0;
-		
+
+
 		this.previousCounter = 0;
-		
+
 		this.offSet = 0;
-		
+
 		// Current program counter
 		// Kept constant
 		this.startCounter = this.programCounter;
-		
+
 		// Flag for Overflow
 		// Set whenever a register goes over 32767
 		this.overflowFlag = 0;
-		
+
 		// Flag for Negative
 		// Set whenever a register has stored a negative value
 		this.negativeFlag = 0;
-		
+
 		// Flag for Carry
 		// Set when ???
 		this.carryFlag = 0;
-		
+
 		// Flag for Zero
 		// Set whenever a register holds a zero value
 		this.zeroFlag = 0;
-		
+
 		// Alerts the controller that the program has finished
 		this.stop = false;
-		
+
 		// List of used variables
 		// More important in figure mode
-		this.variables = [];
-		
+		this.varMemory = [];
+
+		this.varRegister = [];
+
 		// List of memory labels
 		// Helps with memory lookup
 		this.labels = [];
-		
+
 		// For ease of adjustment later
 		// References to Column # of each attribute
 		this.labelNum = 2;
@@ -65,7 +68,7 @@
 		this.arg1Num = 4;
 		this.arg2Num = 5;
 		this.arg3Num = 6;
-		
+
 		// Information Storage for Registers
 		// Also gives flag about if Registers are used
 		// Initial firstChild.nodeValues set to 0 and false
@@ -87,21 +90,22 @@
 		                 ["RegE", 0, false], // RegE
 		                 ["RegF", 0, false]  // RegF
 		                 ];
-		
+
 		// Memory storage
 		// Initially zero before starting
 		this.memory = new Array(256);
 		  for (var i = 0; i < 256; i++) {
-		    this.memory[i] = [0,0,0,0];
+		    this.memory[i] = ["0","0","0","0"];
 		  }
-		
+
 		// Stores initial values for memory
 		// Used in resetting the program
 		this.initMemory = [];
-		
+
 		// Stores initial values for variables
 		// Used in resetting the program
-		this.initVariables = [];
+		this.initVarMemory = [];
+		this.initVarRegister = [];
 
 		// Converts a number to a hexidecimal with defined padding
 		this.decimalToHex = function(d, padding) {
@@ -114,7 +118,7 @@
 
 		  return hex;
 		};
-		
+
 		// Performs the size checking of a register at index to ensure 16bit functionality
 		// If overflow occurs, handles accordingly
 		this.checkRegister = function(index) {
@@ -146,7 +150,7 @@
 				this.register[i][1] = 0;
 			}
 		};
-		
+
 		// Goes through and checks through the table for changes
 		// as well as which variables are in use.
 		// Initializes the Registers and Variable arrays if needed.
@@ -158,7 +162,7 @@
 			var memLine = 0;
 			var refLine = 0;
 			var index = 0;
-			
+
 			// Populate the labels array for memory lookup
 			while(progLine<table.rows.length){
 				if(table.rows[progLine].cells[this.labelNum].firstChild != null && table.rows[progLine].cells[this.labelNum].firstChild.nodeValue != null){
@@ -170,7 +174,7 @@
 				}
 				progLine++;
 			}
-			
+
 			// Begin "assembling" into Machine code in this.memory
 			progLine=0;
 			while(progLine<table.rows.length){
@@ -178,7 +182,7 @@
 				case ".Word": // .Word before program
 					// Store firstChild.nodeValue based on argument
 					var arg1 = table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue;
-					
+
 					var hex = parseInt(arg1,10);
 					// hex length checking goes here.
 					hex = this.decimalToHex(hex, 4);
@@ -188,10 +192,10 @@
 					this.programCounter++;
 					this.startCounter = this.programCounter;
 					// Store variable for display
-					this.variables[index] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, arg1];
-					this.initVariables[index] = [this.variables[index][0], this.variables[index++][1]];
+					this.varMemory[index] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, arg1];
+					this.initVarMemory[index] = [this.varMemory[index][0], this.varMemory[index++][1]];
 					break;
-				
+
 				case ".Block": // .Block before program
 					// Reserve number of rows indicated by argument
 					var arg1 = table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue;
@@ -199,13 +203,14 @@
 						this.memory[memLine] = ['0', '0', '0', '0'];
 						this.initMemory[memLine++] = ['0', '0', '0', '0'];
 						this.programCounter++;
+						this.startCounter = this.programCounter;
 					}
 					// Store variable for display
 					// Note: May behave strangely with multiple Words
-					this.variables[index] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, 0];
-					this.initVariables[index] = [this.variables[index][0], this.variables[index++][1]];
+					this.varMemory[index] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, 0];
+					this.initVarMemory[index] = [this.varMemory[index][0], this.varMemory[index++][1]];
 					break;
-					
+
 				case "LoadImm":  // 0000b LoadImm
 					// Find and flag specified register
 					var arg1, arg2;
@@ -224,7 +229,7 @@
 				    // Store in memory
 					this.memory[memLine++] = [0, arg1, hex[0], hex[1]];
 					break;	
-					
+
 				case "Load":  // 0001b Load
 					// Find and flag specified register
 					var arg1, arg2, label;
@@ -249,7 +254,7 @@
 				    // Store in memory and update program counter
 					this.memory[memLine++] = [1, arg1, hex[0], hex[1]];
 					break;
-					
+
 				case "Store":  // 0010b Store
 					// Find and flag specified register
 					var arg1, arg2, label;
@@ -274,7 +279,7 @@
 				    // Store in memory and update program counter
 					this.memory[memLine++] = [2, arg1, hex[0], hex[1]];
 					break;	
-					
+
 				case "LoadInd":  // 0011b LoadInd
 					var arg1, arg2;
 					// Find and flag specified Registers
@@ -295,7 +300,7 @@
 					// Store in memory
 					this.memory[memLine++] = [3, arg1, arg2, 0];
 					break;
-					
+
 				case "StoreInd":  // 0100b StoreInd
 					var arg1, arg2;
 					// Find and flag specified registers
@@ -316,7 +321,7 @@
 					// Store in memory
 					this.memory[memLine++] = [4, arg1, arg2, 0];
 					break;	
-					
+
 				case "Add":  // 0101b Add
 					var arg1, arg2, arg3;
 					// Find and flag the specified registers
@@ -344,7 +349,7 @@
 					// Store in memory
 					this.memory[memLine++] = [5, arg1, arg2, arg3];
 					break;
-					
+
 				case "Sub":  // 0110b Subtract
 					var arg1, arg2, arg3;
 					// Find and flag specified registers
@@ -372,8 +377,8 @@
 					// Store in memory
 					this.memory[memLine++] = [6, arg1, arg2, arg3];
 					break;
-					
-				
+
+
 				case "And":  // 0111b And
 					var arg1, arg2, arg3;
 					// Find and flag specified registers
@@ -401,7 +406,7 @@
 					// Store in memory
 					this.memory[memLine++] = [7, arg1, arg2, arg3];
 					break;
-					
+
 				case "Or":  // 1000b Or
 					var arg1, arg2, arg3;
 					// find and flag specified registers
@@ -429,7 +434,7 @@
 					// Store in memory
 					this.memory[memLine++] = [8, arg1, arg2, arg3];
 					break;
-					
+
 				case "Not":  // 1001b Not
 					var arg1, arg2;
 					// Find and flag specified registers
@@ -450,7 +455,7 @@
 					// Store in memory
 					this.memory[memLine++] = [9, arg1, arg2, 0];
 					break;
-					
+
 				case "ASL": // 1010b ASL
 					var arg1, arg2, arg3;
 					// Find and flag specified registers
@@ -473,7 +478,7 @@
 					// Store in memory
 					this.memory[memLine++] = [10, arg1, arg2, arg3];
 					break;
-					
+
 				case "ASR": // 1011b ASR
 					var arg1, arg2, arg3;
 					// Find and flag specified registers
@@ -496,7 +501,7 @@
 					// Store in memory
 					this.memory[memLine++] = [11, arg1, arg2, arg3];
 					break;
-					
+
 				case "Compare": // 1100b Compare
 					var arg1, arg2, arg3;
 					arg1 = 0;
@@ -518,7 +523,7 @@
 					// Store in memory
 					this.memory[memLine++] = [12, arg1, arg2, arg3];
 					break;
-					
+
 				case "Branch": // 1101b Branch
 					var arg1, arg2, label;
 					// Determine boolean test
@@ -569,7 +574,7 @@
 				    // Store in memory
 					this.memory[memLine++] = [13, arg1, hex[0], hex[1]];
 					break;
-					
+
 				case "Jump": // 1110b Jump
 					var arg1, arg2, label;
 					arg1 = 0;
@@ -589,7 +594,7 @@
 				    // Store in memory
 					this.memory[memLine++] = [14, arg1, hex[0], hex[1]];
 					break;
-					
+
 				case "Halt": // 1111b Halt
 					this.memory[memLine++] = [15, 0, 0, 0];
 					break;
@@ -598,16 +603,17 @@
 			}
 			// Iterate over registers to see which ones are used
 			// Create cells in variable array for these registers
+			var varRegIndex = 0;
 			for(var i = 0; i < 16; i++){
 				if(this.register[i][2]){
-					this.variables[index] = [this.register[i][0], 0];
-					this.initVariables[index] = [this.variables[index][0], this.variables[index++][1]];
+					this.varRegister[varRegIndex] = [this.register[i][0], 0];
+					this.initVarRegister[varRegIndex] = [this.varRegister[varRegIndex][0], this.varRegister[varRegIndex++][1]];
 				}
 			}
 			// Signal that program has been parsed
 			this.edited = false;
 		};
-		
+
 		// Add two registers and store in the first
 		// Logically: Reg1 = Reg2 + Reg3
 		this.add = function(reg1, reg2, reg3){
@@ -625,9 +631,9 @@
 				this.negativeFlag = 1;
 			}
 			// Update value in Variable array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg1][0]){
-					this.variables[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg1][0]){
+					this.varRegister[i][1] = this.register[reg1][1];
 					break;
 				}
 			}
@@ -654,9 +660,9 @@
 			}
 
 			// Update value in Variable array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg1][0]){
-					this.variables[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg1][0]){
+					this.varRegister[i][1] = this.register[reg1][1];
 				}
 			}
 			// Debugging/Demo code
@@ -676,10 +682,10 @@
 			for(var i = 0; i < this.labels.length; i++){
 				// Find variable name by memory location
 				if(x == this.labels[i][1]){
-					for(var j = 0; j < this.variables.length;j++){
+					for(var j = 0; j < this.varMemory.length;j++){
 						// Find variable by label
-						if(this.variables[j][0]==this.labels[i][0]){
-							this.variables[j][1] = this.register[reg][1];
+						if(this.varMemory[j][0]==this.labels[i][0]){
+							this.varMemory[j][1] = this.register[reg][1];
 						}
 					}
 				}
@@ -695,9 +701,9 @@
 			this.register[reg1][1]=this.register[reg2][1]&this.register[reg3][1];
 			this.checkRegister(reg1);
 			// Update Variable array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg1][0]){
-					this.variables[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg1][0]){
+					this.varRegister[i][1] = this.register[reg1][1];
 				}
 			}
 		};
@@ -708,9 +714,9 @@
 			this.register[reg1][1]=this.register[reg2][1]|this.register[reg3][1];
 			this.checkRegister(reg1);
 			// Update the Variable array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg1][0]){
-					this.variables[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg1][0]){
+					this.varRegister[i][1] = this.register[reg1][1];
 				}
 			}
 		};
@@ -721,9 +727,9 @@
 			this.register[reg1][1] = ~this.register[reg2][1];
 			this.checkRegister(reg1);
 			// Update the Variable array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg1][0]){
-					this.variables[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg1][0]){
+					this.varRegister[i][1] = this.register[reg1][1];
 				}
 			}
 		};
@@ -737,8 +743,8 @@
 			this.checkRegister(reg1);
 			// Update the variable array
 			for(var i = 0; i < 16; i++){
-				if(this.variables[i][0] == this.register[reg1][0]){
-					this.variables[i][1] = this.register[reg1][1];
+				if(this.varRegister[i][0] == this.register[reg1][0]){
+					this.varRegister[i][1] = this.register[reg1][1];
 				}
 			}
 		};
@@ -751,9 +757,10 @@
 			this.register[reg1][1] = this.register[reg2][1] >>> tBits;
 			this.checkRegister(reg1);
 			// Update the variable array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg1][0]){
-					this.variables[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg1][0]){
+					this.varRegister[i][1] = this.register[reg1][1];
+
 				}
 			}
 		};
@@ -768,8 +775,8 @@
 				if(x == this.labels[i][1]){
 					for(var j = 0; j < this.labels.length;j++){
 						// Update via label name
-						if(this.variables[j][0]==this.labels[i][0]){
-							this.variables[j][1] = this.register[reg1][1];
+						if(this.varMemory[j][0]==this.labels[i][0]){
+							this.varMemory[j][1] = this.register[reg1][1];
 						}
 					}
 				}
@@ -784,9 +791,9 @@
 			// Store value into register
 			this.register[reg][1] = parseInt(num[0]+num[1]+num[2]+num[3], 16);
 			// Update Variable array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg][0]){
-					this.variables[i][1] = this.register[reg][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg][0]){
+					this.varRegister[i][1] = this.register[reg][1];
 				}
 			}
 			// Debug/Demo Code
@@ -800,9 +807,9 @@
 			// Parse and store value into register
 			this.register[reg][1] = parseInt(value1 + value2, 16);
 			// Update Variable array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg][0]){
-					this.variables[i][1] = this.register[reg][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg][0]){
+					this.varRegister[i][1] = this.register[reg][1];
 				}
 			}
 			// Debug/Demo code
@@ -815,9 +822,9 @@
 			// Reference and store value
 			this.register[reg1][1] = this.memory[this.register[reg2][1]];
 			// Update Variable Array
-			for(var i = 0; i < this.variables.length; i++){
-				if(this.variables[i][0] == this.register[reg1][0]){
-					this.variables[i][1] = this.register[reg1][1];
+			for(var i = 0; i < this.varRegister.length; i++){
+				if(this.varRegister[i][0] == this.register[reg][0]){
+					this.varRegister[i][1] = this.register[reg][1];
 				}
 			}
 		};
@@ -915,15 +922,15 @@
 				}
 			}
 			this.programCounter++;
-				
+
 		};
-		
+
 		// Sets program counter to be equal to the given memory address
 		this.jump = function(addr1, addr2){
 			this.programCounter = parseInt(addr1+addr2, 16);
 			console.log("Jump "+addr1+addr2);
 		};
-		
+
 		// Sets the stop flag to true.
 		// Essentially tells the program to stop.
 		// Also resets the program counter.
@@ -937,7 +944,7 @@
 			}
 			this.done = true;
 		};
-		
+
 		// Evaluates the command at the given line.
 		// Essentially the core interpreter of the program
 		// Changes RegN values into index numbers
@@ -1007,7 +1014,7 @@
 					break;	
 			}
 		};
-		
+
 		// Walks through one step of the program
 		this.walk = function() {
 			var table = document.getElementById(this.tableName);
@@ -1021,7 +1028,7 @@
 				this.reset();
 			}
 			if(!this.stop) {
-				
+
 				for (var i = 0; i < numCells; i++) {										// iterate throughout the cells
 					table.rows[this.previousCounter-this.offSet].cells[i].style.color = '#000000';			// highlight all cells black
 				}					// grab the number of cells for this row
@@ -1030,13 +1037,13 @@
 					table.rows[this.programCounter-this.offSet].cells[i].style.color = '#FF0000';		// highlight all cells red
 				}
 				parser.eval(this.programCounter);
-				
+
 			} else {
 				this.stop = false;
 			}
-			
+
 		};
-		
+
 		// Runs through the program
 		// First checks if the code has recently been edited.
 		this.run= function() {
@@ -1048,17 +1055,18 @@
 				this.reset();
 			}
 			//this.intervalID = setInterval(function() {parser.walk();}, 1000);
-			console.log(this.variables.toString());
+			console.log(this.varMemory.toString());
+			console.log(this.varRegister.toString());
 			// Convert Run button to Pause and Walk to Reset
 		};	
-			
+
 
 		// Pauses execution of program
 		this.pause = function() {
 			//clearInterval(this.intervalID);
 			// Convert Pause button to Run and Reset to Walk
 		};
-		
+
 		// Resets the program counter and restores program to original state
 		this.reset = function() {
 			this.programCounter = this.startCounter;
@@ -1069,22 +1077,64 @@
 				this.memory[i][2] = this.initMemory[i][2];
 				this.memory[i][3] = this.initMemory[i][3];
 			}
-			for(var i = 0; i < this.variables.length; i ++) {
-				this.variables[i][0] = this.initVariables[i][0];
-				this.variables[i][1] = this.initVariables[i][1];
+
+			for(var i = 0; i < this.varMemory.length; i++) {
+				this.varMemory[i][0] = this.initVarMemory[i][0];
+				this.varMemory[i][1] = this.initVarMemory[i][1];
 			}
-			//this.clearRegister();
+
+			for(var i = 0; i < this.varRegister.length; i++) {
+				this.varRegister[i][0] = this.initVarRegister[i][0];
+				this.varRegister[i][1] = this.initVarRegister[i][1];
+			}
+
+			var table = document.getElementById(this.tableName);
+			var numCells = table.rows[this.programCounter].cells.length;
+			for(var j = 0; j < table.rows.length; j ++){					// iterate through all rows
+				for (var i = 0; i < numCells; i++) {						// iterate throughout the cells
+					table.rows[j].cells[i].style.color = '#000000';			// highlight all cells black
+				}
+			}
+
+			this.overflowFlag = 0;
+			this.negativeFlag = 0;
+			this.zeroFlag = 0;
+			this.carryFlag = 0;
+
+			this.clearRegister();
 			this.done = false;
 		};
-		
+
 		// Returns the current value of the program counter
 		this.returncounter = function(){
-			console.log(this.programCounter);
 			var progcount = this.programCounter;
-			return progcount;
-			
+			return progcount;	
 		};
-		
+
+		//Returns value of overflow flag
+		this.returnOverflowFlag = function(){
+			var overflowflag = this.overflowFlag;
+			return overflowflag;
+		};
+
+		//Returns value of negative flag
+		this.returnNegFlag = function(){
+			var negflag = this.negativeFlag;
+			return negflag;
+		};
+
+		//Returns value of carry flag
+		this.returnCarryFlag = function(){
+			var carryflag = this.carryFlag;
+			return carryflag;
+		};
+
+		//Returns value of zero flag
+		this.returnZeroFlag = function(){
+			var zeroflag = this.zeroFlag;
+			return zeroflag;
+		};
+
 	};
 	
 	this.$get = function(){
@@ -1107,14 +1157,37 @@
 
 			$scope.assembler = new assembler(tableName, varTable, bool);
 			
+			$scope.assembler.init();
+			
+			
+
 			$scope.architecture = function(){
-				var variables = $scope.assembler.variables;
-				$scope.variables = [{title: variables[0], titletoo: variables[5]}, 
-									{title: variables[1], titletoo: variables[6]},
-				                    {title: variables[2], titletoo: variables[7]}, 
-									{title: variables[3], titletoo: variables[8]},
-				                    {title: variables[4], titletoo: variables[9]}, 
-				                    ];
+				
+				var varmemcount = 0;
+				var regcount = 0;
+				var memcount = 0;
+				
+				$scope.varMemory = [];
+				$scope.addVarMemory = function(){
+					$scope.varMemory.push({title: $scope.assembler.varMemory[varmemcount][0], value: $scope.assembler.varMemory[varmemcount][1]});
+					varmemcount += 1;
+				};
+				for(var i = 0; i < $scope.assembler.varMemory.length; i++){
+					if($scope.assembler.varMemory == 0){break;}
+					$scope.addVarMemory();
+					}
+				
+				$scope.varRegister = [];
+				$scope.addRegister = function(){
+					$scope.varRegister.push({title: $scope.assembler.varRegister[regcount][0], value: $scope.assembler.varRegister[regcount][1]});
+					regcount += 1;
+				};
+				for(var i = 0; i < $scope.assembler.varRegister.length; i++){
+					if($scope.assembler.varRegister == 0){break;}
+					$scope.addRegister();
+				}
+				
+				
 				var register = $scope.assembler.register;
 				$scope.register = [{content: register[0][0], value: register[0][1]},
 				                   {content: register[1][0], value: register[1][1]},
@@ -1133,64 +1206,57 @@
 				                   {content: register[14][0], value: register[14][1]},
 				                   {content: register[15][0], value: register[15][1]},
 				                   ];
-				var carryFlag = $scope.assembler.carryFlag;
-				$scope.carryFlag = [{content:carryFlag}];
-				var negativeFlag = $scope.assembler.negativeFlag;
-				$scope.negativeFlag = [{content:negativeFlag}];
-				var zeroFlag = $scope.assembler.zeroFlag;
-				$scope.zeroFlag = [{content:zeroFlag}];
-				var overflowFlag = $scope.assembler.overflowFlag;
-				$scope.overflowFlag = [{content:overflowFlag}];
-				var counter = $scope.assembler.returncounter();
+				
+				var overflowFlag = $scope.assembler.returnOverflowFlag();
+				$scope.overflowFlag = [{flag: overflowFlag}];
+				
+				var negativeFlag = $scope.assembler.returnNegFlag();
+				$scope.negativeFlag = [{flag: negativeFlag}];
+				
+				var carryFlag = $scope.assembler.returnCarryFlag();
+				$scope.carryFlag = [{flag: carryFlag}];
+				
+				var zeroFlag = $scope.assembler.returnZeroFlag();
+				$scope.zeroFlag = [{flag: zeroFlag}];
+				
+				var counter = $scope.assembler.returncounter()-1;
 				$scope.counter = [{content:counter}];
-				var memory = $scope.assembler.memory;
-				$scope.memory = [{memno: 0, content: memory[0], code: "Total"},{memno: 1, content: memory[1], code: "ABC"},{memno: 2, content: memory[2], code: "XYZ"},{memno: 3, content: memory[3]},
-				                {memno: 4, content: memory[4]},{memno: 5, content: memory[5]},{memno: 6, content: memory[6]},{memno: 7, content: memory[7]},{memno: 8, content: memory[8]},{memno: 9, content: memory[9]},{memno: 0, content: memory[10]},
-								{memno: 0, content: memory[11]},{memno: 0, content: memory[12]},{memno: 0, content: memory[13]},{memno: 0, content: memory[14]},{memno: 0, content: memory[15]},{memno: 0, content: memory[16]},
-								{memno: 0, content: memory[17]},{memno: 0, content: memory[18]},{memno: 0, content: memory[19]},{memno: 0, content: memory[20]},{memno: 0, content: memory[21]},{memno: 0, content: memory[22]},{memno: 0, content: memory[23]},
-								{memno: 0, content: memory[24]},{memno: 0, content: memory[25]},{memno: 0, content: memory[26]},{memno: 0, content: memory[27]},{memno: 0, content: memory[28]},{memno: 0, content: memory[29]},
-								{memno: 0, content: memory[30]},{memno: 0, content: memory[31]},{memno: 32, content: memory[32]},{memno: 33, content: memory[33]},{memno: 0, content: memory[34]},{memno: 0, content: memory[35]},
-								{memno: 0, content: memory[36]},{memno: 0, content: memory[37]},{memno: 0, content: memory[38]},{memno: 0, content: memory[39]},{memno: 0, content: memory[40]},{memno: 0, content: memory[41]},
-								{memno: 0, content: memory[42]},{memno: 0, content: memory[43]},{memno: 0, content: memory[44]},{memno: 0, content: memory[45]},{memno: 0, content: memory[46]},{memno: 0, content: memory[47]},
-								{memno: 0, content: memory[48]},{memno: 0, content: memory[49]},{memno: 0, content: memory[50]},{memno: 0, content: memory[51]},{memno: 0, content: memory[52]},{memno: 0, content: memory[53]},
-								{memno: 0, content: memory[54]},{memno: 0, content: memory[55]},{memno: 0, content: memory[56]},{memno: 0, content: memory[57]},{memno: 0, content: memory[58]},{memno: 0, content: memory[59]},{memno: 0, content: memory[60]},
-								{memno: 0, content: memory[61]},{memno: 0, content: memory[62]},{memno: 0, content: memory[63]},{memno: 0, content: memory[64]},{memno: 0, content: memory[65]},{memno: 0, content: memory[66]},
-								{memno: 0, content: memory[67]},{memno: 0, content: memory[68]},{memno: 0, content: memory[69]},{memno: 0, content: memory[70]},{memno: 0, content: memory[71]},{memno: 0, content: memory[72]},
-								{memno: 0, content: memory[73]},{memno: 0, content: memory[74]},{memno: 0, content: memory[75]},{memno: 0, content: memory[76]},{memno: 0, content: memory[77]},{memno: 0, content: memory[78]},
-								{memno: 0, content: memory[79]},{memno: 0, content: memory[80]},{memno: 0, content: memory[81]},{memno: 0, content: memory[82]},{memno: 0, content: memory[83]},{memno: 0, content: memory[84]},
-								{memno: 0, content: memory[85]},{memno: 0, content: memory[86]},{memno: 0, content: memory[87]},{memno: 0, content: memory[88]},{memno: 0, content: memory[89]},{memno: 0, content: memory[90]},
-								{memno: 0, content: memory[91]},{memno: 0, content: memory[92]},{memno: 0, content: memory[93]},{memno: 0, content: memory[94]},{memno: 0, content: memory[95]},{memno: 0, content: memory[96]},
-								{memno: 0, content: memory[97]},{memno: 0, content: memory[98]},{memno: 0, content: memory[99]},{memno: 0, content: memory[100]},{memno: 0, content: memory[101]},{memno: 0, content: memory[102]},
-								{memno: 0, content: memory[103]},{memno: 0, content: memory[104]},{memno: 0, content: memory[105]},{memno: 0, content: memory[106]},{memno: 0, content: memory[107]},{memno: 0, content: memory[108]},
-								{memno: 0, content: memory[109]},{memno: 0, content: memory[110]},{memno: 0, content: memory[111]},{memno: 0, content: memory[112]},{memno: 0, content: memory[113]},{memno: 0, content: memory[114]},
-								{memno: 0, content: memory[115]},{memno: 0, content: memory[116]},{memno: 0, content: memory[117]},{memno: 0, content: memory[118]},{memno: 0, content: memory[119]},{memno: 0, content: memory[120]},
-								{memno: 0, content: memory[121]},{memno: 0, content: memory[122]},{memno: 0, content: memory[123]},{memno: 0, content: memory[124]},{memno: 0, content: memory[125]},{memno: 0, content: memory[126]},
-								{memno: 0, content: memory[127]},{memno: 0, content: memory[128]},{memno: 0, content: memory[129]},{memno: 0, content: memory[120]},{memno: 0, content: memory[121]},{memno: 0, content: memory[122]},
-								{memno: 0, content: memory[123]},{memno: 0, content: memory[124]},{memno: 0, content: memory[125]},{memno: 0, content: memory[126]},{memno: 0, content: memory[127]},{memno: 0, content: memory[128]},
-								{memno: 0, content: memory[129]},{memno: 0, content: memory[130]},{memno: 0, content: memory[131]},{memno: 0, content: memory[132]},{memno: 0, content: memory[133]},{memno: 0, content: memory[134]},
-								{memno: 0, content: memory[135]},{memno: 0, content: memory[136]},{memno: 0, content: memory[137]},{memno: 0, content: memory[138]},{memno: 0, content: memory[139]},{memno: 0, content: memory[140]},
-								{memno: 0, content: memory[141]},{memno: 0, content: memory[142]},{memno: 0, content: memory[143]},{memno: 0, content: memory[144]},{memno: 0, content: memory[145]},{memno: 0, content: memory[146]},
-								{memno: 0, content: memory[147]},{memno: 0, content: memory[148]},{memno: 0, content: memory[149]},{memno: 0, content: memory[150]},{memno: 0, content: memory[151]},{memno: 0, content: memory[152]},
-								{memno: 0, content: memory[153]},{memno: 0, content: memory[154]},{memno: 0, content: memory[155]},{memno: 0, content: memory[156]},{memno: 0, content: memory[157]},{memno: 0, content: memory[158]},
-								{memno: 0, content: memory[159]},{memno: 0, content: memory[160]},{memno: 0, content: memory[161]},{memno: 0, content: memory[162]},{memno: 0, content: memory[163]},{memno: 0, content: memory[164]},
-								{memno: 0, content: memory[165]},{memno: 0, content: memory[166]},{memno: 0, content: memory[167]},{memno: 0, content: memory[168]},{memno: 0, content: memory[169]},{memno: 0, content: memory[170]},
-								{memno: 0, content: memory[171]},{memno: 0, content: memory[172]},{memno: 0, content: memory[173]},{memno: 0, content: memory[174]},{memno: 0, content: memory[175]},{memno: 0, content: memory[176]},
-								{memno: 0, content: memory[177]},{memno: 0, content: memory[178]},{memno: 0, content: memory[179]},{memno: 0, content: memory[180]},{memno: 0, content: memory[181]},{memno: 0, content: memory[182]},
-								{memno: 0, content: memory[183]},{memno: 0, content: memory[184]},{memno: 0, content: memory[185]},{memno: 0, content: memory[186]},{memno: 0, content: memory[187]},{memno: 0, content: memory[188]},
-								{memno: 0, content: memory[189]},{memno: 0, content: memory[190]},{memno: 0, content: memory[191]},{memno: 0, content: memory[192]},{memno: 0, content: memory[193]},{memno: 0, content: memory[194]},
-								{memno: 0, content: memory[195]},{memno: 0, content: memory[196]},{memno: 0, content: memory[197]},{memno: 0, content: memory[198]},{memno: 0, content: memory[199]},{memno: 0, content: memory[200]},
-								{memno: 0, content: memory[201]},{memno: 0, content: memory[202]},{memno: 0, content: memory[203]},{memno: 0, content: memory[204]},{memno: 0, content: memory[205]},{memno: 0, content: memory[206]},
-								{memno: 0, content: memory[207]},{memno: 0, content: memory[208]},{memno: 0, content: memory[209]},{memno: 0, content: memory[210]},{memno: 0, content: memory[211]},{memno: 0, content: memory[212]},
-								{memno: 0, content: memory[213]},{memno: 0, content: memory[214]},{memno: 0, content: memory[215]},{memno: 0, content: memory[216]},{memno: 0, content: memory[217]},{memno: 0, content: memory[218]},
-								{memno: 0, content: memory[219]},{memno: 0, content: memory[220]},{memno: 0, content: memory[221]},{memno: 0, content: memory[222]},{memno: 0, content: memory[223]},{memno: 0, content: memory[224]},
-								{memno: 0, content: memory[225]},{memno: 0, content: memory[226]},{memno: 0, content: memory[227]},{memno: 0, content: memory[228]},{memno: 0, content: memory[229]},{memno: 0, content: memory[220]},
-								{memno: 0, content: memory[221]},{memno: 0, content: memory[222]},{memno: 0, content: memory[223]},{memno: 0, content: memory[224]},{memno: 0, content: memory[225]},{memno: 0, content: memory[226]},
-								{memno: 0, content: memory[227]},{memno: 0, content: memory[228]},{memno: 0, content: memory[229]},{memno: 0, content: memory[230]},{memno: 0, content: memory[231]},{memno: 0, content: memory[232]},
-								{memno: 0, content: memory[233]},{memno: 0, content: memory[234]},{memno: 0, content: memory[235]},{memno: 0, content: memory[236]},{memno: 0, content: memory[237]},{memno: 0, content: memory[238]},
-								{memno: 0, content: memory[239]},{memno: 0, content: memory[240]},{memno: 0, content: memory[241]},{memno: 0, content: memory[242]},{memno: 0, content: memory[243]},{memno: 0, content: memory[244]},
-								{memno: 0, content: memory[245]},{memno: 0, content: memory[246]},{memno: 0, content: memory[247]},{memno: 0, content: memory[248]},{memno: 0, content: memory[249]},{memno: 0, content: memory[250]},
-								{memno: 0, content: memory[251]},{memno: 0, content: memory[252]},{memno: 0, content: memory[253]},{memno: 0, content: memory[254]},{memno: 0, content: memory[255]}
-								];
+				
+				var temp = $scope.assembler.memory;
+				var memory = new Array(256);
+				for(var i = 0; i < 256; i++) {
+					memory[i] = ["0","0","0","0"];
+				}
+				for(var i = 0; i < 256; i++) {
+					for(var j = 0; j < 4; j++){
+						if(typeof temp[i][j] == 'string' || temp[i][j] instanceof String){
+							memory[i][j] = temp[i][j];
+						} else {
+							memory[i][j] = $scope.assembler.decimalToHex(temp[i][j], 1);
+						}
+					}
+				}
+				
+				$scope.memory = [];
+				$scope.addmemory = function(){
+					$scope.memory.push({memno: memcount, con1: memory[memcount][0], con2: memory[memcount][1], con3: memory[memcount][2], con4: memory[memcount][3]});
+					memcount += 1;
+				};
+				for(var i = 0; i < 256; i++){
+					$scope.addmemory();
+				}
+				$scope.instructionRegister = [{con1: memory[counter][0], con2: memory[counter][1], con3: memory[counter][2], con4: memory[counter][3]}];
+				
+				$scope.set_color = function (num) {
+					if($scope.assembler.done){}else{
+						  if (num == counter) {
+						    return { color: "red" };
+						  } else {
+							  return { color: "black" };
+						  }
+						}
+					};
+				
 			};
 			
 			$scope.architecture();
@@ -1212,8 +1278,11 @@
 			
 			$scope.walk = function(){
 				$scope.done = $scope.assembler.done;
+				//$scope.memory[counter].set_color(1);
+				$scope.architecture();
 				if($scope.done == true){
 					$interval.cancel(intervalId);
+					$scope.reset();
 				};	
 				if($scope.done == false){
 					$scope.assembler.walk();
