@@ -935,14 +935,10 @@
 		// Essentially tells the program to stop.
 		// Also resets the program counter.
 		this.halt = function() {
-			clearInterval(this.intervalID);
+			//clearInterval(this.intervalID);
 			this.stop = true;
-			var table = document.getElementById(tableName);
-			var numCells = table.rows[this.programCounter].cells.length;
-			for (var i = 0; i < numCells; i++) {										// iterate throughout the cells
-				table.rows[this.programCounter].cells[i].style.color = '#000000';			// highlight all cells black
-			}
 			this.done = true;
+			console.log("We're stopping this right now!");
 		};
 
 		// Evaluates the command at the given line.
@@ -1026,6 +1022,8 @@
 			} 
 			if(this.done){
 				this.reset();
+				console.log("Would you like to go again?");
+				this.done = false;
 			}
 			if(!this.stop) {
 
@@ -1039,7 +1037,7 @@
 				parser.eval(this.programCounter);
 
 			} else {
-				this.stop = false;
+				console.log("Yep, I'm stopping");
 			}
 
 		};
@@ -1051,8 +1049,9 @@
 				this.init();
 				console.log("Program Initialized");
 			}
-			if(this.done) {
+			if(!this.stop) {
 				this.reset();
+				this.stop = false;
 			}
 			//this.intervalID = setInterval(function() {parser.walk();}, 1000);
 			console.log(this.varMemory.toString());
@@ -1103,6 +1102,7 @@
 
 			this.clearRegister();
 			this.done = false;
+			this.stop = false;
 		};
 
 		// Returns the current value of the program counter
@@ -1280,13 +1280,19 @@
 				$scope.done = $scope.assembler.done;
 				//$scope.memory[counter].set_color(1);
 				$scope.architecture();
-				if($scope.done == true){
-					$interval.cancel(intervalId);
-					$scope.reset();
-				};	
-				if($scope.done == false){
+				//if($scope.assembler.stop == true){
+				//	//$scope.reset();
+				//	$scope.assembler.stop = false;
+				//	$scope.reset();
+				//	$interval.cancel(intervalId);
+				//}
+				if($scope.assembler.stop == false){
 					$scope.assembler.walk();
-				};
+				} else {
+					$interval.cancel(intervalId);
+					console.log("I've stopped!");
+					$scope.reset();
+				}
 				$scope.architecture();
 				
 			};
@@ -1296,7 +1302,7 @@
 			$scope.run = function(){
 				$scope.assembler.run();
 				$scope.architecture();
-				intervalId = $interval($scope.walk, 1000);
+				intervalId = $interval($scope.walk, 750);
 			};
 			
 
