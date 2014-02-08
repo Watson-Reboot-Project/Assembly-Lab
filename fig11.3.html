@@ -6,6 +6,9 @@
 table td {
 	border: none;
 }
+td.comment {color:#007500;}
+td.constant {color:#A52A2A;}
+td.keyword {color:#CC0099;}
 </style>
 
 <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
@@ -31,35 +34,35 @@ table td {
 						<td></td>
 						<td></td>
 						<td>TOTAL</td>
-						<td>.Block</td>
-						<td>1</td>
+						<td class="keyword">.Block</td>
+						<td class="constant">1</td>
 						<td></td>
 						<td></td>
 						<td>;</td>
-						<td>reserve a block of memory one word long for 'total'.</td>
+						<td class="comment">reserve a block of memory one word long for 'total'.</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td></td>
 						<td>ABC</td>
-						<td>.Word</td>
-						<td>2</td>
+						<td class="keyword">.Word</td>
+						<td class="constant">2</td>
 						<td></td>
 						<td></td>
 						<td>;</td>
-						<td>reserve a word of memory for variable 'abc'. Initialize
+						<td class="comment">reserve a word of memory for variable 'abc'. Initialize
 							to 2.</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td></td>
 						<td>XYZ</td>
-						<td>.Word</td>
-						<td>3</td>
+						<td class="keyword">.Word</td>
+						<td class="constant">3</td>
 						<td></td>
 						<td></td>
 						<td>;</td>
-						<td>reserve a word of memory for variable 'xyz'. Initialize
+						<td class="comment">reserve a word of memory for variable 'xyz'. Initialize
 							to 3.</td>
 					</tr>
 					<tr>
@@ -71,7 +74,7 @@ table td {
 						<td>ABC</td>
 						<td></td>
 						<td>;</td>
-						<td>load the value of variable 'abc' into register D.</td>
+						<td class="comment">load the value of variable 'abc' into register D.</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -82,7 +85,7 @@ table td {
 						<td>XYZ</td>
 						<td></td>
 						<td>;</td>
-						<td>load the value of variable 'xyz' into register E.</td>
+						<td class="comment">load the value of variable 'xyz' into register E.</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -93,7 +96,7 @@ table td {
 						<td>RegD</td>
 						<td>RegE</td>
 						<td>;</td>
-						<td>add the contents of registers D and E placing the result
+						<td class="comment">add the contents of registers D and E placing the result
 							in F.</td>
 					</tr>
 					<tr>
@@ -105,7 +108,7 @@ table td {
 						<td>TOTAL</td>
 						<td></td>
 						<td>;</td>
-						<td>store the value held in register F into the variable
+						<td class="comment">store the value held in register F into the variable
 							'total'.</td>
 					</tr>
 					<tr>
@@ -117,7 +120,7 @@ table td {
 						<td></td>
 						<td></td>
 						<td>;</td>
-						<td>halt execution of this assembly language program.</td>
+						<td class="comment">halt execution of this assembly language program.</td>
 					</tr>
 				</table>
 			</div>
