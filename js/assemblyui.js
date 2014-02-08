@@ -1036,6 +1036,8 @@
 							var temp = parseInt(table.rows[this.previousCounter-this.offSet].cells[i].firstChild.nodeValue, 10);
 							if(!(isNaN(temp))){
 								table.rows[this.previousCounter-this.offSet].cells[i].style.color = '#A52A2A';
+							} else if(table.rows[this.previousCounter-this.offSet].cells[i].firstChild.nodeValue == '.Block' || table.rows[this.previousCounter-this.offSet].cells[i].firstChild.nodeValue == '.Word') {
+								table.rows[this.previousCounter-this.offSet].cells[i].style.color = '#CC0099';
 							} else {
 								table.rows[this.previousCounter-this.offSet].cells[i].style.color = '#000000';
 							}
@@ -1104,6 +1106,8 @@
 						var temp = parseInt(table.rows[j].cells[i].firstChild.nodeValue, 10);
 						if(!(isNaN(temp))){
 							table.rows[j].cells[i].style.color = '#A52A2A';
+						}  else if(table.rows[j].cells[i].firstChild.nodeValue == '.Block' || table.rows[j].cells[i].firstChild.nodeValue == '.Word') {
+							table.rows[j].cells[i].style.color = '#CC0099';
 						} else {
 							table.rows[j].cells[i].style.color = '#000000';
 						}
