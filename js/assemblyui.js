@@ -1049,9 +1049,8 @@
 				this.init();
 				console.log("Program Initialized");
 			}
-			if(!this.stop) {
+			if(this.done) {
 				this.reset();
-				this.stop = false;
 			}
 			//this.intervalID = setInterval(function() {parser.walk();}, 1000);
 			console.log(this.varMemory.toString());
@@ -1153,6 +1152,7 @@
 			var tableName = "program";
 			var varTable = "variables";
 			var bool = false;
+			var attemptToRun = true;
 			
 
 			$scope.assembler = new assembler(tableName, varTable, bool);
@@ -1161,7 +1161,7 @@
 			
 			
 
-			$scope.architecture = function(){
+			$scope.architecture = function(updateCounter){
 				
 				var varmemcount = 0;
 				var regcount = 0;
@@ -1219,8 +1219,10 @@
 				var zeroFlag = $scope.assembler.returnZeroFlag();
 				$scope.zeroFlag = [{flag: zeroFlag}];
 				
-				var counter = $scope.assembler.returncounter()-1;
-				$scope.counter = [{content:counter}];
+				if(updateCounter){
+					var counter = $scope.assembler.returncounter();
+					$scope.counter = [{content:counter}];
+				}
 				
 				var temp = $scope.assembler.memory;
 				var memory = new Array(256);
@@ -1259,11 +1261,11 @@
 				
 			};
 			
-			$scope.architecture();
+			$scope.architecture(true);
 			
 			$scope.pause = function(){
 				$scope.assembler.pause();
-				$scope.architecture();
+				$scope.architecture(true);
 				$interval.cancel(intervalId);
 			};
 			
@@ -1271,7 +1273,7 @@
 			
 			$scope.reset = function(){
 				$scope.assembler.reset();
-				$scope.architecture();
+				$scope.architecture(true);
 				$interval.cancel(intervalId);
 
 			};
@@ -1279,13 +1281,7 @@
 			$scope.walk = function(){
 				$scope.done = $scope.assembler.done;
 				//$scope.memory[counter].set_color(1);
-				$scope.architecture();
-				//if($scope.assembler.stop == true){
-				//	//$scope.reset();
-				//	$scope.assembler.stop = false;
-				//	$scope.reset();
-				//	$interval.cancel(intervalId);
-				//}
+				$scope.architecture(true);
 				if($scope.assembler.stop == false){
 					$scope.assembler.walk();
 				} else {
@@ -1293,7 +1289,7 @@
 					console.log("I've stopped!");
 					$scope.reset();
 				}
-				$scope.architecture();
+				$scope.architecture(false);
 				
 			};
 		
@@ -1301,9 +1297,12 @@
 			
 			$scope.run = function(){
 				$scope.assembler.run();
-				$scope.architecture();
+				$scope.architecture(true);
 				intervalId = $interval($scope.walk, 750);
 			};
 			
+			$scope.runButton = function(){};
+			
+			$scope.walkButton = function(){};
 
 	});
