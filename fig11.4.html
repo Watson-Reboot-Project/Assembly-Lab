@@ -6,6 +6,9 @@
 			table td {
 			border:none;
 			}
+			td.comment {color:#007500;}
+			td.constant {color:#A52A2A;}
+			td.keyword {color:#CC0099;}
 		</style>
 		
 		<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
@@ -29,12 +32,12 @@
 					<td></td>
 					<td></td>
 					<td>X</td>
-					<td>.Word</td>
-					<td>15</td>
+					<td class="keyword">.Word</td>
+					<td class="constant">15</td>
 					<td></td>
 					<td></td>
 					<td>;</td>
-					<td>reserve a word of memory for variable 'x'.  Initialize to 15.</td>
+					<td class="comment">reserve a word of memory for variable 'x'.  Initialize to 15.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -45,7 +48,7 @@
 					<td>X</td>
 					<td></td>
 					<td>;</td>
-					<td>load the value of variable 'x' into register A.</td>
+					<td class="comment">load the value of variable 'x' into register A.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -53,10 +56,10 @@
 					<td></td>
 					<td>LoadImm</td>
 					<td>RegB</td>
-					<td>1</td>
+					<td class="constant">1</td>
 					<td></td>
 					<td>;</td>
-					<td>load the constant value 1 into register B.</td>
+					<td class="comment">load the constant value 1 into register B.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -67,7 +70,7 @@
 					<td>RegA</td>
 					<td>RegB</td>
 					<td>;</td>
-					<td>subtract the contents of register B from A placing result in 0.</td>
+					<td class="comment">subtract the contents of register B from A placing result in 0.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -78,7 +81,7 @@
 					<td>X</td>
 					<td></td>
 					<td>;</td>
-					<td>store the value held in register 0 into the variable 'x'.</td>
+					<td class="comment">store the value held in register 0 into the variable 'x'.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -89,7 +92,7 @@
 					<td></td>
 					<td></td>
 					<td>;</td>
-					<td>halt execution of this assembly language program.</td>
+					<td class="comment">halt execution of this assembly language program.</td>
 				</tr>
 			</table>
 		</div>
