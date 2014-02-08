@@ -6,6 +6,9 @@
 			table td {
 			border:none;
 			}
+			td.comment {color:#007500;}
+			td.constant {color:#A52A2A;}
+			td.keyword {color:#CC0099;}
 		</style>
 		
 		<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
@@ -29,23 +32,23 @@
 					<td></td>
 					<td></td>
 					<td>I</td>
-					<td>.Block</td>
-					<td>1</td>
+					<td class="keyword">.Block</td>
+					<td class="constant">1</td>
 					<td></td>
 					<td></td>
 					<td>;</td>
-					<td>var i;  //  Numeric</td>
+					<td class="comment">var i;  //  Numeric</td>
 				</tr>
 				<tr>
 					<td></td>
 					<td></td>
 					<td>A</td>
-					<td>.Block</td>
-					<td>30</td>
+					<td class="keyword">.Block</td>
+					<td class="constant">30</td>
 					<td></td>
 					<td></td>
 					<td>;</td>
-					<td>var a = new array(30); // Numeric</td>
+					<td class="comment">var a = new array(30); // Numeric</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -53,7 +56,7 @@
 					<td></td>
 					<td>LoadImm</td>
 					<td>RegA</td>
-					<td>0</td>
+					<td class="constant">0</td>
 					<td></td>
 					<td>;</td>
 					<td></td>
@@ -67,7 +70,7 @@
 					<td>I</td>
 					<td></td>
 					<td>;</td>
-					<td>i = 0;</td>
+					<td class="comment">i = 0;</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -78,7 +81,7 @@
 					<td>I</td>
 					<td></td>
 					<td>;</td>
-					<td>while (i  < 30) </td>
+					<td class="comment">while (i  < 30) </td>
 				</tr>
 				<tr>
 					<td></td>
@@ -86,7 +89,7 @@
 					<td></td>
 					<td>LoadImm</td>
 					<td>RegB</td>
-					<td>30</td>
+					<td class="constant">30</td>
 					<td></td>
 					<td>;</td>
 					<td></td>
@@ -111,7 +114,7 @@
 					<td>ENDLP</td>
 					<td></td>
 					<td>;</td>
-					<td>{</td>
+					<td class="comment">{</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -119,10 +122,10 @@
 					<td></td>
 					<td>LoadImm</td>
 					<td>RegA</td>
-					<td>1</td>
+					<td class="constant">1</td>
 					<td></td>
 					<td>;</td>
-					<td>Register A assigned the base address of array a</td>
+					<td class="comment">Register A assigned the base address of array a</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -133,7 +136,7 @@
 					<td>I</td>
 					<td></td>
 					<td>;</td>
-					<td>Register B assigned the value of subscript i </td>
+					<td class="comment">Register B assigned the value of subscript i </td>
 				</tr>
 				<tr>
 					<td></td>
@@ -144,7 +147,7 @@
 					<td>RegA</td>
 					<td>RegB</td>
 					<td>;</td>
-					<td>Register C assigned  the address of a[i]</td>
+					<td class="comment">Register C assigned  the address of a[i]</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -152,10 +155,10 @@
 					<td></td>
 					<td>LoadImm</td>
 					<td>RegD</td>
-					<td>-1</td>
+					<td class="constant">-1</td>
 					<td></td>
 					<td>;</td>
-					<td>Register D assigned the constant  -1</td>
+					<td class="comment">Register D assigned the constant  -1</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -166,7 +169,7 @@
 					<td>RegC</td>
 					<td></td>
 					<td>;</td>
-					<td>a[i] = -1;</td>
+					<td class="comment">a[i] = -1;</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -185,7 +188,7 @@
 					<td></td>
 					<td>LoadImm</td>
 					<td>RegB</td>
-					<td>1</td>
+					<td class="constant">1</td>
 					<td></td>
 					<td>;</td>
 					<td></td>
@@ -210,7 +213,7 @@
 					<td>I</td>
 					<td></td>
 					<td>;</td>
-					<td>i = i + 1;</td>
+					<td class="comment">i = i + 1;</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -221,7 +224,7 @@
 					<td></td>
 					<td></td>
 					<td>;</td>
-					<td>}</td>
+					<td class="comment">}</td>
 				</tr>
 				<tr>
 					<td></td>
