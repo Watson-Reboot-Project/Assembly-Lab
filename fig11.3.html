@@ -124,10 +124,8 @@ table td {
 		<br>
 		<div class='row'>
 			<div class='btn-group-horizontal'>
-				<button type='button' class='btn btn-success' ng-click='run()'>Run</button>
-				<button type='button' class='btn btn-primary' ng-click='walk()'>Walk</button>
-				<button type='button' class='btn btn-danger' ng-click='reset()'>Reset</button>
-				<button type='button' class='btn btn-warning' ng-click='pause()'>Pause</button>
+				<button type='button' ng-class='buttonColor(runtext.name)' ng-repeat='runtext in runText' ng-click='runButton()'>{{runtext.name}}</button>
+				<button type='button' ng-class='buttonColor(walktext.name)' ng-repeat='walktext in walkText' ng-click='walkButton()'>{{walktext.name}}</button>
 			</div>
 		</div>
 		<br>

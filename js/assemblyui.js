@@ -588,7 +588,7 @@
 					}
 					// convert to hex to store in memory
 					var hex = parseInt(arg2,10);
-					console.log(hex);
+					//console.log(hex);
 					// hex length checking goes here.
 					hex = this.decimalToHex(hex, 2);
 				    // Store in memory
@@ -638,8 +638,8 @@
 				}
 			}
 			// Debugging/Demo code
-			console.log("Add " + this.register[reg2][0] + " and " + this.register[reg3][0]);
-			console.log(this.register[reg1][0]+ "= " +this.register[reg1][1]);
+			//console.log("Add " + this.register[reg2][0] + " and " + this.register[reg3][0]);
+			//console.log(this.register[reg1][0]+ "= " +this.register[reg1][1]);
 		};
 
 		// Subtract two registers and store in the first
@@ -666,8 +666,8 @@
 				}
 			}
 			// Debugging/Demo code
-			console.log("Subtract " + this.register[reg2][0] + " and " + this.register[reg3][0]);
-			console.log(this.register[reg1][0]+ "= " +this.register[reg1][1]);
+			//console.log("Subtract " + this.register[reg2][0] + " and " + this.register[reg3][0]);
+			//console.log(this.register[reg1][0]+ "= " +this.register[reg1][1]);
 		};
 
 		//Store the data in reg into memory at location pointed to by value1 and value2
@@ -691,8 +691,8 @@
 				}
 			}
 			// Debug/Demo code
-			console.log("Store " + this.register[reg][0] + " in Memory");
-			console.log("Memory @" +x+ " = " + this.memory[x]);
+			//console.log("Store " + this.register[reg][0] + " in Memory");
+			//console.log("Memory @" +x+ " = " + this.memory[x]);
 		};
 
 		// Performs Binary And on two registers and stores into the first
@@ -797,8 +797,8 @@
 				}
 			}
 			// Debug/Demo Code
-			console.log("Load " + this.register[reg][0]);
-			console.log(this.register[reg][0]+ "= " +this.register[reg][1]);
+			//console.log("Load " + this.register[reg][0]);
+			//console.log(this.register[reg][0]+ "= " +this.register[reg][1]);
 		};
 
 		// Load a given value into a register
@@ -813,8 +813,8 @@
 				}
 			}
 			// Debug/Demo code
-			console.log("LoadImm " + this.register[reg][0]);
-			console.log(this.register[reg][0]+ "= " +this.register[reg][1]);
+			//console.log("LoadImm " + this.register[reg][0]);
+			//console.log(this.register[reg][0]+ "= " +this.register[reg][1]);
 		};
 
 		// Load into a register the value in memory pointed to by another register
@@ -843,14 +843,14 @@
 				}else{
 					this.zeroFlag = 0;
 				}
-				console.log("Compare "+this.register[reg1][0]+" and "+this.register[reg2][0]);
+				//console.log("Compare "+this.register[reg1][0]+" and "+this.register[reg2][0]);
 		};
 
 		// Observes flags set by Compare and adjusts program counter accordingly
 		this.branch = function(cond, addr1, addr2){
-			console.log("Branch "+cond);
-			console.log("Neg "+this.negativeFlag);
-			console.log("Zero "+this.zeroFlag);
+			//console.log("Branch "+cond);
+			//console.log("Neg "+this.negativeFlag);
+			//console.log("Zero "+this.zeroFlag);
 			if (cond == "0"){
 			//EQ
 				if(this.zeroFlag == 1){
@@ -928,7 +928,7 @@
 		// Sets program counter to be equal to the given memory address
 		this.jump = function(addr1, addr2){
 			this.programCounter = parseInt(addr1+addr2, 16);
-			console.log("Jump "+addr1+addr2);
+			//console.log("Jump "+addr1+addr2);
 		};
 
 		// Sets the stop flag to true.
@@ -938,7 +938,7 @@
 			//clearInterval(this.intervalID);
 			this.stop = true;
 			this.done = true;
-			console.log("We're stopping this right now!");
+			console.log("Halt!");
 		};
 
 		// Evaluates the command at the given line.
@@ -1002,7 +1002,6 @@
 					this.branch(this.memory[line][1],this.memory[line][2],this.memory[line][3]);
 					break;
 				case 14: // 1110b Jump
-					console.log(this.memory[line][2] + "" + this.memory[line][3]);
 					this.jump(this.memory[line][2],this.memory[line][3]);
 					break;
 				case 15: // 1111b Halt
@@ -1018,7 +1017,6 @@
 			if(this.edited) {
 				this.init();
 				this.previousCounter = this.programCounter;
-				console.log("Program Initialized");
 			} 
 			if(this.done){
 				this.reset();
@@ -1037,7 +1035,7 @@
 				parser.eval(this.programCounter);
 
 			} else {
-				console.log("Yep, I'm stopping");
+				console.log("Inner Walk stop is true");
 			}
 
 		};
@@ -1047,15 +1045,10 @@
 		this.run= function() {
 			if(this.edited) {
 				this.init();
-				console.log("Program Initialized");
 			}
 			if(this.done) {
 				this.reset();
 			}
-			//this.intervalID = setInterval(function() {parser.walk();}, 1000);
-			console.log(this.varMemory.toString());
-			console.log(this.varRegister.toString());
-			// Convert Run button to Pause and Walk to Reset
 		};	
 
 
@@ -1152,9 +1145,13 @@
 			var tableName = "program";
 			var varTable = "variables";
 			var bool = false;
-			var attemptToRun = true;
-			
+			var attemptingToRun = false;
+			var previousCounter;
 
+			var runText = "Run";
+			var walkText = "Walk";
+			var intervalId;
+			
 			$scope.assembler = new assembler(tableName, varTable, bool);
 			
 			$scope.assembler.init();
@@ -1219,10 +1216,7 @@
 				var zeroFlag = $scope.assembler.returnZeroFlag();
 				$scope.zeroFlag = [{flag: zeroFlag}];
 				
-				if(updateCounter){
-					var counter = $scope.assembler.returncounter();
-					$scope.counter = [{content:counter}];
-				}
+				
 				
 				var temp = $scope.assembler.memory;
 				var memory = new Array(256);
@@ -1247,26 +1241,43 @@
 				for(var i = 0; i < 256; i++){
 					$scope.addmemory();
 				}
-				$scope.instructionRegister = [{con1: memory[counter][0], con2: memory[counter][1], con3: memory[counter][2], con4: memory[counter][3]}];
+				
+				if(updateCounter){
+					var counter = $scope.assembler.returncounter();
+					previousCounter = counter;
+					$scope.counter = [{content:counter}];
+					$scope.instructionRegister = [{con1: memory[counter][0], con2: memory[counter][1], con3: memory[counter][2], con4: memory[counter][3]}];
+				}
 				
 				$scope.set_color = function (num) {
-					if($scope.assembler.done){}else{
-						  if (num == counter) {
+						  if (num == previousCounter) {
 						    return { color: "red" };
 						  } else {
 							  return { color: "black" };
 						  }
-						}
 					};
 				
+			};
+			
+			$scope.buttonColor = function (button) {
+				if(button == "Run") {
+					return  'btn btn-success' ;
+				} else if (button == "Walk") {
+					return  'btn btn-warning' ;
+				} else if (button == "Pause") {
+					return  'btn btn-warning:hover' ;
+				} else if (button == "Reset") {
+					return  'btn btn-danger' ;
+				}
 			};
 			
 			$scope.architecture(true);
 			
 			$scope.pause = function(){
-				$scope.assembler.pause();
+				//$scope.assembler.pause();
 				$scope.architecture(true);
 				$interval.cancel(intervalId);
+				console.log("Yeah?");
 			};
 			
 			
@@ -1288,21 +1299,64 @@
 					$interval.cancel(intervalId);
 					console.log("I've stopped!");
 					$scope.reset();
+					attemptingToRun = false;
+					runText = "Run";
+					walkText = "Walk";
+					$scope.buttons();
 				}
 				$scope.architecture(false);
 				
 			};
 		
-			var intervalId;
+			
 			
 			$scope.run = function(){
-				$scope.assembler.run();
-				$scope.architecture(true);
-				intervalId = $interval($scope.walk, 750);
+				if(!attemptingToRun){
+					$scope.assembler.run();
+					$scope.architecture(true);
+					intervalId = $interval($scope.walk, 750);
+					console.log("Run has been called!");
+				}
 			};
 			
-			$scope.runButton = function(){};
 			
-			$scope.walkButton = function(){};
+			$scope.buttons = function(){
+				
+				$scope.runText = [{name: runText}];	
+				$scope.walkText = [{name: walkText}];
+			};
+			
+			$scope.buttons();
+			
+			$scope.runButton = function(){
+				if(attemptingToRun){
+					$scope.pause();
+					console.log("Pause?");
+					runText = "Run";
+					walkText = "Walk";
+					$scope.buttons();
+					attemptingToRun = false;
+				} else {
+					runText = "Pause";
+					walkText = "Reset";
+					$scope.buttons();
+					$scope.run();
+					attemptingToRun = true;
+				}
+				
+				$scope.run();
+			};
+			
+			$scope.walkButton = function(){
+				if(!attemptingToRun){
+					$scope.walk();
+				} else {
+					$scope.reset();
+					runText = "Run";
+					walkText = "Walk";
+					$scope.buttons();
+					attemptingToRun = false;
+				}
+			};
 
 	});
