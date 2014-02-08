@@ -6,6 +6,9 @@
 			table td {
 			border:none;
 			}
+			td.comment {color:#007500;}
+			td.constant {color:#A52A2A;}
+			td.keyword {color:#CC0099;}
 		</style>
 		
 		<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
@@ -29,34 +32,34 @@
 					<td></td>
 					<td></td>
 					<td>MINORS</td>
-					<td>.Word</td>
-					<td>0</td>
+					<td class="keyword">.Word</td>
+					<td class="constant">0</td>
 					<td></td>
 					<td></td>
 					<td>;</td>
-					<td>declare and initialize the number of 'minors' to 0.</td>
+					<td class="comment">declare and initialize the number of 'minors' to 0.</td>
 				</tr>
 				<tr>
 					<td></td>
 					<td></td>
 					<td>ADULTS</td>
-					<td>.Word</td>
-					<td>0</td>
+					<td class="keyword">.Word</td>
+					<td class="constant">0</td>
 					<td></td>
 					<td></td>
 					<td>;</td>
-					<td>declare and initialize the number of 'adults' to 0.</td>
+					<td class="comment">declare and initialize the number of 'adults' to 0.</td>
 				</tr>
 				<tr>
 					<td></td>
 					<td></td>
 					<td>AGE</td>
-					<td>.Word</td>
-					<td>21</td>
+					<td class="keyword">.Word</td>
+					<td class="constant">21</td>
 					<td></td>
 					<td></td>
 					<td>;</td>
-					<td>declare and initialize the 'age' of the person to 21.</td>
+					<td class="comment">declare and initialize the 'age' of the person to 21.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -67,7 +70,7 @@
 					<td>AGE</td>
 					<td></td>
 					<td>;</td>
-					<td>load the value of variable 'age' into register A.</td>
+					<td class="comment">load the value of variable 'age' into register A.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -75,10 +78,10 @@
 					<td></td>
 					<td>LoadImm</td>
 					<td>RegB</td>
-					<td>18</td>
+					<td class="constant">18</td>
 					<td></td>
 					<td>;</td>
-					<td>load the constant value 18 into register B.</td>
+					<td class="comment">load the constant value 18 into register B.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -89,7 +92,7 @@
 					<td>RegB</td>
 					<td></td>
 					<td>;</td>
-					<td>compare registers A & B &#45; i.e., the value of 'age' to 18</td>
+					<td class="comment">compare registers A & B &#45; i.e., the value of 'age' to 18</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -100,7 +103,7 @@
 					<td>THEN</td>
 					<td></td>
 					<td>;</td>
-					<td>IF 'age' is less than 18 branch to 'then'.</td>
+					<td class="comment">IF 'age' is less than 18 branch to 'then'.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -111,7 +114,7 @@
 					<td></td>
 					<td></td>
 					<td>;</td>
-					<td>otherwise jump to 'else'.</td>
+					<td class="comment">otherwise jump to 'else'.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -122,7 +125,7 @@
 					<td>MINORS</td>
 					<td></td>
 					<td>;</td>
-					<td>THEN: load the number of minors into register 0.</td>
+					<td class="comment">THEN: load the number of minors into register 0.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -130,10 +133,10 @@
 					<td></td>
 					<td>LoadImm</td>
 					<td>Reg1</td>
-					<td>1</td>
+					<td class="constant">1</td>
 					<td></td>
 					<td>;</td>
-					<td>load the constant value 1 into register 1.</td>
+					<td class="comment">load the constant value 1 into register 1.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -144,7 +147,7 @@
 					<td>Reg0</td>
 					<td>Reg1</td>
 					<td>;</td>
-					<td>add contents of register 1 to register 0.</td>
+					<td class="comment">add contents of register 1 to register 0.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -155,7 +158,7 @@
 					<td>MINORS</td>
 					<td></td>
 					<td>;</td>
-					<td>update number of minors from register 0.</td>
+					<td class="comment">update number of minors from register 0.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -166,7 +169,7 @@
 					<td></td>
 					<td></td>
 					<td>;</td>
-					<td>go to the statement labelled 'endif'.</td>
+					<td class="comment">go to the statement labelled 'endif'.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -177,7 +180,7 @@
 					<td>ADULTS</td>
 					<td></td>
 					<td>;</td>
-					<td>ELSE: load the number of adults into register 0. </td>
+					<td class="comment">ELSE: load the number of adults into register 0. </td>
 				</tr>
 				<tr>
 					<td></td>
@@ -185,10 +188,10 @@
 					<td></td>
 					<td>LoadImm</td>
 					<td>Reg1</td>
-					<td>1</td>
+					<td class="constant">1</td>
 					<td></td>
 					<td>;</td>
-					<td>load the constant value  1 into register 1</td>
+					<td class="comment">load the constant value  1 into register 1</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -199,7 +202,7 @@
 					<td>Reg0</td>
 					<td>Reg1</td>
 					<td>;</td>
-					<td>add contents of register 1 to register 0.</td>
+					<td class="comment">add contents of register 1 to register 0.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -210,7 +213,7 @@
 					<td>ADULTS</td>
 					<td></td>
 					<td>;</td>
-					<td>update number of adults from register 0.</td>
+					<td class="comment">update number of adults from register 0.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -221,7 +224,7 @@
 					<td></td>
 					<td></td>
 					<td>;</td>
-					<td>halt execution of this assembly language program.</td>
+					<td class="comment">halt execution of this assembly language program.</td>
 				</tr>
 			</table>
 		</div>
