@@ -119,6 +119,10 @@
 		  return hex;
 		};
 
+		this.isNumber = function(n) {
+			return !isNaN(parseFloat(n)) && isFinite(n);
+		};
+		
 		// Performs the size checking of a register at index to ensure 16bit functionality
 		// If overflow occurs, handles accordingly
 		this.checkRegister = function(index) {
@@ -1025,9 +1029,21 @@
 			}
 			if(!this.stop) {
 
-				for (var i = 0; i < numCells; i++) {										// iterate throughout the cells
-					table.rows[this.previousCounter-this.offSet].cells[i].style.color = '#000000';			// highlight all cells black
+				for (var i = 0; i < 7; i++) {										// iterate throughout the cells
+					for (var i = 0; i < numCells; i++) {
+						//console.log("Row "+j+", Cell "+i);
+						if(table.rows[this.previousCounter-this.offSet].cells[i].firstChild != null){
+							if(this.isNumber(table.rows[this.previousCounter-this.offSet].cells[i].firstChild.nodeValue)){
+								table.rows[this.previousCounter-this.offSet].cells[i].style.color = 'A52A2A';
+							} else {
+								table.rows[this.previousCounter-this.offSet].cells[i].style.color = '#000000';
+							}
+						}
+					}
 				}					// grab the number of cells for this row
+				for (var i = 7; i < 9; i++) {
+					table.rows[this.previousCounter-this.offSet].cells[i].style.color= '#007500';
+				}
 				this.previousCounter = this.programCounter;
 				for (var i = 0; i < numCells; i++) {										// iterate throughout the cells
 					table.rows[this.programCounter-this.offSet].cells[i].style.color = '#FF0000';		// highlight all cells red
@@ -1080,9 +1096,22 @@
 
 			var table = document.getElementById(this.tableName);
 			var numCells = table.rows[this.programCounter].cells.length;
-			for(var j = 0; j < table.rows.length; j ++){					// iterate through all rows
-				for (var i = 0; i < numCells; i++) {						// iterate throughout the cells
-					table.rows[j].cells[i].style.color = '#000000';			// highlight all cells black
+			for(var j = 0; j < table.rows.length; j ++){
+				for (var i = 0; i < numCells; i++) {
+					//console.log("Row "+j+", Cell "+i);
+					if(table.rows[j].cells[i].firstChild != null){
+						console.log("Row "+j+", Cell "+i);
+						console.log(table.rows[j].cells[i].firstChild.nodeValue);
+						console.log(typeof table.rows[j].cells[i].firstChild.nodeValue);
+						if(this.isNumber(table.rows[j].cells[i].firstChild.nodeValue)){
+							table.rows[j].cells[i].style.color = 'A52A2A';
+						} else {
+							table.rows[j].cells[i].style.color = '#000000';
+						}
+					}
+				}
+				for (var i = 7; i < 9; i++) {
+					table.rows[j].cells[i].style.color= '#007500';
 				}
 			}
 
@@ -1264,7 +1293,7 @@
 				} else if (button == "Walk") {
 					return  'btn btn-warning' ;
 				} else if (button == "Pause") {
-					return  'btn btn-warning:hover' ;
+					return  'btn btn-warning' ;
 				} else if (button == "Reset") {
 					return  'btn btn-danger' ;
 				}
