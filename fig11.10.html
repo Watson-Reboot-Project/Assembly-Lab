@@ -6,6 +6,9 @@
 			table td {
 			border:none;
 			}
+			td.comment {color:#007500;}
+			td.constant {color:#A52A2A;}
+			td.keyword {color:#CC0099;}
 		</style>
 		
 		<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
@@ -29,45 +32,45 @@
 					<td></td>
 					<td></td>
 					<td>X</td>
-					<td>.Word</td>
-					<td>5</td>
+					<td class="keyword">.Word</td>
+					<td class="constant">5</td>
 					<td></td>
 					<td></td>
 					<td>;</td>
-					<td>declare and initialize 'x' to 5    /* first operand */</td>
+					<td class="comment">declare and initialize 'x' to 5    /* first operand */</td>
 				</tr>
 				<tr>
 					<td></td>
 					<td></td>
 					<td>Y</td>
-					<td>.Word</td>
-					<td>4</td>
+					<td class="keyword">.Word</td>
+					<td class="constant">4</td>
 					<td></td>
 					<td></td>
 					<td>;</td>
-					<td>declare and initialize 'y' to 4    /* second operand */</td>
+					<td class="comment">declare and initialize 'y' to 4    /* second operand */</td>
 				</tr>
 				<tr>
 					<td></td>
 					<td></td>
 					<td>Z</td>
-					<td>.Block</td>
-					<td>1</td>
+					<td class="keyword">.Block</td>
+					<td class="constant">1</td>
 					<td></td>
 					<td></td>
 					<td>;</td>
-					<td>declare 'z'  /* z will hold the product of the operands */ </td>
+					<td class="comment">declare 'z'  /* z will hold the product of the operands */ </td>
 				</tr>
 				<tr>
 					<td></td>
 					<td></td>
 					<td>I</td>
-					<td>.Block</td>
-					<td>1</td>
+					<td class="keyword">.Block</td>
+					<td class="constant">1</td>
 					<td></td>
 					<td></td>
 					<td>;</td>
-					<td>declare 'i'   /* i counts the number of loop iterations */</td>
+					<td class="comment">declare 'i'   /* i counts the number of loop iterations */</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -75,10 +78,10 @@
 					<td></td>
 					<td>LoadImm</td>
 					<td>Reg1</td>
-					<td>1</td>
+					<td class="constant">1</td>
 					<td></td>
 					<td>;</td>
-					<td>register 1 holds the constant value 1.</td>
+					<td class="comment">register 1 holds the constant value 1.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -89,7 +92,7 @@
 					<td>X</td>
 					<td></td>
 					<td>;</td>
-					<td>register A holds the value of variable 'x'.</td>
+					<td class="comment">register A holds the value of variable 'x'.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -100,7 +103,7 @@
 					<td>Y</td>
 					<td></td>
 					<td>;</td>
-					<td>register B holds the value of variable 'y'.</td>
+					<td class="comment">register B holds the value of variable 'y'.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -108,10 +111,10 @@
 					<td></td>
 					<td>LoadImm</td>
 					<td>RegC</td>
-					<td>0</td>
+					<td class="constant">0</td>
 					<td></td>
 					<td>;</td>
-					<td>register C holds the value of variable 'z' &#45; initially 0.</td>
+					<td class="comment">register C holds the value of variable 'z' &#45; initially 0.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -119,10 +122,10 @@
 					<td></td>
 					<td>LoadImm</td>
 					<td>RegD</td>
-					<td>1</td>
+					<td class="constant">1</td>
 					<td></td>
 					<td>;</td>
-					<td>register D holds the value of variable 'i' &#45; initially 1.</td>
+					<td class="comment">register D holds the value of variable 'i' &#45; initially 1.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -133,7 +136,7 @@
 					<td>RegB</td>
 					<td></td>
 					<td>;</td>
-					<td>compare register D (the counter 'i') to register B ('y').</td>
+					<td class="comment">compare register D (the counter 'i') to register B ('y').</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -144,7 +147,7 @@
 					<td>ENDLP</td>
 					<td></td>
 					<td>;</td>
-					<td>if  'i' is greater  than 'y' then branch to 'endlp'.</td>
+					<td class="comment">if  'i' is greater  than 'y' then branch to 'endlp'.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -155,7 +158,7 @@
 					<td>RegC</td>
 					<td>RegA</td>
 					<td>;</td>
-					<td>otherwise, add the value of  'x' to  'z'.</td>
+					<td class="comment">otherwise, add the value of  'x' to  'z'.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -166,7 +169,7 @@
 					<td>RegD</td>
 					<td>Reg1</td>
 					<td>;</td>
-					<td>add 1 to the counter 'i'.</td>
+					<td class="comment">add 1 to the counter 'i'.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -177,7 +180,7 @@
 					<td></td>
 					<td></td>
 					<td>;</td>
-					<td>return to the top of the loop.</td>
+					<td class="comment">return to the top of the loop.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -188,7 +191,7 @@
 					<td>I</td>
 					<td></td>
 					<td>;</td>
-					<td>copy results back to main memory variables.</td>
+					<td class="comment">copy results back to main memory variables.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -199,7 +202,7 @@
 					<td>Z</td>
 					<td></td>
 					<td>;</td>
-					<td>the product of 'x' and 'y' is saved in variable 'z'.</td>
+					<td class="comment">the product of 'x' and 'y' is saved in variable 'z'.</td>
 				</tr>
 				<tr>
 					<td></td>
@@ -210,7 +213,7 @@
 					<td></td>
 					<td></td>
 					<td>;</td>
-					<td>halt execution of this assembly language program.</td>
+					<td class="comment">halt execution of this assembly language program.</td>
 				</tr>
 			</table>
 		</div>
