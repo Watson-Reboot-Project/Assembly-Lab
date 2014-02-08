@@ -1054,8 +1054,7 @@
 
 		// Pauses execution of program
 		this.pause = function() {
-			//clearInterval(this.intervalID);
-			// Convert Pause button to Run and Reset to Walk
+			// legacy function
 		};
 
 		// Resets the program counter and restores program to original state
@@ -1277,8 +1276,7 @@
 				//$scope.assembler.pause();
 				$scope.architecture(true);
 				$interval.cancel(intervalId);
-				console.log("Yeah?");
-			};
+				};
 			
 			
 			
@@ -1331,7 +1329,6 @@
 			$scope.runButton = function(){
 				if(attemptingToRun){
 					$scope.pause();
-					console.log("Pause?");
 					runText = "Run";
 					walkText = "Walk";
 					$scope.buttons();
@@ -1343,8 +1340,6 @@
 					$scope.run();
 					attemptingToRun = true;
 				}
-				
-				$scope.run();
 			};
 			
 			$scope.walkButton = function(){
