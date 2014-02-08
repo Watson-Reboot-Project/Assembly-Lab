@@ -1033,8 +1033,9 @@
 					for (var i = 0; i < numCells; i++) {
 						//console.log("Row "+j+", Cell "+i);
 						if(table.rows[this.previousCounter-this.offSet].cells[i].firstChild != null){
-							if(this.isNumber(table.rows[this.previousCounter-this.offSet].cells[i].firstChild.nodeValue)){
-								table.rows[this.previousCounter-this.offSet].cells[i].style.color = 'A52A2A';
+							var temp = parseInt(table.rows[this.previousCounter-this.offSet].cells[i].firstChild.nodeValue, 10);
+							if(!(isNaN(temp))){
+								table.rows[this.previousCounter-this.offSet].cells[i].style.color = '#A52A2A';
 							} else {
 								table.rows[this.previousCounter-this.offSet].cells[i].style.color = '#000000';
 							}
@@ -1100,11 +1101,9 @@
 				for (var i = 0; i < numCells; i++) {
 					//console.log("Row "+j+", Cell "+i);
 					if(table.rows[j].cells[i].firstChild != null){
-						console.log("Row "+j+", Cell "+i);
-						console.log(table.rows[j].cells[i].firstChild.nodeValue);
-						console.log(typeof table.rows[j].cells[i].firstChild.nodeValue);
-						if(this.isNumber(table.rows[j].cells[i].firstChild.nodeValue)){
-							table.rows[j].cells[i].style.color = 'A52A2A';
+						var temp = parseInt(table.rows[j].cells[i].firstChild.nodeValue, 10);
+						if(!(isNaN(temp))){
+							table.rows[j].cells[i].style.color = '#A52A2A';
 						} else {
 							table.rows[j].cells[i].style.color = '#000000';
 						}
