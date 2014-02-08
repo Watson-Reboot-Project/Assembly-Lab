@@ -431,7 +431,7 @@ td.keyword {
 					</div>
 					<div
 						class='col-lg-1 col-md-1 col-sm-1 col-xs-1 panel panel-default'
-						style="height: 35px; width: 150px; solid: 1px solid"></div>
+						style="height: 35px; width: 10%; border: 1px solid"></div>
 					<div>
 						<div class='panel panel-default' style='width: 949px;'>
 							<!-- table containing the register information -->
@@ -479,7 +479,7 @@ td.keyword {
 								<div class='row'>
 									<div class='col-lg-2 col-md-2'>
 										<table class='table table-bordered'
-											style='height: 212px; width: 170px'>
+											style='height: 150px; width: 170px'>
 											<thead>
 												<tr>
 													<th colspan='2' class='text-center'>Flags</th>
@@ -487,19 +487,19 @@ td.keyword {
 											</thead>
 											<tbody>
 												<tr>
-													<td ng-repeat='carry in carryFlag'>{{carry.flag}}</td>
+													<td class='text-center' ng-repeat='carry in carryFlag'>{{carry.flag}}</td>
 													<td>Carry</td>
 												</tr>
 												<tr>
-													<td ng-repeat='neg in negativeFlag'>{{neg.flag}}</td>
+													<td class='text-center' ng-repeat='neg in negativeFlag'>{{neg.flag}}</td>
 													<td>Negative</td>
 												</tr>
 												<tr>
-													<td ng-repeat='zero in zeroFlag'>{{zero.flag}}</td>
+													<td class='text-center' ng-repeat='zero in zeroFlag'>{{zero.flag}}</td>
 													<td>Zero</td>
 												</tr>
 												<tr>
-													<td ng-repeat='over in overflowFlag'>{{over.flag}}</td>
+													<td class='text-center' ng-repeat='over in overflowFlag'>{{over.flag}}</td>
 													<td>Overflow</td>
 												</tr>
 											</tbody>
