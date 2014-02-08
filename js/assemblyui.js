@@ -1031,7 +1031,7 @@
 
 				for (var i = 0; i < 7; i++) {										// iterate throughout the cells
 					for (var i = 0; i < numCells; i++) {
-						//console.log("Row "+j+", Cell "+i);
+						console.log("Row "+this.programCounter-this.offSet+", Cell "+i);
 						if(table.rows[this.previousCounter-this.offSet].cells[i].firstChild != null){
 							var temp = parseInt(table.rows[this.previousCounter-this.offSet].cells[i].firstChild.nodeValue, 10);
 							if(!(isNaN(temp))){
