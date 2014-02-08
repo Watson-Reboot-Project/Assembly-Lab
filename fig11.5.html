@@ -1,254 +1,315 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<style type='text/css'>
-			table td {
-			border:none;
-			}
-			td.comment {color:#007500;}
-			td.constant {color:#A52A2A;}
-			td.keyword {color:#CC0099;}
-		</style>
-		
-		<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
-		<title>Figure 11.5</title>
-		<link rel='stylesheet' href='lib/css/bootstrap-3.css'>
-	</head>
-	
-	<!-- controller for the lab -->
-	<body>
-	
-		<h1 class='text-center'>Figure 11.5</h1><br>
+<head>
+<style type='text/css'>
+table td {
+	border: none;
+}
+
+td.comment {
+	color: #007500;
+}
+
+td.constant {
+	color: #A52A2A;
+}
+
+td.keyword {
+	color: #CC0099;
+}
+</style>
+
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+<title>Figure 11.5</title>
+<link rel='stylesheet' href='lib/css/bootstrap-3.css'>
+</head>
+
+<!-- controller for the lab -->
+<body>
+
+	<h1 class='text-center'>Figure 11.5</h1>
+	<br>
 	<!-- main container for the index -->
-	<div ng-app='assembly' ng-controller='assemblycontroller' class='container'>
-	
+	<div ng-app='assembly' ng-controller='assemblycontroller'
+		class='container'>
+
 
 		<div class='row'>
-		
-		<div class='col-lg-12 col-md-12' id='table' id='fig113'>
-			<table id='program' class='spanTable'>
-				<tr>
-					<td></td>
-					<td></td>
-					<td>AGE</td>
-					<td class="keyword">.Word</td>
-					<td class="constant">2</td>
-					<td></td>
-					<td></td>
-					<td>;</td>
-					<td class="comment">declare and initialize 'age' to 2.  Our subject is 2 years old.</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td>MINOR</td>
-					<td class="keyword">.Block</td>
-					<td class="constant">1</td>
-					<td></td>
-					<td></td>
-					<td>;</td>
-					<td class="comment">declare 'minor'.</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>LoadImm</td>
-					<td>Reg0</td>
-					<td class="constant">0</td>
-					<td></td>
-					<td>;</td>
-					<td class="comment">load the constant value 0 into register 0.</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>Store</td>
-					<td>Reg0</td>
-					<td>MINOR</td>
-					<td></td>
-					<td>;</td>
-					<td class="comment">store a zero into 'minor' – i.e., minor is assumed 'false'.</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td>IF</td>
-					<td>Load</td>
-					<td>RegA</td>
-					<td>AGE</td>
-					<td></td>
-					<td>;</td>
-					<td class="comment">load the value of variable 'age' into register A.</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>LoadImm</td>
-					<td>RegB</td>
-					<td class="constant">18</td>
-					<td></td>
-					<td>;</td>
-					<td class="comment">load the constant value 18 into register B.</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>Compare</td>
-					<td>RegA</td>
-					<td>RegB</td>
-					<td></td>
-					<td>;</td>
-					<td class="comment">compare registers A & B &#45; i.e., the value of 'age' to 18.</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>Branch</td>
-					<td>LT</td>
-					<td>THEN</td>
-					<td></td>
-					<td>;</td>
-					<td class="comment">IF 'age' is less than 18 branch to 'then'.</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>Jump</td>
-					<td>ENDIF</td>
-					<td></td>
-					<td></td>
-					<td>;</td>
-					<td class="comment">otherwise jump to the end of the if block &#45; 'endif'</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td>THEN</td>
-					<td>LoadImm</td>
-					<td>Reg1</td>
-					<td class="constant">1</td>
-					<td></td>
-					<td>;</td>
-					<td class="comment">THEN: load the constant value 1 into register 1.</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>Store</td>
-					<td>Reg1</td>
-					<td>MINOR</td>
-					<td></td>
-					<td>;</td>
-					<td class="comment">store a one into 'minor' &#45; i.e., minor is 'true'.</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td>ENDIF</td>
-					<td>Halt</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>;</td>
-					<td class="comment">halt execution of this assembly language program.</td>
-				</tr>
-			</table>
-		</div>
-		<br>
-		<div class ='row'>
-			<div class='btn-group-horizontal'>
-				<button type='button' ng-class='buttonColor(runtext.name)' ng-repeat='runtext in runText' ng-click='runButton()'>{{runtext.name}}</button>
-				<button type='button' ng-class='buttonColor(walktext.name)' ng-repeat='walktext in walkText' ng-click='walkButton()'>{{walktext.name}}</button>
-			</div>
-		</div>
-		<br>
-		
-				<!-- begining of the tabs -->
-				<tabset class='col-lg-12 col-md-12'>
 
-					<!-- demo tab - shows all of the information for the current lab -->
-					<tab heading='Figure'><br>
-						<div class='container'>
-							<div class='row'>								
-								<div class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1'>
-									<div id='table' style='width: 90px'>
-										<table id='variables' class='table table-bordered'>
-											<thead><tr><th colspan='2' class='text-center'>Memory</th></tr></thead>
-											<tbody ng-repeat='mem in varMemory'><tr><th>{{mem.title}}</th><td>{{mem.value}}</td></tr></tbody>
-										</table>
-									</div>
-								</div>
-								<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
-									<div id='table' style='width: 90px'>
-										<table id='variables' class='table table-bordered' >
-											<thead><tr><th colspan='2' class='text-center'>Register</th></tr></thead>
-											<tbody ng-repeat='reg in varRegister'><tr><th>{{reg.title}}</th><td>{{reg.value}}</td></tr></tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-					</tab>
-					
-					<!-- editor tab where you can make changes to the code -->
-					<tab heading='Editor' disabled='true'><br>
-						<div class='container'>
-							<div class='row'>
-								<div class='col-lg-4 col-lg-offset-2 col-md-4 col-md-offset-2'>
-								
-									<!-- table that shows the code -->
-									<div id='table' style='overflow-y: scroll; border: 1px solid black; height: 200px; width: 350px'>
-										<table id='commands'>
-										</table>
-									</div>
-								</div>
-								
-								<!-- button group for the table and code -->
-								<div class='col-lg-4 col-md-4'>
-									<div id='editor_button_group' class='col-lg-4 col-md-4 btn-group-vertical'>
-										<button type='button' class='btn btn-default' onclick='insertWord()'>Word</button>
-										<button type='button' class='btn btn-default' onclick='insertBlock()'>Block</button>
-										<button type='button' class='btn btn-default' onClick='insertLoad()'>Load</button>
-										<button type='button' class='btn btn-default' onclick='insertStore()'>Store</button>
-										<button type='button' class='btn btn-default' onclick='insertAdd()'>Add</button>
-										<button type='button' class='btn btn-default' onclick='insertBranch()'>Branch</button>
-									</div>
-									<div id='editor_button_group' class='col-lg-4 col-md-4 btn-group-vertical'>
-										<button type='button' class='btn btn-default' onclick='insertJump()'>Jump</button>
-										<button type='button' class='btn btn-default' onclick='insertLoadImm()'>Load Imm</button>
-										<button type='button' class='btn btn-default' onclick='insertAnd()'>And</button>
-										<button type='button' class='btn btn-default' onclick='insertLoadIn()'>Load In</button>
-										<button type='button' class='btn btn-default' onclick='insertStoreIn()'>Store In</button>
-										<button type='button' class='btn btn-default' onclick='insertSub()'>Subtract</button>
-									</div>
-									<div id='editor_button_group' class='col-lg-4 col-md-4 btn-group-vertical'>
-										<button type='button' class='btn btn-default' onclick='insertOr()'>Or</button>
-										<button type='button' class='btn btn-default' onclick='insertCompare()'>Compare</button>
-										<button type='button' class='btn btn-default' onclick='insertASL()'>ASL</button>
-										<button type='button' class='btn btn-default' onclick='insertASR()'>ASR</button>
-										<button type='button' class='btn btn-default' onclick='insertHalt()'>Halt</button>
-										<button type='button' class='btn btn-default' onclick='insertNot()'>Not</button>
-									</div>
-								</div>
-							</div>
-						</div>
-			
-					</tab>
-					
-					<!-- tab containing the memory, register, program counters, and flags -->
-			<tab heading='Architecture'> <br>
-			<div class='container' style="width: 1049px; ">
+			<div class='col-lg-12 col-md-12' id='table' id='fig113'>
+				<table id='program' class='spanTable'>
+					<tr>
+						<td></td>
+						<td></td>
+						<td>AGE</td>
+						<td class="keyword">.Word</td>
+						<td class="constant">2</td>
+						<td></td>
+						<td></td>
+						<td>;</td>
+						<td class="comment">declare and initialize 'age' to 2. Our
+							subject is 2 years old.</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td>MINOR</td>
+						<td class="keyword">.Block</td>
+						<td class="constant">1</td>
+						<td></td>
+						<td></td>
+						<td>;</td>
+						<td class="comment">declare 'minor'.</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>LoadImm</td>
+						<td>Reg0</td>
+						<td class="constant">0</td>
+						<td></td>
+						<td>;</td>
+						<td class="comment">load the constant value 0 into register
+							0.</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>Store</td>
+						<td>Reg0</td>
+						<td>MINOR</td>
+						<td></td>
+						<td>;</td>
+						<td class="comment">store a zero into 'minor' – i.e., minor
+							is assumed 'false'.</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td>IF</td>
+						<td>Load</td>
+						<td>RegA</td>
+						<td>AGE</td>
+						<td></td>
+						<td>;</td>
+						<td class="comment">load the value of variable 'age' into
+							register A.</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>LoadImm</td>
+						<td>RegB</td>
+						<td class="constant">18</td>
+						<td></td>
+						<td>;</td>
+						<td class="comment">load the constant value 18 into register
+							B.</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>Compare</td>
+						<td>RegA</td>
+						<td>RegB</td>
+						<td></td>
+						<td>;</td>
+						<td class="comment">compare registers A & B &#45; i.e., the
+							value of 'age' to 18.</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>Branch</td>
+						<td>LT</td>
+						<td>THEN</td>
+						<td></td>
+						<td>;</td>
+						<td class="comment">IF 'age' is less than 18 branch to
+							'then'.</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>Jump</td>
+						<td>ENDIF</td>
+						<td></td>
+						<td></td>
+						<td>;</td>
+						<td class="comment">otherwise jump to the end of the if block
+							&#45; 'endif'</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td>THEN</td>
+						<td>LoadImm</td>
+						<td>Reg1</td>
+						<td class="constant">1</td>
+						<td></td>
+						<td>;</td>
+						<td class="comment">THEN: load the constant value 1 into
+							register 1.</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>Store</td>
+						<td>Reg1</td>
+						<td>MINOR</td>
+						<td></td>
+						<td>;</td>
+						<td class="comment">store a one into 'minor' &#45; i.e.,
+							minor is 'true'.</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td>ENDIF</td>
+						<td>Halt</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>;</td>
+						<td class="comment">halt execution of this assembly language
+							program.</td>
+					</tr>
+				</table>
+			</div>
+			<br>
+			<div class='row'>
+				<div class='btn-group-horizontal'>
+					<button type='button' ng-class='buttonColor(runtext.name)'
+						ng-repeat='runtext in runText' ng-click='runButton()'>{{runtext.name}}</button>
+					<button type='button' ng-class='buttonColor(walktext.name)'
+						ng-repeat='walktext in walkText' ng-click='walkButton()'>{{walktext.name}}</button>
+				</div>
+			</div>
+			<br>
+
+			<!-- begining of the tabs -->
+			<tabset class='col-lg-12 col-md-12'> <!-- demo tab - shows all of the information for the current lab -->
+			<tab heading='Figure'> <br>
+			<div class='container'>
 				<div class='row'>
-					<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default' style="width: 220px">
-					<h3>Memory</h3>			
+					<div
+						class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1'>
+						<div id='table' style='width: 90px'>
+							<table id='variables' class='table table-bordered'>
+								<thead>
+									<tr>
+										<th colspan='2' class='text-center'>Memory</th>
+									</tr>
+								</thead>
+								<tbody ng-repeat='mem in varMemory'>
+									<tr>
+										<th>{{mem.title}}</th>
+										<td>{{mem.value}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>
+						<div id='table' style='width: 90px'>
+							<table id='variables' class='table table-bordered'>
+								<thead>
+									<tr>
+										<th colspan='2' class='text-center'>Register</th>
+									</tr>
+								</thead>
+								<tbody ng-repeat='reg in varRegister'>
+									<tr>
+										<th>{{reg.title}}</th>
+										<td>{{reg.value}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			</tab> <!-- editor tab where you can make changes to the code --> <tab
+				heading='Editor' disabled='true'> <br>
+			<div class='container'>
+				<div class='row'>
+					<div class='col-lg-4 col-lg-offset-2 col-md-4 col-md-offset-2'>
+
+						<!-- table that shows the code -->
+						<div id='table'
+							style='overflow-y: scroll; border: 1px solid black; height: 200px; width: 350px'>
+							<table id='commands'>
+							</table>
+						</div>
+					</div>
+
+					<!-- button group for the table and code -->
+					<div class='col-lg-4 col-md-4'>
+						<div id='editor_button_group'
+							class='col-lg-4 col-md-4 btn-group-vertical'>
+							<button type='button' class='btn btn-default'
+								onclick='insertWord()'>Word</button>
+							<button type='button' class='btn btn-default'
+								onclick='insertBlock()'>Block</button>
+							<button type='button' class='btn btn-default'
+								onClick='insertLoad()'>Load</button>
+							<button type='button' class='btn btn-default'
+								onclick='insertStore()'>Store</button>
+							<button type='button' class='btn btn-default'
+								onclick='insertAdd()'>Add</button>
+							<button type='button' class='btn btn-default'
+								onclick='insertBranch()'>Branch</button>
+						</div>
+						<div id='editor_button_group'
+							class='col-lg-4 col-md-4 btn-group-vertical'>
+							<button type='button' class='btn btn-default'
+								onclick='insertJump()'>Jump</button>
+							<button type='button' class='btn btn-default'
+								onclick='insertLoadImm()'>Load Imm</button>
+							<button type='button' class='btn btn-default'
+								onclick='insertAnd()'>And</button>
+							<button type='button' class='btn btn-default'
+								onclick='insertLoadIn()'>Load In</button>
+							<button type='button' class='btn btn-default'
+								onclick='insertStoreIn()'>Store In</button>
+							<button type='button' class='btn btn-default'
+								onclick='insertSub()'>Subtract</button>
+						</div>
+						<div id='editor_button_group'
+							class='col-lg-4 col-md-4 btn-group-vertical'>
+							<button type='button' class='btn btn-default'
+								onclick='insertOr()'>Or</button>
+							<button type='button' class='btn btn-default'
+								onclick='insertCompare()'>Compare</button>
+							<button type='button' class='btn btn-default'
+								onclick='insertASL()'>ASL</button>
+							<button type='button' class='btn btn-default'
+								onclick='insertASR()'>ASR</button>
+							<button type='button' class='btn btn-default'
+								onclick='insertHalt()'>Halt</button>
+							<button type='button' class='btn btn-default'
+								onclick='insertNot()'>Not</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			</tab> <!-- tab containing the memory, register, program counters, and flags -->
+			<tab heading='Architecture'> <br>
+			<div class='container' style="width: 1049px;">
+				<div class='row'>
+					<div
+						class='col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default'
+						style="width: 220px; border: 1px solid;">
+						<h3>Memory</h3>
 						<div class='spanMem'>
 							<table class='table table-bordered' ng-repeat='mem in memory'
 								style='table-layout: fixed;'>
@@ -260,98 +321,104 @@
 									<td>{{mem.con4}}</td>
 								</tr>
 							</table>
-							
+
 						</div>
 					</div>
-					<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1 panel panel-default' style="height: 35px; width: 150px; "></div>
-						<div class='panel panel-default' style="width: 949px; ">
-						<!-- table containing the register information -->
-						<div class='col-lg-2  col-md-2 col-sm-2 col-xs-2'>
-						<h3>Registers</h3><!-- I should be outside of this box -->
-							<div class='spanReg'>
-								<table class='table table-bordered' style='table-layout: fixed;'
-									ng-repeat='reg in register'>
-									<tbody>
-										<tr>
-											<th>{{reg.content}}</th>
-											<td class='text-center'>{{reg.value}}</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<!-- program counter and instruction register table -->
-						<div
-							class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1'>
-							<table class='table table-bordered'
-								style='height: 100px; width: 170px'>
-								<tbody>
-									<tr>
-										<th class='text-center' colspan='4'>Program Counter</th>
-									</tr>
-									<tr>
-										<td class='text-center' colspan='4' ng-repeat='cnt in counter'>{{cnt.content}}</td>
-									</tr>
-									<tr>
-										<th class='text-center' colspan='4'>Instruction Register</th>
-									</tr>
-									<tr ng-repeat='inst in instructionRegister' class='text-center'>
-										<td>{{inst.con1}}</td>
-										<td>{{inst.con2}}</td>
-										<td>{{inst.con3}}</td>
-										<td>{{inst.con4}}</td>
-									<tr>
-								</tbody>
-							</table>
-							<!-- flag table -->
-							<div class='row'>
-								<div class='col-lg-2 col-md-2'>
+					<div
+						class='col-lg-1 col-md-1 col-sm-1 col-xs-1 panel panel-default'
+						style="height: 35px; width: 150px;"></div>
+					<div>
+						<div class='panel panel-default' style='width: 949px;'>
+							<!-- table containing the register information -->
+							<div class='col-lg-2  col-md-2 col-sm-2 col-xs-2'>
+								<h3>Registers</h3>
+								<!-- I should be outside of this box -->
+								<div class='spanReg'>
 									<table class='table table-bordered'
-										style='height: 212px; width: 170px'>
-										<thead>
-											<tr>
-												<th colspan='2' class='text-center'>Flags</th>
-											</tr>
-										</thead>
+										style='table-layout: fixed;' ng-repeat='reg in register'>
 										<tbody>
 											<tr>
-												<td ng-repeat='carry in carryFlag'>{{carry.flag}}</td>
-												<td>Carry</td>
-											</tr>
-											<tr>
-												<td ng-repeat='neg in negativeFlag'>{{neg.flag}}</td>
-												<td>Negative</td>
-											</tr>
-											<tr>
-												<td ng-repeat='zero in zeroFlag'>{{zero.flag}}</td>
-												<td>Zero</td>
-											</tr>
-											<tr>
-												<td ng-repeat='over in overflowFlag'>{{over.flag}}</td>
-												<td>Overflow</td>
+												<th>{{reg.content}}</th>
+												<td class='text-center'>{{reg.value}}</td>
 											</tr>
 										</tbody>
 									</table>
 								</div>
 							</div>
+							<!-- program counter and instruction register table -->
+							<div
+								class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1'>
+								<table class='table table-bordered'
+									style='height: 100px; width: 170px'>
+									<tbody>
+										<tr>
+											<th class='text-center' colspan='4'>Program Counter</th>
+										</tr>
+										<tr>
+											<td class='text-center' colspan='4'
+												ng-repeat='cnt in counter'>{{cnt.content}}</td>
+										</tr>
+										<tr>
+											<th class='text-center' colspan='4'>Instruction Register</th>
+										</tr>
+										<tr ng-repeat='inst in instructionRegister'
+											class='text-center'>
+											<td>{{inst.con1}}</td>
+											<td>{{inst.con2}}</td>
+											<td>{{inst.con3}}</td>
+											<td>{{inst.con4}}</td>
+										<tr>
+									</tbody>
+								</table>
+								<!-- flag table -->
+								<div class='row'>
+									<div class='col-lg-2 col-md-2'>
+										<table class='table table-bordered'
+											style='height: 212px; width: 170px'>
+											<thead>
+												<tr>
+													<th colspan='2' class='text-center'>Flags</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td ng-repeat='carry in carryFlag'>{{carry.flag}}</td>
+													<td>Carry</td>
+												</tr>
+												<tr>
+													<td ng-repeat='neg in negativeFlag'>{{neg.flag}}</td>
+													<td>Negative</td>
+												</tr>
+												<tr>
+													<td ng-repeat='zero in zeroFlag'>{{zero.flag}}</td>
+													<td>Zero</td>
+												</tr>
+												<tr>
+													<td ng-repeat='over in overflowFlag'>{{over.flag}}</td>
+													<td>Overflow</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-					</div>
 				</div>
-				</div>
-				</div>
-				</tab>				</tabset>
-				<br>	
+			</div>
+			</tab> </tabset>
+			<br>
 		</div>
 	</div>
-		
-		<!-- need to get it working so i dont need the online repositories -->
-    	<script type='text/javascript' src='lib/js/angular.js'></script>
-    	<script type='text/javascript' src='lib/js/jQuery.js'></script>
-    	<script type='text/javascript' src='lib/js/less.js'></script>
-    	<script type='text/javascript' src='lib/js/ui-bootstrap-0.10.0.js'></script>
-    	<script type='text/javascript' src='lib/js/tabs.js'></script>
-    	<script type='text/javascript' src='lib/js/ui-bootstrap.js'></script>   	
-		<script type='text/javascript' src='js/assemblyui.js'></script>	
-    	<script type='text/javascript' src='js/inputs.js'></script>
-	</body>
+
+	<!-- need to get it working so i dont need the online repositories -->
+	<script type='text/javascript' src='lib/js/angular.js'></script>
+	<script type='text/javascript' src='lib/js/jQuery.js'></script>
+	<script type='text/javascript' src='lib/js/less.js'></script>
+	<script type='text/javascript' src='lib/js/ui-bootstrap-0.10.0.js'></script>
+	<script type='text/javascript' src='lib/js/tabs.js'></script>
+	<script type='text/javascript' src='lib/js/ui-bootstrap.js'></script>
+	<script type='text/javascript' src='js/assemblyui.js'></script>
+	<script type='text/javascript' src='js/inputs.js'></script>
+</body>
 </html>
