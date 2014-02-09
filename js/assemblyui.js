@@ -1219,6 +1219,7 @@
 			var runText = "Run";
 			var walkText = "Walk";
 			var intervalId;
+			var hasRan = false;
 			
 			$scope.assembler = new assembler(tableName, varTable, bool);
 			
@@ -1360,12 +1361,16 @@
 				$scope.done = $scope.assembler.done;
 				//$scope.memory[counter].set_color(1);
 				$scope.architecture(true);
+				if(hasRan){
+					$scope.reset();
+					hasRan = false;
+				}
 				if($scope.assembler.stop == false){
 					$scope.assembler.walk();
 				} else {
 					$interval.cancel(intervalId);
 					//console.log("I've stopped!");
-					$scope.reset();
+					hasRan = true;
 					attemptingToRun = false;
 					runText = "Run";
 					walkText = "Walk";
@@ -1379,6 +1384,10 @@
 			
 			$scope.run = function(){
 				if(!attemptingToRun){
+					if(hasRan){
+						$scope.reset();
+						hasRan = false;
+					}
 					$scope.assembler.run();
 					$scope.architecture(true);
 					intervalId = $interval($scope.walk, 750);
