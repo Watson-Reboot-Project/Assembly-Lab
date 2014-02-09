@@ -18,6 +18,10 @@ td.constant {
 td.keyword {
 	color: #CC0099;
 }
+
+td.command {
+	color: #0000FF;
+}
 </style>
 
 <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
@@ -91,7 +95,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>LoadImm</td>
+						<td class='command'>LoadImm</td>
 						<td>RegA</td>
 						<td class="constant">0</td>
 						<td></td>
@@ -102,7 +106,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Store</td>
+						<td class='command'>Store</td>
 						<td>RegA</td>
 						<td>Z</td>
 						<td></td>
@@ -113,7 +117,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>LoadImm</td>
+						<td class='command'>LoadImm</td>
 						<td>RegA</td>
 						<td class="constant">1</td>
 						<td></td>
@@ -124,7 +128,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Store</td>
+						<td class='command'>Store</td>
 						<td>RegA</td>
 						<td>I</td>
 						<td></td>
@@ -135,7 +139,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td>LOOP</td>
-						<td>Load</td>
+						<td class='command'>Load</td>
 						<td>RegA</td>
 						<td>I</td>
 						<td></td>
@@ -146,7 +150,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Load</td>
+						<td class='command'>Load</td>
 						<td>RegB</td>
 						<td>Y</td>
 						<td></td>
@@ -157,7 +161,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Compare</td>
+						<td class='commmand'>Compare</td>
 						<td>RegA</td>
 						<td>RegB</td>
 						<td></td>
@@ -168,7 +172,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Branch</td>
+						<td class='command'>Branch</td>
 						<td>GT</td>
 						<td>ENDLP</td>
 						<td></td>
@@ -179,7 +183,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Load</td>
+						<td class='command'>Load</td>
 						<td>RegA</td>
 						<td>Z</td>
 						<td></td>
@@ -190,7 +194,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Load</td>
+						<td class='command'>Load</td>
 						<td>RegB</td>
 						<td>X</td>
 						<td></td>
@@ -201,7 +205,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Add</td>
+						<td class='command'>Add</td>
 						<td>RegC</td>
 						<td>RegA</td>
 						<td>RegB</td>
@@ -212,7 +216,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Store</td>
+						<td class='command'>Store</td>
 						<td>RegC</td>
 						<td>Z</td>
 						<td></td>
@@ -223,7 +227,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Load</td>
+						<td class='command'>Load</td>
 						<td>RegA</td>
 						<td>I</td>
 						<td></td>
@@ -234,7 +238,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>LoadImm</td>
+						<td class='command'>LoadImm</td>
 						<td>RegB</td>
 						<td class="constant">1</td>
 						<td></td>
@@ -245,7 +249,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Add</td>
+						<td class='command'>Add</td>
 						<td>RegC</td>
 						<td>RegA</td>
 						<td>RegB</td>
@@ -256,7 +260,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Store</td>
+						<td class='command'>Store</td>
 						<td>RegC</td>
 						<td>I</td>
 						<td></td>
@@ -267,7 +271,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Jump</td>
+						<td class='command'>Jump</td>
 						<td>LOOP</td>
 						<td></td>
 						<td></td>
@@ -278,7 +282,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td>ENDLP</td>
-						<td>Halt</td>
+						<td class='command'>Halt</td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -431,7 +435,7 @@ td.keyword {
 					</div>
 					<div
 						class='col-lg-1 col-md-1 col-sm-1 col-xs-1 panel panel-default'
-						style="height: 35px; width: 10%; border: 1px solid"></div>
+						style="height: 35px; width: 10%; border: 1px solid; margin-top: 15%">Data Bus</div>
 					<div class='col-lg-5 col-md-1'style='border: 1px solid'>
 						<div class='panel panel-default' style='width: 949px;'>
 							<!-- table containing the register information -->

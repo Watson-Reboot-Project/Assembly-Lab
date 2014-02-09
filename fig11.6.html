@@ -18,6 +18,10 @@ td.constant {
 td.keyword {
 	color: #CC0099;
 }
+
+td.command {
+	color: #0000FF;
+}
 </style>
 
 <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
@@ -79,7 +83,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td>IF</td>
-						<td>Load</td>
+						<td class='command'>Load</td>
 						<td>RegA</td>
 						<td>AGE</td>
 						<td></td>
@@ -91,7 +95,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>LoadImm</td>
+						<td class='command'>LoadImm</td>
 						<td>RegB</td>
 						<td class="constant">18</td>
 						<td></td>
@@ -103,7 +107,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Compare</td>
+						<td class='command'>Compare</td>
 						<td>RegA</td>
 						<td>RegB</td>
 						<td></td>
@@ -115,7 +119,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Branch</td>
+						<td class='command'>Branch</td>
 						<td>LT</td>
 						<td>THEN</td>
 						<td></td>
@@ -127,7 +131,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Jump</td>
+						<td class='command'>Jump</td>
 						<td>ELSE</td>
 						<td></td>
 						<td></td>
@@ -138,7 +142,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td>THEN</td>
-						<td>Load</td>
+						<td class='command'>Load</td>
 						<td>Reg0</td>
 						<td>MINORS</td>
 						<td></td>
@@ -150,7 +154,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>LoadImm</td>
+						<td class='command'>LoadImm</td>
 						<td>Reg1</td>
 						<td class="constant">1</td>
 						<td></td>
@@ -162,7 +166,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Add</td>
+						<td class='command'>Add</td>
 						<td>Reg0</td>
 						<td>Reg0</td>
 						<td>Reg1</td>
@@ -173,7 +177,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Store</td>
+						<td class='command'>Store</td>
 						<td>Reg0</td>
 						<td>MINORS</td>
 						<td></td>
@@ -184,7 +188,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Jump</td>
+						<td class='command'>Jump</td>
 						<td>ENDIF</td>
 						<td></td>
 						<td></td>
@@ -195,7 +199,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td>ELSE</td>
-						<td>Load</td>
+						<td class='command'>Load</td>
 						<td>reg0</td>
 						<td>ADULTS</td>
 						<td></td>
@@ -207,7 +211,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>LoadImm</td>
+						<td class='command'>LoadImm</td>
 						<td>Reg1</td>
 						<td class="constant">1</td>
 						<td></td>
@@ -218,7 +222,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Add</td>
+						<td class='command'>Add</td>
 						<td>Reg0</td>
 						<td>Reg0</td>
 						<td>Reg1</td>
@@ -229,7 +233,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>Store</td>
+						<td class='command'>Store</td>
 						<td>Reg0</td>
 						<td>ADULTS</td>
 						<td></td>
@@ -240,7 +244,7 @@ td.keyword {
 						<td></td>
 						<td></td>
 						<td>ENDIF</td>
-						<td>Halt</td>
+						<td class='command'>Halt</td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -394,7 +398,7 @@ td.keyword {
 					</div>
 					<div
 						class='col-lg-1 col-md-1 col-sm-1 col-xs-1 panel panel-default'
-						style="height: 35px; width: 10%; border: 1px solid"></div>
+						style="height: 35px; width: 10%; border: 1px solid; margin-top: 15%">Data Bus</div>
 					<div class='col-lg-5 col-md-1'style='border: 1px solid'>
 						<div class='panel panel-default' style='width: 949px;'>
 							<!-- table containing the register information -->

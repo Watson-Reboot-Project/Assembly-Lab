@@ -1075,9 +1075,12 @@
 								table.rows[index].cells[i].style.color = '#A52A2A';
 							} else if(table.rows[index].cells[i].firstChild.nodeValue == '.Block' || table.rows[index].cells[i].firstChild.nodeValue == '.Word') {
 								table.rows[index].cells[i].style.color = '#CC0099';
+							} else if(i==3){
+								table.rows[index].cells[i].style.color = '#0000FF';
 							} else {
 								table.rows[index].cells[i].style.color = '#000000';
 							}
+							
 						}
 					//}
 				}					// grab the number of cells for this row
@@ -1145,9 +1148,12 @@
 							table.rows[j].cells[i].style.color = '#A52A2A';
 						}  else if(table.rows[j].cells[i].firstChild.nodeValue == '.Block' || table.rows[j].cells[i].firstChild.nodeValue == '.Word') {
 							table.rows[j].cells[i].style.color = '#CC0099';
+						} else if(i==3){
+							table.rows[j].cells[i].style.color = '#0000FF';
 						} else {
 							table.rows[j].cells[i].style.color = '#000000';
 						}
+						
 					}
 				}
 				for (var i = 7; i < 9; i++) {
