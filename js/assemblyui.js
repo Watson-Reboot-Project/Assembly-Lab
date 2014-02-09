@@ -1402,7 +1402,7 @@
 					running = true;
 					$scope.assembler.run();
 					$scope.architecture(true);
-					intervalId = $interval($scope.walk, 750);
+					intervalId = $interval($scope.walk, 175);
 					//console.log("Run has been called!");
 				}
 			};
