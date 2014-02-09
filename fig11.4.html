@@ -47,7 +47,7 @@ td.command {
 						<td></td>
 						<td></td>
 						<td>X</td>
-						<td class="keyword">.Word</td>
+						<td class="keyword">.WORD</td>
 						<td class="constant">15</td>
 						<td></td>
 						<td></td>
@@ -59,8 +59,8 @@ td.command {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td class='command'>Load</td>
-						<td>RegA</td>
+						<td class='command'>LOAD</td>
+						<td>REGA</td>
 						<td>X</td>
 						<td></td>
 						<td>;</td>
@@ -71,8 +71,8 @@ td.command {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td class='command'>LoadImm</td>
-						<td>RegB</td>
+						<td class='command'>LOADIMM</td>
+						<td>REGB</td>
 						<td class="constant">1</td>
 						<td></td>
 						<td>;</td>
@@ -83,10 +83,10 @@ td.command {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td class='command'>Sub</td>
-						<td>Reg0</td>
-						<td>RegA</td>
-						<td>RegB</td>
+						<td class='command'>SUB</td>
+						<td>REG0</td>
+						<td>REGA</td>
+						<td>REGB</td>
 						<td>;</td>
 						<td class="comment">subtract the contents of register B from
 							A placing result in 0.</td>
@@ -95,8 +95,8 @@ td.command {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td class='command'>Store</td>
-						<td>Reg0</td>
+						<td class='command'>STORE</td>
+						<td>REG0</td>
 						<td>X</td>
 						<td></td>
 						<td>;</td>
@@ -107,7 +107,7 @@ td.command {
 						<td></td>
 						<td></td>
 						<td></td>
-						<td class='command'>Halt</td>
+						<td class='command'>HALT</td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -119,19 +119,19 @@ td.command {
 			</div>
 			<br>
 			<div class='row'>
+			<div class='text-center'>
 				<div class='btn-group-horizontal'>
 					<button type='button' ng-class='buttonColor(runtext.name)' style='width:10%'
 						ng-repeat='runtext in runText' ng-click='runButton()'>{{runtext.name}}</button>
 					<button type='button' ng-class='buttonColor(walktext.name)' style='width:10%'
 						ng-repeat='walktext in walkText' ng-click='walkButton()'>{{walktext.name}}</button>
 				</div>
+				</div>
 			</div>
 			<br>
-
 			<!-- begining of the tabs -->
-			<tabset class='col-lg-12 col-md-12'> <!-- demo tab - shows all of the information for the current lab -->
-			<tab heading='Figure'>
-			<br>
+			<tabset class='col-lg-9'> <!-- demo tab - shows all of the information for the current lab -->
+			<tab heading='Figure'> <br>
 			<div class='container'>
 				<div class='row'>
 					<div
@@ -172,8 +172,7 @@ td.command {
 				</div>
 			</div>
 			</tab> <!-- editor tab where you can make changes to the code --> <tab
-				heading='Editor' disabled='true'>
-			<br>
+				heading='Editor' disabled='true'> <br>
 			<div class='container'>
 				<div class='row'>
 					<div class='col-lg-4 col-lg-offset-2 col-md-4 col-md-offset-2'>
@@ -244,7 +243,7 @@ td.command {
 					<div
 						class='col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default'
 						style="width: 220px; border: 1px solid;">
-						<h3>Memory</h3>
+						<h4 style='text-align:center'>Memory</h4>
 						<div class='spanMem'>
 							<table class='table table-bordered' ng-repeat='mem in memory'
 								style='table-layout: fixed;'>
@@ -262,11 +261,12 @@ td.command {
 					<div
 						class='col-lg-1 col-md-1 col-sm-1 col-xs-1 panel panel-default'
 						style="height: 35px; width: 10%; border: 1px solid; margin-top: 15%">Data Bus</div>
-					<div class='col-lg-5 col-md-1'style='border: 1px solid'>
-						<div class='panel panel-default' style='width: 949px;'>
+					<div class='col-lg-6 col-md-4'style='border: 1px solid'>
+					<h3 style='text-align:center'>CPU</h3>
+						<div class='panel panel-default' style='width: 500px;'>
 							<!-- table containing the register information -->
-							<div class='col-lg-2  col-md-2 col-sm-2 col-xs-2'>
-								<h3>Registers</h3>
+							<div class='col-lg-4  col-md-1 col-sm-2 col-xs-2'>
+								<h4>Registers</h4>
 								<!-- I should be outside of this box -->
 								<div class='spanReg'>
 									<table class='table table-bordered'
@@ -284,7 +284,7 @@ td.command {
 							<div
 								class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1'>
 								<table class='table table-bordered'
-									style='height: 100px; width: 170px'>
+									style='height: 100px; width: 170px; margin-top: 22%'>
 									<tbody>
 										<tr>
 											<th class='text-center' colspan='4'>Program Counter</th>
@@ -307,9 +307,9 @@ td.command {
 								</table>
 								<!-- flag table -->
 								<div class='row'>
-									<div class='col-lg-2 col-md-2'>
+									<div class='col-lg-2 col-md-2' style='margin-top:22%'>
 										<table class='table table-bordered'
-											style='height: 150px; width: 170px'>
+											style='height: 150px; width: 170px;'>
 											<thead>
 												<tr>
 													<th colspan='2' class='text-center'>Flags</th>

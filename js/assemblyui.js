@@ -73,22 +73,22 @@
 		// Also gives flag about if Registers are used
 		// Initial firstChild.nodeValues set to 0 and false
 		this.register = [
-		                 ["Reg0", 0, false], // Reg0
-		                 ["Reg1", 0, false], // Reg1
-		                 ["Reg2", 0, false], // Reg2
-		                 ["Reg3", 0, false], // Reg3
-		                 ["Reg4", 0, false], // Reg4
-		                 ["Reg5", 0, false], // Reg5
-		                 ["Reg6", 0, false], // Reg6
-		                 ["Reg7", 0, false], // Reg7
-		                 ["Reg8", 0, false], // Reg8
-		                 ["Reg9", 0, false], // Reg9
-		                 ["RegA", 0, false], // RegA
-		                 ["RegB", 0, false], // RegB
-		                 ["RegC", 0, false], // RegC
-		                 ["RegD", 0, false], // RegD
-		                 ["RegE", 0, false], // RegE
-		                 ["RegF", 0, false]  // RegF
+		                 ["REG0", 0, false], // Reg0
+		                 ["REG1", 0, false], // Reg1
+		                 ["REG2", 0, false], // Reg2
+		                 ["REG3", 0, false], // Reg3
+		                 ["REG4", 0, false], // Reg4
+		                 ["REG5", 0, false], // Reg5
+		                 ["REG6", 0, false], // Reg6
+		                 ["REG7", 0, false], // Reg7
+		                 ["REG8", 0, false], // Reg8
+		                 ["REG9", 0, false], // Reg9
+		                 ["REGA", 0, false], // RegA
+		                 ["REGB", 0, false], // RegB
+		                 ["REGC", 0, false], // RegC
+		                 ["REGD", 0, false], // RegD
+		                 ["REGE", 0, false], // RegE
+		                 ["REGF", 0, false]  // RegF
 		                 ];
 
 		// Memory storage
@@ -117,7 +117,7 @@
 				  hex = "0" + hex;
 		  	  }
 		  
-			  return hex;
+			  return hex.toUpperCase();
 		  }
 		  
 		  var finalVal =  parseInt(hex, 16);
@@ -126,15 +126,15 @@
 		    finalVal = 0xFFFF + finalVal + 1;
 		  }
 
-		  return finalVal.toString(16);
+		  return finalVal.toString(16).toUpperCase();
 		};
 		
 		this.hexToDecimal = function(hex, size) {
 			var isNegative =
 			      hex[0] == "8" || hex[0]=="9" ||
-			      hex[0] == "a" || hex[0] == "b" ||
-			      hex[0] == "c" || hex[0] == "d" ||
-			      hex[0] == "e" || hex[0] =="f";
+			      hex[0] == "A" || hex[0] == "B" ||
+			      hex[0] == "C" || hex[0] == "D" ||
+			      hex[0] == "E" || hex[0] =="F";
 			var finalVal = hex;
 			if(isNegative) {
 				finalVal = ~finalVal;
@@ -199,7 +199,7 @@
 				if(table.rows[progLine].cells[this.labelNum].firstChild != null && table.rows[progLine].cells[this.labelNum].firstChild.nodeValue != null){
 					var ref = table.rows[progLine].cells[this.labelNum].firstChild.nodeValue;
 					this.labels[refLine++] = [ref, progLine + this.offSet];
-					if(table.rows[progLine].cells[this.cmdNum].firstChild.nodeValue == ".Block") {
+					if(table.rows[progLine].cells[this.cmdNum].firstChild.nodeValue == ".BLOCK") {
 						this.offSet+=parseInt(table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue, 10)-1;
 					}
 				}
@@ -212,7 +212,7 @@
 			progLine=0;
 			while(progLine<table.rows.length){
 				switch(table.rows[progLine].cells[this.cmdNum].firstChild.nodeValue){
-				case ".Word": // .Word before program
+				case ".WORD": // .Word before program
 					// Store firstChild.nodeValue based on argument
 					var arg1 = table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue;
 
@@ -229,7 +229,7 @@
 					this.initVarMemory[index] = [this.varMemory[index][0], this.varMemory[index++][1]];
 					break;
 
-				case ".Block": // .Block before program
+				case ".BLOCK": // .Block before program
 					// Reserve number of rows indicated by argument
 					var arg1 = table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue;
 					for(var i = 0; i < arg1; i++) {
@@ -244,7 +244,7 @@
 					this.initVarMemory[index] = [this.varMemory[index][0], this.varMemory[index++][1]];
 					break;
 
-				case "LoadImm":  // 0000b LoadImm
+				case "LOADIMM":  // 0000b LoadImm
 					// Find and flag specified register
 					var arg1, arg2;
 					for(var i = 0; i < 16; i++){
@@ -263,7 +263,7 @@
 					this.memory[memLine++] = [0, arg1, hex[0], hex[1]];
 					break;	
 
-				case "Load":  // 0001b Load
+				case "LOAD":  // 0001b Load
 					// Find and flag specified register
 					var arg1, arg2, label;
 					for(var i = 0; i < 16; i++){
@@ -288,7 +288,7 @@
 					this.memory[memLine++] = [1, arg1, hex[0], hex[1]];
 					break;
 
-				case "Store":  // 0010b Store
+				case "STORE":  // 0010b Store
 					// Find and flag specified register
 					var arg1, arg2, label;
 					for(var i = 0; i < 16; i++){
@@ -313,7 +313,7 @@
 					this.memory[memLine++] = [2, arg1, hex[0], hex[1]];
 					break;	
 
-				case "LoadInd":  // 0011b LoadInd
+				case "LOADIND":  // 0011b LoadInd
 					var arg1, arg2;
 					// Find and flag specified Registers
 					for(var i = 0; i < 16; i++){
@@ -334,7 +334,7 @@
 					this.memory[memLine++] = [3, arg1, arg2, 0];
 					break;
 
-				case "StoreInd":  // 0100b StoreInd
+				case "STOREIND":  // 0100b StoreInd
 					var arg1, arg2;
 					// Find and flag specified registers
 					for(var i = 0; i < 16; i++){
@@ -355,7 +355,7 @@
 					this.memory[memLine++] = [4, arg1, arg2, 0];
 					break;	
 
-				case "Add":  // 0101b Add
+				case "ADD":  // 0101b Add
 					var arg1, arg2, arg3;
 					// Find and flag the specified registers
 					for(var i = 0; i < 16; i++){
@@ -383,7 +383,7 @@
 					this.memory[memLine++] = [5, arg1, arg2, arg3];
 					break;
 
-				case "Sub":  // 0110b Subtract
+				case "SUB":  // 0110b Subtract
 					var arg1, arg2, arg3;
 					// Find and flag specified registers
 					for(var i = 0; i < 16; i++){
@@ -412,7 +412,7 @@
 					break;
 
 
-				case "And":  // 0111b And
+				case "AND":  // 0111b And
 					var arg1, arg2, arg3;
 					// Find and flag specified registers
 					for(var i = 0; i < 16; i++){
@@ -440,7 +440,7 @@
 					this.memory[memLine++] = [7, arg1, arg2, arg3];
 					break;
 
-				case "Or":  // 1000b Or
+				case "OR":  // 1000b Or
 					var arg1, arg2, arg3;
 					// find and flag specified registers
 					for(var i = 0; i < 16; i++){
@@ -468,7 +468,7 @@
 					this.memory[memLine++] = [8, arg1, arg2, arg3];
 					break;
 
-				case "Not":  // 1001b Not
+				case "NOT":  // 1001b Not
 					var arg1, arg2;
 					// Find and flag specified registers
 					for(var i = 0; i < 16; i++){
@@ -535,7 +535,7 @@
 					this.memory[memLine++] = [11, arg1, arg2, arg3];
 					break;
 
-				case "Compare": // 1100b Compare
+				case "COMPARE": // 1100b Compare
 					var arg1, arg2, arg3;
 					arg1 = 0;
 					// Find and flag specified registers
@@ -557,7 +557,7 @@
 					this.memory[memLine++] = [12, arg1, arg2, arg3];
 					break;
 
-				case "Branch": // 1101b Branch
+				case "BRANCH": // 1101b Branch
 					var arg1, arg2, label;
 					// Determine boolean test
 					switch(table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue){
@@ -608,7 +608,7 @@
 					this.memory[memLine++] = [13, arg1, hex[0], hex[1]];
 					break;
 
-				case "Jump": // 1110b Jump
+				case "JUMP": // 1110b Jump
 					var arg1, arg2, label;
 					arg1 = 0;
 					// Find memory location to jump to
@@ -628,7 +628,7 @@
 					this.memory[memLine++] = [14, arg1, hex[0], hex[1]];
 					break;
 
-				case "Halt": // 1111b Halt
+				case "HALT": // 1111b Halt
 					this.memory[memLine++] = [15, 0, 0, 0];
 					break;
 				}
@@ -1073,7 +1073,7 @@
 							var temp = parseInt(table.rows[index].cells[i].firstChild.nodeValue, 10);
 							if(!(isNaN(temp))){
 								table.rows[index].cells[i].style.color = '#A52A2A';
-							} else if(table.rows[index].cells[i].firstChild.nodeValue == '.Block' || table.rows[index].cells[i].firstChild.nodeValue == '.Word') {
+							} else if(table.rows[index].cells[i].firstChild.nodeValue == '.BLOCK' || table.rows[index].cells[i].firstChild.nodeValue == '.WORD') {
 								table.rows[index].cells[i].style.color = '#CC0099';
 							} else if(i==3){
 								table.rows[index].cells[i].style.color = '#0000FF';
@@ -1146,7 +1146,7 @@
 						var temp = parseInt(table.rows[j].cells[i].firstChild.nodeValue, 10);
 						if(!(isNaN(temp))){
 							table.rows[j].cells[i].style.color = '#A52A2A';
-						}  else if(table.rows[j].cells[i].firstChild.nodeValue == '.Block' || table.rows[j].cells[i].firstChild.nodeValue == '.Word') {
+						}  else if(table.rows[j].cells[i].firstChild.nodeValue == '.BLOCK' || table.rows[j].cells[i].firstChild.nodeValue == '.WORD') {
 							table.rows[j].cells[i].style.color = '#CC0099';
 						} else if(i==3){
 							table.rows[j].cells[i].style.color = '#0000FF';
@@ -1262,22 +1262,22 @@
 				
 				
 				var register = $scope.assembler.register;
-				$scope.register = [{content: register[0][0], value: register[0][1]},
-				                   {content: register[1][0], value: register[1][1]},
-				                   {content: register[2][0], value: register[2][1]},
-				                   {content: register[3][0], value: register[3][1]},
-				                   {content: register[4][0], value: register[4][1]},
-				                   {content: register[5][0], value: register[5][1]},
-				                   {content: register[6][0], value: register[6][1]},
-				                   {content: register[7][0], value: register[7][1]},
-				                   {content: register[8][0], value: register[8][1]},
-				                   {content: register[9][0], value: register[9][1]},
-				                   {content: register[10][0], value: register[10][1]},
-				                   {content: register[11][0], value: register[11][1]},
-				                   {content: register[12][0], value: register[12][1]},
-				                   {content: register[13][0], value: register[13][1]},
-				                   {content: register[14][0], value: register[14][1]},
-				                   {content: register[15][0], value: register[15][1]},
+				$scope.register = [{content: "0", value: register[0][1]},
+				                   {content: "1", value: register[1][1]},
+				                   {content: "2", value: register[2][1]},
+				                   {content: "3", value: register[3][1]},
+				                   {content: "4", value: register[4][1]},
+				                   {content: "5", value: register[5][1]},
+				                   {content: "6", value: register[6][1]},
+				                   {content: "7", value: register[7][1]},
+				                   {content: "8", value: register[8][1]},
+				                   {content: "9", value: register[9][1]},
+				                   {content: "A", value: register[10][1]},
+				                   {content: "B", value: register[11][1]},
+				                   {content: "C", value: register[12][1]},
+				                   {content: "D", value: register[13][1]},
+				                   {content: "E", value: register[14][1]},
+				                   {content: "F", value: register[15][1]},
 				                   ];
 				
 				var overflowFlag = $scope.assembler.returnOverflowFlag();

@@ -32,7 +32,7 @@ video {
 }
 
 .spanMem {
-	height:300px;
+	height:413px;
 	width:200px;
 	border: 1px solid black;
 	overflow-y:scroll;
@@ -40,7 +40,7 @@ video {
 
 .spanReg {
 	height:auto;
-	width:200px;
+	width:100%;
 	border: 1px solid black;
 	overflow-y:scroll;
 }
