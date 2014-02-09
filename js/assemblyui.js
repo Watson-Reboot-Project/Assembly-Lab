@@ -111,14 +111,41 @@
 		this.decimalToHex = function(d, padding) {
 		  var hex = Number(d).toString(16);
 		  padding = typeof (padding) === "undefined" || padding === null ? padding = 2 : padding;
-
-		  while (hex.length < padding) {
-		    hex = "0" + hex;
+		  
+		  if(d >= 0){
+			  while (hex.length < padding) {
+				  hex = "0" + hex;
+		  	  }
+		  
+			  return hex;
+		  }
+		  
+		  var finalVal =  parseInt(hex, 16);
+		  console.log("FinalVal is "+finalVal);
+		  if ( finalVal < 0 ) {
+		    finalVal = 0xFFFF + finalVal + 1;
 		  }
 
-		  return hex;
+		  return finalVal.toString(16);
 		};
-
+		
+		this.hexToDecimal = function(hex, size) {
+			var isNegative =
+			      hex[0] == "8" || hex[0]=="9" ||
+			      hex[0] == "a" || hex[0] == "b" ||
+			      hex[0] == "c" || hex[0] == "d" ||
+			      hex[0] == "e" || hex[0] =="f";
+			var finalVal = hex;
+			if(isNegative) {
+				finalVal = ~finalVal;
+						
+				finalVal = parseInt(finalVal,16);
+			} else {
+				finalVal = parseInt(finalVal,16);
+			}
+			return finalVal;
+		};
+		
 		this.isNumber = function(n) {
 			return !isNaN(parseFloat(n)) && isFinite(n);
 		};
@@ -129,22 +156,22 @@
 			var regValue = this.register[index][1];
 			if(regValue > 32768){
 				this.overflow = 1;
-				var hex = this.decimalToHex(this.register[index][1]);
+				var hex = this.decimalToHex(this.register[index][1],4);
 				var length = hex.length;
 				var value = "";
 				for(var i = 8; i >= 1; i--){
 					value = value + hex[length-i];
 				}
-				this.register[index][1] = parseInt(value, 16);
+				this.register[index][1] = this.hexToDecimal(value, 4);
 			}
 			if(regValue < -32768){
-				var hex = this.decimalToHex(this.register[index][1]);
+				var hex = this.decimalToHex(this.register[index][1],4);
 				var length = hex.length;
 				var value = "";
 				for(var i = 8; i >= 1; i--){
 					value = value + hex[length-i];
 				}
-				this.register[index][1] = parseInt(value, 16);
+				this.register[index][1] = this.hexToDecimal(value, 4);
 			}
 		};
 
@@ -179,6 +206,8 @@
 				progLine++;
 			}
 
+			this.previousCounter = this.offSet;
+			
 			// Begin "assembling" into Machine code in this.memory
 			progLine=0;
 			while(progLine<table.rows.length){
@@ -771,14 +800,17 @@
 
 		// Store a value in memory pointed at by another register
 		this.storeInd = function(reg1, reg2){
-			this.memory[this.register[reg2][1]] = this.register[reg1][1];
+			console.log(this.decimalToHex(this.register[reg1][1],4));
+			this.memory[this.register[reg2][1]] = this.decimalToHex(this.register[reg1][1],4);
 			// Updating of the Variable array
 			var x = parseInt(this.register[reg2][1],16);
 			for(var i = 0; i < this.labels.length; i++){
 				// Find memory name via location
 				if(x == this.labels[i][1]){
-					for(var j = 0; j < this.labels.length;j++){
+					for(var j = 0; j < this.varMemory.length;j++){
 						// Update via label name
+						//console.log(j);
+						//console.log(this.varMemory.length);
 						if(this.varMemory[j][0]==this.labels[i][0]){
 							this.varMemory[j][1] = this.register[reg1][1];
 						}
@@ -809,7 +841,8 @@
 		// value1 and value2 are in hex
 		this.loadImm = function(reg, value1, value2){
 			// Parse and store value into register
-			this.register[reg][1] = parseInt(value1 + value2, 16);
+			var x = "" + value1 + value2;
+			this.register[reg][1] = this.hexToDecimal(x, 2);
 			// Update Variable array
 			for(var i = 0; i < this.varRegister.length; i++){
 				if(this.varRegister[i][0] == this.register[reg][0]){
@@ -942,7 +975,7 @@
 			//clearInterval(this.intervalID);
 			this.stop = true;
 			this.done = true;
-			console.log("Halt!");
+			//console.log("Halt!");
 		};
 
 		// Evaluates the command at the given line.
@@ -1024,25 +1057,29 @@
 			} 
 			if(this.done){
 				this.reset();
-				console.log("Would you like to go again?");
+				//console.log("Would you like to go again?");
 				this.done = false;
 			}
 			if(!this.stop) {
 
 				for (var i = 0; i < 7; i++) {										// iterate throughout the cells
-					for (var i = 0; i < numCells; i++) {
-						console.log("Row "+this.programCounter-this.offSet+", Cell "+i);
-						if(table.rows[this.previousCounter-this.offSet].cells[i].firstChild != null){
-							var temp = parseInt(table.rows[this.previousCounter-this.offSet].cells[i].firstChild.nodeValue, 10);
+					//for (var i = 0; i < numCells; i++) {
+						var index = this.previousCounter-this.offSet;
+						//console.log("Program Counter "+this.programCounter);
+						//console.log("Previous Counter "+this.previousCounter);
+						//console.log("OffSet: "+this.offSet);
+						//console.log("Row "+index+", Cell "+i);
+						if(table.rows[index].cells[i].firstChild != null){
+							var temp = parseInt(table.rows[index].cells[i].firstChild.nodeValue, 10);
 							if(!(isNaN(temp))){
-								table.rows[this.previousCounter-this.offSet].cells[i].style.color = '#A52A2A';
-							} else if(table.rows[this.previousCounter-this.offSet].cells[i].firstChild.nodeValue == '.Block' || table.rows[this.previousCounter-this.offSet].cells[i].firstChild.nodeValue == '.Word') {
-								table.rows[this.previousCounter-this.offSet].cells[i].style.color = '#CC0099';
+								table.rows[index].cells[i].style.color = '#A52A2A';
+							} else if(table.rows[index].cells[i].firstChild.nodeValue == '.Block' || table.rows[index].cells[i].firstChild.nodeValue == '.Word') {
+								table.rows[index].cells[i].style.color = '#CC0099';
 							} else {
-								table.rows[this.previousCounter-this.offSet].cells[i].style.color = '#000000';
+								table.rows[index].cells[i].style.color = '#000000';
 							}
 						}
-					}
+					//}
 				}					// grab the number of cells for this row
 				for (var i = 7; i < 9; i++) {
 					table.rows[this.previousCounter-this.offSet].cells[i].style.color= '#007500';
@@ -1054,7 +1091,7 @@
 				parser.eval(this.programCounter);
 
 			} else {
-				console.log("Inner Walk stop is true");
+				//console.log("Inner Walk stop is true");
 			}
 
 		};
@@ -1098,7 +1135,7 @@
 			}
 
 			var table = document.getElementById(this.tableName);
-			var numCells = table.rows[this.programCounter].cells.length;
+			var numCells = table.rows[0].cells.length;
 			for(var j = 0; j < table.rows.length; j ++){
 				for (var i = 0; i < numCells; i++) {
 					//console.log("Row "+j+", Cell "+i);
@@ -1327,7 +1364,7 @@
 					$scope.assembler.walk();
 				} else {
 					$interval.cancel(intervalId);
-					console.log("I've stopped!");
+					//console.log("I've stopped!");
 					$scope.reset();
 					attemptingToRun = false;
 					runText = "Run";
@@ -1345,7 +1382,7 @@
 					$scope.assembler.run();
 					$scope.architecture(true);
 					intervalId = $interval($scope.walk, 750);
-					console.log("Run has been called!");
+					//console.log("Run has been called!");
 				}
 			};
 			
