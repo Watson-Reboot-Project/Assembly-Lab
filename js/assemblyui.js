@@ -1340,7 +1340,7 @@
 				} else if (button == "Walk") {
 					return  'btn btn-warning' ;
 				} else if (button == "Pause") {
-					return  'btn btn-warning' ;
+					return  'btn btn-warning :hover' ;
 				} else if (button == "Reset") {
 					return  'btn btn-danger' ;
 				}
