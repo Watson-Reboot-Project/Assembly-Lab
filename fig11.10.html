@@ -365,7 +365,7 @@ td.command {
 			</div>
 
 			</tab> <!-- tab containing the memory, register, program counters, and flags -->
-			<tab heading='Architecture'> <br>
+						<tab heading='Architecture'> <br>
 			<div class='container' style="width: 1049px;">
 				<div class='row'>
 					<div
@@ -376,11 +376,11 @@ td.command {
 							<table class='table table-bordered' ng-repeat='mem in memory'
 								style='table-layout: fixed;'>
 								<tr ng-style='set_color(mem.memno)'>
-									<th>{{mem.memno}}</th>
-									<td>{{mem.con1}}</td>
-									<td>{{mem.con2}}</td>
-									<td>{{mem.con3}}</td>
-									<td>{{mem.con4}}</td>
+									<th style='text-align:right'>{{mem.memno}}</th>
+									<td style='text-align:center'>{{mem.con1}}</td>
+									<td style='text-align:center'>{{mem.con2}}</td>
+									<td style='text-align:center'>{{mem.con3}}</td>
+									<td style='text-align:center'>{{mem.con4}}</td>
 								</tr>
 							</table>
 
@@ -389,11 +389,11 @@ td.command {
 					<div
 						class='col-lg-1 col-md-1 col-sm-1 col-xs-1 panel panel-default'
 						style="height: 35px; width: 10%; border: 1px solid; margin-top: 15%">Data Bus</div>
-					<div class='col-lg-6 col-md-4'style='border: 1px solid'>
+					<div class='col-lg-6 col-md-6'style='border: 1px solid'>
 					<h3 style='text-align:center'>CPU</h3>
 						<div class='panel panel-default' style='width: 500px;'>
 							<!-- table containing the register information -->
-							<div class='col-lg-4  col-md-1 col-sm-2 col-xs-2'>
+							<div class='col-lg-4  col-md-3 col-sm-2 col-xs-2'>
 								<h4>Registers</h4>
 								<!-- I should be outside of this box -->
 								<div class='spanReg'>
@@ -401,14 +401,13 @@ td.command {
 										style='table-layout: fixed;' ng-repeat='reg in register'>
 										<tbody>
 											<tr>
-												<th>{{reg.content}}</th>
+												<th style='text-align:center'>{{reg.content}}</th>
 												<td class='text-center'>{{reg.value}}</td>
 											</tr>
 										</tbody>
 									</table>
 								</div>
-							</div>
-							<!-- program counter and instruction register table -->
+							</div>							<!-- program counter and instruction register table -->
 							<div
 								class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1'>
 								<table class='table table-bordered'

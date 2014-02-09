@@ -40,7 +40,7 @@ video {
 
 .spanReg {
 	height:auto;
-	width:100%;
+	width:100px;
 	border: 1px solid black;
 	overflow-y:scroll;
 }
