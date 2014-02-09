@@ -1221,6 +1221,7 @@
 			var bool = false;
 			var attemptingToRun = false;
 			var previousCounter;
+			var running = false;
 
 			var runText = "Run";
 			var walkText = "Walk";
@@ -1325,11 +1326,13 @@
 				}
 				
 				$scope.set_color = function (num) {
+						if(running){
 						  if (num == previousCounter) {
 						    return { color: "red" };
 						  } else {
 							  return { color: "black" };
 						  }
+						}
 					};
 				
 			};
@@ -1360,11 +1363,13 @@
 				$scope.assembler.reset();
 				$scope.architecture(true);
 				$interval.cancel(intervalId);
+				running = false;
 
 			};
 			
 			$scope.walk = function(){
 				$scope.done = $scope.assembler.done;
+				running = true;
 				//$scope.memory[counter].set_color(1);
 				$scope.architecture(true);
 				if(hasRan){
@@ -1394,6 +1399,7 @@
 						$scope.reset();
 						hasRan = false;
 					}
+					running = true;
 					$scope.assembler.run();
 					$scope.architecture(true);
 					intervalId = $interval($scope.walk, 750);
