@@ -125,7 +125,7 @@ var tabsstuff = angular
 							}
 
 							var finalVal = parseInt(hex, 16);
-							console.log("FinalVal is " + finalVal);
+							//console.log("FinalVal is " + finalVal);
 							if (finalVal < 0) {
 								finalVal = 0xFFFF + finalVal + 1;
 							}
@@ -236,19 +236,13 @@ var tabsstuff = angular
 									hex = this.decimalToHex(hex, 4);
 									// Store in memory and update program
 									// counter
-									this.memory[memLine] = [ hex[0], hex[1],
-											hex[2], hex[3] ];
-									this.initMemory[memLine++] = [ hex[0],
-											hex[1], hex[2], hex[3] ];
+									this.memory[memLine] = [ hex[0], hex[1], hex[2], hex[3] ];
+									this.initMemory[memLine++] = [ hex[0], hex[1], hex[2], hex[3] ];
 									this.programCounter++;
 									this.startCounter = this.programCounter;
 									// Store variable for display
-									this.varMemory[index] = [
-											table.rows[progLine].cells[this.labelNum].firstChild.nodeValue,
-											arg1 ];
-									this.initVarMemory[index] = [
-											this.varMemory[index][0],
-											this.varMemory[index++][1] ];
+									this.varMemory[index] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, arg1 ];
+									this.initVarMemory[index] = [ this.varMemory[index][0], this.varMemory[index++][1] ];
 									break;
 
 								case ".BLOCK": // .Block before program
@@ -256,10 +250,8 @@ var tabsstuff = angular
 									// argument
 									var arg1 = table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue;
 									for (var i = 0; i < arg1; i++) {
-										this.memory[memLine] = [ '0', '0', '0',
-												'0' ];
-										this.initMemory[memLine++] = [ '0',
-												'0', '0', '0' ];
+										this.memory[memLine] = [ '0', '0', '0', '0' ];
+										this.initMemory[memLine++] = [ '0', '0', '0', '0' ];
 										this.programCounter++;
 										this.startCounter = this.programCounter;
 									}
@@ -893,10 +885,9 @@ var tabsstuff = angular
 						// Store a value in memory pointed at by another
 						// register
 						this.storeInd = function(reg1, reg2) {
-							console.log(this.decimalToHex(
-									this.register[reg1][1], 4));
-							this.memory[this.register[reg2][1]] = this
-									.decimalToHex(this.register[reg1][1], 4);
+							//console.log(this.decimalToHex(this.register[reg1][1], 4));
+							var hex = this.decimalToHex(this.register[reg1][1], 4);
+							this.memory[this.register[reg2][1]] = [hex[0], hex[1], hex[2], hex[3]]; 
 							// Updating of the Variable array
 							var x = parseInt(this.register[reg2][1], 16);
 							for (var i = 0; i < this.labels.length; i++) {
@@ -1259,11 +1250,12 @@ var tabsstuff = angular
 						this.reset = function() {
 							this.programCounter = this.startCounter;
 							// Need to reset Memory
-							for (var i = 0; i < this.programCounter; i++) {
+							for (var i = 0; i < this.startCounter; i++) {
 								this.memory[i][0] = this.initMemory[i][0];
 								this.memory[i][1] = this.initMemory[i][1];
 								this.memory[i][2] = this.initMemory[i][2];
 								this.memory[i][3] = this.initMemory[i][3];
+								console.log("Line "+i+", Memory: "+this.memory[i]+", InitMem: "+this.initMemory[i]);
 							}
 
 							for (var i = 0; i < this.varMemory.length; i++) {
