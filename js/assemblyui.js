@@ -56,6 +56,9 @@ var tabsstuff = angular
 
 						// List of used variables
 						// More important in figure mode
+						// index1 = label
+						// index2 = value
+						// index3 = memoryLocation
 						this.varMemory = [];
 
 						this.varRegister = [];
@@ -76,22 +79,22 @@ var tabsstuff = angular
 						// Also gives flag about if Registers are used
 						// Initial firstChild.nodeValues set to 0 and false
 						this.register = [ [ "REG0", 0, false, "REG0," ], // Reg0
-						[ "REG1", 0, false, "REG1," ], // Reg1
-						[ "REG2", 0, false, "REG2," ], // Reg2
-						[ "REG3", 0, false, "REG3," ], // Reg3
-						[ "REG4", 0, false, "REG4," ], // Reg4
-						[ "REG5", 0, false, "REG5," ], // Reg5
-						[ "REG6", 0, false, "REG6," ], // Reg6
-						[ "REG7", 0, false, "REG7," ], // Reg7
-						[ "REG8", 0, false, "REG8," ], // Reg8
-						[ "REG9", 0, false, "REG9," ], // Reg9
-						[ "REGA", 0, false, "REGA," ], // RegA
-						[ "REGB", 0, false, "REGB," ], // RegB
-						[ "REGC", 0, false, "REGC," ], // RegC
-						[ "REGD", 0, false, "REGD," ], // RegD
-						[ "REGE", 0, false, "REGE," ], // RegE
-						[ "REGF", 0, false, "REGF," ] // RegF
-						];
+						                  [ "REG1", 0, false, "REG1," ], // Reg1
+						                  [ "REG2", 0, false, "REG2," ], // Reg2
+						                  [ "REG3", 0, false, "REG3," ], // Reg3
+						                  [ "REG4", 0, false, "REG4," ], // Reg4
+						                  [ "REG5", 0, false, "REG5," ], // Reg5
+						                  [ "REG6", 0, false, "REG6," ], // Reg6
+						                  [ "REG7", 0, false, "REG7," ], // Reg7
+						                  [ "REG8", 0, false, "REG8," ], // Reg8
+						                  [ "REG9", 0, false, "REG9," ], // Reg9
+						                  [ "REGA", 0, false, "REGA," ], // RegA
+						                  [ "REGB", 0, false, "REGB," ], // RegB
+						                  [ "REGC", 0, false, "REGC," ], // RegC
+						                  [ "REGD", 0, false, "REGD," ], // RegD
+						                  [ "REGE", 0, false, "REGE," ], // RegE
+						                  [ "REGF", 0, false, "REGF," ] // RegF
+										];
 
 						// Memory storage
 						// Initially zero before starting
@@ -208,12 +211,9 @@ var tabsstuff = angular
 								if (table.rows[progLine].cells[this.labelNum].firstChild != null
 										&& table.rows[progLine].cells[this.labelNum].firstChild.nodeValue != null) {
 									var ref = table.rows[progLine].cells[this.labelNum].firstChild.nodeValue;
-									this.labels[refLine++] = [ ref,
-											progLine + this.offSet ];
+									this.labels[refLine++] = [ ref, progLine + this.offSet ];
 									if (table.rows[progLine].cells[this.cmdNum].firstChild.nodeValue == ".BLOCK") {
-										this.offSet += parseInt(
-												table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue,
-												10) - 1;
+										this.offSet += parseInt(table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue,10) - 1;
 									}
 								}
 								progLine++;
@@ -237,33 +237,30 @@ var tabsstuff = angular
 									// Store in memory and update program
 									// counter
 									this.memory[memLine] = [ hex[0], hex[1], hex[2], hex[3] ];
-									this.initMemory[memLine++] = [ hex[0], hex[1], hex[2], hex[3] ];
+									this.initMemory[memLine] = [ hex[0], hex[1], hex[2], hex[3] ];
 									this.programCounter++;
 									this.startCounter = this.programCounter;
 									// Store variable for display
-									this.varMemory[index] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, arg1 ];
-									this.initVarMemory[index] = [ this.varMemory[index][0], this.varMemory[index++][1] ];
+									this.varMemory[index] = [table.rows[progLine].cells[this.labelNum].firstChild.nodeValue, arg1, memLine++ ];
+									this.initVarMemory[index] = [ this.varMemory[index][0], this.varMemory[index][1], this.varMemory[index++][2] ];
 									break;
 
 								case ".BLOCK": // .Block before program
-									// Reserve number of rows indicated by
-									// argument
+									// Reserve number of rows indicated by argument
 									var arg1 = table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue;
 									for (var i = 0; i < arg1; i++) {
 										this.memory[memLine] = [ '0', '0', '0', '0' ];
-										this.initMemory[memLine++] = [ '0', '0', '0', '0' ];
+										this.initMemory[memLine] = [ '0', '0', '0', '0' ];
 										this.programCounter++;
 										this.startCounter = this.programCounter;
+										// Store in Variable Array
+										var name = table.rows[progLine].cells[this.labelNum].firstChild.nodeValue;
+										if(arg1 > 1){
+											name = name +'['+i+']';
+										}
+										this.varMemory[index] = [name,  0, memLine++];
+										this.initVarMemory[index] = [this.varMemory[index][0],this.varMemory[index][1],this.varMemory[index++][2]];
 									}
-									// Store variable for display
-									// Note: May behave strangely with multiple
-									// Words
-									this.varMemory[index] = [
-											table.rows[progLine].cells[this.labelNum].firstChild.nodeValue,
-											0 ];
-									this.initVarMemory[index] = [
-											this.varMemory[index][0],
-											this.varMemory[index++][1] ];
 									break;
 
 								case "LOADIMM": // 0000b LoadImm
@@ -780,23 +777,17 @@ var tabsstuff = angular
 						// value1 and value2 are in hex
 						this.store = function(reg, value1, value2) {
 							// Convert data from register into hex
-							var hex = this.decimalToHex(this.register[reg][1],
-									4);
+							var hex = this.decimalToHex(this.register[reg][1], 4);
 							// Store register data in hex in memory
-							this.memory[parseInt(value1 + value2, 16)] = [
-									hex[0], hex[1], hex[2], hex[3] ];
+							this.memory[parseInt(value1 + value2, 16)] = [ hex[0], hex[1], hex[2], hex[3] ];
 							// Update value in Variable array
 							var x = parseInt(value1 + value2, 16);
-							for (var i = 0; i < this.labels.length; i++) {
-								// Find variable name by memory location
-								if (x == this.labels[i][1]) {
-									for (var j = 0; j < this.varMemory.length; j++) {
-										// Find variable by label
-										if (this.varMemory[j][0] == this.labels[i][0]) {
-											this.varMemory[j][1] = this.register[reg][1];
-										}
-									}
+							for (var i = 0; i < this.varMemory.length; i++) {
+								// Find variable by memory location
+								if (this.varMemory[i][2] == x) {
+									this.varMemory[i][1] = this.register[reg][1];
 								}
+								
 							}
 							// Debug/Demo code
 							// console.log("Store " + this.register[reg][0] + "
@@ -890,17 +881,10 @@ var tabsstuff = angular
 							this.memory[this.register[reg2][1]] = [hex[0], hex[1], hex[2], hex[3]]; 
 							// Updating of the Variable array
 							var x = parseInt(this.register[reg2][1], 16);
-							for (var i = 0; i < this.labels.length; i++) {
+							for (var i = 0; i < this.varMemory.length; i++) {
 								// Find memory name via location
-								if (x == this.labels[i][1]) {
-									for (var j = 0; j < this.varMemory.length; j++) {
-										// Update via label name
-										// console.log(j);
-										// console.log(this.varMemory.length);
-										if (this.varMemory[j][0] == this.labels[i][0]) {
-											this.varMemory[j][1] = this.register[reg1][1];
-										}
-									}
+								if (this.varMemory[i][2] == x) {
+									this.varMemory[i][1] = this.register[reg1][1];
 								}
 							}
 						};
