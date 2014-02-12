@@ -889,8 +889,8 @@ var tabsstuff = angular
 								}
 							}
 							// Debug Code
-							console.log("STOREIND "+ this.register[reg2][1]+" = "+this.register[reg1][1]);
-							console.log("VarMemory :"+this.varMemory[i][2]);
+							// console.log("STOREIND "+ this.register[reg2][1]+" = "+this.register[reg1][1]);
+							// console.log("VarMemory :"+this.varMemory[i][2]);
 						};
 
 						// Load value stored in memory into register
