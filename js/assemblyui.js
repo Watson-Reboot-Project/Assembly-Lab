@@ -418,7 +418,7 @@ var tabsstuff = angular
 											arg3 ];
 									break;
 
-								case "SUB": // 0110b Subtract
+								case "SUBTRACT": // 0110b Subtract
 									var arg1, arg2, arg3;
 									// Find and flag specified registers
 									for (var i = 0; i < 16; i++) {
