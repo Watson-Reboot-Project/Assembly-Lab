@@ -289,7 +289,7 @@ var tabsstuff = angular
 									var arg1, arg2, label;
 									for (var i = 0; i < 16; i++) {
 										if (this.register[i][0] === table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue
-												|| this.register[i][3] == table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue) {
+												|| this.register[i][3] === table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue) {
 											arg1 = i;
 											this.register[i][2] = true;
 											break;
@@ -618,34 +618,34 @@ var tabsstuff = angular
 									var arg1, arg2, label;
 									// Determine boolean test
 									switch (table.rows[progLine].cells[this.arg1Num].firstChild.nodeValue) {
-									case 'EQ':
+									case 'EQ,':
 										arg1 = 0;
 										break;
-									case 'NE':
+									case 'NE,':
 										arg1 = 1;
 										break;
-									case 'LT':
+									case 'LT,':
 										arg1 = 2;
 										break;
-									case 'LE':
+									case 'LE,':
 										arg1 = 3;
 										break;
-									case 'GT':
+									case 'GT,':
 										arg1 = 4;
 										break;
-									case 'GE':
+									case 'GE,':
 										arg1 = 5;
 										break;
-									case 'CARRY':
+									case 'CARRY,':
 										arg1 = 6;
 										break;
-									case 'NEG':
+									case 'NEG,':
 										arg1 = 7;
 										break;
-									case 'ZERO':
+									case 'ZERO,':
 										arg1 = 8;
 										break;
-									case 'OVER':
+									case 'OVER,':
 										arg1 = 9;
 										break;
 									}
@@ -880,13 +880,17 @@ var tabsstuff = angular
 							var hex = this.decimalToHex(this.register[reg1][1], 4);
 							this.memory[this.register[reg2][1]] = [hex[0], hex[1], hex[2], hex[3]]; 
 							// Updating of the Variable array
-							var x = parseInt(this.register[reg2][1], 16);
+							var x = parseInt(this.register[reg2][1], 10);
 							for (var i = 0; i < this.varMemory.length; i++) {
 								// Find memory name via location
-								if (this.varMemory[i][2] == x) {
+								if (this.varMemory[i][2] === x) {
 									this.varMemory[i][1] = this.register[reg1][1];
+									break;
 								}
 							}
+							// Debug Code
+							console.log("STOREIND "+ this.register[reg2][1]+" = "+this.register[reg1][1]);
+							console.log("VarMemory :"+this.varMemory[i][2]);
 						};
 
 						// Load value stored in memory into register
@@ -905,8 +909,7 @@ var tabsstuff = angular
 							}
 							// Debug/Demo Code
 							// console.log("Load " + this.register[reg][0]);
-							// console.log(this.register[reg][0]+ "= "
-							// +this.register[reg][1]);
+							// console.log(this.register[reg][0]+ "= " +this.register[reg][1]);
 						};
 
 						// Load a given value into a register
