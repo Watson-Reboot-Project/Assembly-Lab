@@ -1209,13 +1209,11 @@ var tabsstuff = angular
 																								// red
 								}
 								parser.eval(this.programCounter);
-								return 0;
 
 							} else {
 								// console.log("Inner Walk stop is true");
-								return 0;
 							}
-
+							return 0;
 						};
 
 						// Runs through the program
@@ -1568,7 +1566,7 @@ tabsstuff.controller('assemblycontroller',
 					hasRan = false;
 				}
 				if ($scope.assembler.stop == false) {
-					$scope.assembler.walk();
+					var temp = $scope.assembler.walk();
 				} else {
 					$interval.cancel(intervalId);
 					// console.log("I've stopped!");
