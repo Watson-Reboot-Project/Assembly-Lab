@@ -40,7 +40,7 @@ video {
 
 .spanReg {
 	height:auto;
-	width:100px;
+	width:auto;
 	border: 1px solid black;
 	overflow-y:scroll;
 }
@@ -1438,7 +1438,7 @@ th {
 
 .table {
   width: 100%;
-  margin-bottom: 0px;
+  margin-bottom: 5px;
 }
 
 .table thead > tr > th,

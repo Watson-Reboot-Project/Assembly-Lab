@@ -1209,9 +1209,11 @@ var tabsstuff = angular
 																								// red
 								}
 								parser.eval(this.programCounter);
+								return 0;
 
 							} else {
 								// console.log("Inner Walk stop is true");
+								return 0;
 							}
 
 						};
@@ -1555,7 +1557,7 @@ tabsstuff.controller('assemblycontroller',
 				running = false;
 
 			};
-
+			
 			$scope.walk = function() {
 				$scope.done = $scope.assembler.done;
 				running = true;
@@ -1577,7 +1579,7 @@ tabsstuff.controller('assemblycontroller',
 					$scope.buttons();
 				}
 				$scope.architecture(false);
-
+				return 0;
 			};
 
 			$scope.run = function() {
@@ -1624,7 +1626,13 @@ tabsstuff.controller('assemblycontroller',
 
 			$scope.walkButton = function() {
 				if (!attemptingToRun) {
-					$scope.walk();
+					var rButton = document.getElementById('runButton');
+					var wButton = document.getElementById('walkButton');
+					rButton.disabled = true;
+					wButton.disabled = true;
+					var temp = $scope.walk();
+					rButton.disabled = false;
+					wButton.disabled = false;
 				} else {
 					$scope.reset();
 					runText = "Run";
