@@ -9,7 +9,7 @@
 	height:auto;
 	width:auto;
 	border: 1px solid black;
-	overflow-y:scroll;
+	overflow-y:auto;
 }
 
 table td {
@@ -46,7 +46,7 @@ table {
 .table td {
   padding: 0px;
   line-height: 1.428571429;
-  text-align: left;
+  text-align: center;
   vertical-align: top;
   border-top: 1px solid #dddddd;
 }
