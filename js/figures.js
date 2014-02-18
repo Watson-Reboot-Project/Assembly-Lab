@@ -1193,7 +1193,7 @@ var Figure = function(figNum) {
 							</table>\
 						</div>\
 					</div>\
-					<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2'>\
+					<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' style='margin-left:4%'>\
 						<div id='table' style='width: 90px'>\
 							<table id='variables' class='table table-bordered'>\
 								<thead>\
@@ -1204,7 +1204,7 @@ var Figure = function(figNum) {
 								<tbody ng-repeat='reg in varRegister'>\
 									<tr>\
 										<th>{{reg.title}}</th>\
-										<td>{{reg.value}}</td>\
+										<td class='text-center'>{{reg.value}}</td>\
 									</tr>\
 								</tbody>\
 							</table>\
@@ -1279,7 +1279,7 @@ var Figure = function(figNum) {
 \
 			</tab> <!-- tab containing the memory, register, program counters, and flags -->\
 			<tab heading='Architecture'> <br>\
-			<div class='container' style='width: 1049px;'>\
+			<div class='container' style='width:100%;'>\
 				<div class='row'>\
 					<div\
 						class='col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default'\
@@ -1300,13 +1300,13 @@ var Figure = function(figNum) {
 						</div>\
 					</div>\
 					<div\
-						class='col-lg-1 col-md-1 col-sm-1 col-xs-1 panel panel-default'\
-						style='height: 35px; width: 10%; border: 1px solid; margin-top: 15%'>Data Bus</div>\
-					<div class='col-lg-6 col-md-6'style='border: 1px solid'>\
+						class='col-lg-1 col-md-1 col-sm-1 col-xs-1'\
+						style='height:auto; width: 10%; text-align:center; border: 1px solid; margin-top: 15%'>Data Bus</div>\
+					<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 panel panel-default' style='border: 1px solid'>\
 					<h3 style='text-align:center'>CPU</h3>\
-						<div class='panel panel-default' style='width: 500px;'>\
+						<div class='panel panel-default' style='width: 100%;'>\
 							<!-- table containing the register information -->\
-							<div class='col-lg-4  col-md-3 col-sm-2 col-xs-2'>\
+							<div class='col-lg-4  col-md-4 col-sm-4 col-xs-4'>\
 								<h4>Registers</h4>\
 								<!-- I should be outside of this box -->\
 								<div class='spanReg'>\
@@ -1348,7 +1348,7 @@ var Figure = function(figNum) {
 								</table>\
 								<!-- flag table -->\
 								<div class='row'>\
-									<div class='col-lg-2 col-md-2' style='margin-top:22%'>\
+									<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' style='margin-top:22%'>\
 										<table class='table table-bordered'\
 											style='height: 150px; width: 170px;'>\
 											<thead>\
