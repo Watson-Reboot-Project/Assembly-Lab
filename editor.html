@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<style type='text/css'>
+table td {
+	border: none;
+}
+
+td.comment {
+	color: #007500;
+}
+
+td.constant {
+	color: #A52A2A;
+}
+
+td.keyword {
+	color: #CC0099;
+}
+
+td.command {
+	color: #0000FF;
+}
+</style>
+
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+<title>Assembly Editor</title>
+<link rel='stylesheet' href='lib/css/bootstrap-3.css'>
+<link rel='stylesheet' href='lib/assembly.css'>
+<script src="js/jquery-1.10.2.js"></script>
+		<link rel="stylesheet" href="css/jquery-ui-custom.css">
+		<script src="js/jquery-ui.js"></script>
+		<link rel="stylesheet" href="css/NumPadStyle.css">
+		<script src="js/KeypadLibrary.js"></script>
+		<script src="js/WatsonDialogs.js"></script>
+		<script src="js/editor.js"></script>
+</head>
+
+<!-- controller for the lab -->
+<body>
+
+	<h1 class='text-center'>Assembly Editor</h1>
+	<br>
+	<!-- main container for the index -->
+	<div ng-app='assembly' ng-controller='assemblycontroller'
+		class='container'>
+
+
+		<div class='row'>
+
+			<div style='width:100%' id='table' id='fig113'>
+				<table id='editor0' class='spanTable'>
+					
+				</table>
+			</div>
+			<br>
+			<div class='row'>
+			<div class='text-center'>
+				<div class='btn-group-horizontal'>
+					<button id='runButton' type='button' ng-class='buttonColor(runtext.name)' style='width:10%'
+						ng-repeat='runtext in runText' ng-click='runButton()'>{{runtext.name}}</button>
+					<button  id='walkButton' type='button' ng-class='buttonColor(walktext.name)' style='width:10%'
+						ng-repeat='walktext in walkText' ng-click='walkButton()'>{{walktext.name}}</button>
+				</div>
+				</div>
+			</div>
+			<br>
+			<!-- begining of the tabs -->
+			<tabset class='col-lg-9'> <!-- demo tab - shows all of the information for the current lab -->
+			<tab heading='Figure'> <br>
+			<div class='container'>
+				<div class='row'>
+					<div
+						class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1'>
+						<div id='table' style='width: 90px'>
+							<table id='variables' class='table table-bordered'>
+								<thead>
+									<tr>
+										<th colspan='2' class='text-center'>Memory</th>
+									</tr>
+								</thead>
+								<tbody ng-repeat='mem in varMemory'>
+									<tr>
+										<th>{{mem.title}}</th>
+										<td class='text-center'>{{mem.value}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' style='margin-left:4%'>
+						<div id='table' style='width: 90px'>
+							<table id='variables' class='table table-bordered'>
+								<thead>
+									<tr>
+										<th colspan='2' class='text-center'>Register</th>
+									</tr>
+								</thead>
+								<tbody ng-repeat='reg in varRegister'>
+									<tr>
+										<th>{{reg.title}}</th>
+										<td class='text-center'>{{reg.value}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			</tab> <!-- editor tab where you can make changes to the code --> <tab
+				heading='Editor' disabled='false'> <br>
+			<div class='container'>
+				<div class='row'>
+
+					<!-- button group for the table and code -->
+					<div class='col-lg-5 col-md-5 col-sm-5 col-xs-5'>
+						<div id='editor_button_group'
+							class='btn-group-vertical' style='width:30%'>
+							<button type='button' class='btn btn-default'
+								onclick='word()'>.WORD</button>
+							<button type='button' class='btn btn-default'
+								onclick='block()'>.BLOCK</button>
+							<button type='button' class='btn btn-default'
+								onClick='load()'>LOAD</button>
+							<button type='button' class='btn btn-default'
+								onclick='store()'>STORE</button>
+							<button type='button' class='btn btn-default'
+								onclick='add()'>ADD</button>
+							<button type='button' class='btn btn-default'
+								onclick='branch()'>BRANCH</button>
+						</div>
+						<div id='editor_button_group'
+							class='btn-group-vertical' style='width:30%'>
+							<button type='button' class='btn btn-default'
+								onclick='jump()'>JUMP</button>
+							<button type='button' class='btn btn-default'
+								onclick='loadIMM()'>LOADIMM</button>
+							<button type='button' class='btn btn-default'
+								onclick='and()'>AND</button>
+							<button type='button' class='btn btn-default'
+								onclick='loadIND()'>LOADIND</button>
+							<button type='button' class='btn btn-default'
+								onclick='storeIND()'>STOREIND</button>
+							<button type='button' class='btn btn-default'
+								onclick='subtract()'>SUBTRACT</button>
+						</div>
+						<div id='editor_button_group'
+							class='btn-group-vertical' style='width:30%'>
+							<button type='button' class='btn btn-default'
+								onclick='or()'>OR</button>
+							<button type='button' class='btn btn-default'
+								onclick='compare()'>COMPARE</button>
+							<button type='button' class='btn btn-default'
+								onclick='asl()'>ASL</button>
+							<button type='button' class='btn btn-default'
+								onclick='asr()'>ASR</button>
+							<button type='button' class='btn btn-default'
+								onclick='halt()'>HALT</button>
+							<button type='button' class='btn btn-default'
+								onclick='not()'>NOT</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			</tab> <!-- tab containing the memory, register, program counters, and flags -->
+			<tab heading='Architecture'> <br>
+			<div class='container' style="width:100%;">
+				<div class='row'>
+					<div
+						class='col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default'
+						style="width: 220px; border: 1px solid;">
+						<h4 style='text-align:center'>Memory</h4>
+						<div class='spanMem'>
+							<table class='table table-bordered' ng-repeat='mem in memory'
+								style='table-layout: fixed;'>
+								<tr ng-style='set_color(mem.memno)'>
+									<th style='text-align:right'>{{mem.memno}}</th>
+									<td style='text-align:center'>{{mem.con1}}</td>
+									<td style='text-align:center'>{{mem.con2}}</td>
+									<td style='text-align:center'>{{mem.con3}}</td>
+									<td style='text-align:center'>{{mem.con4}}</td>
+								</tr>
+							</table>
+
+						</div>
+					</div>
+					<div
+						class='col-lg-1 col-md-1 col-sm-1 col-xs-1'
+						style="height:auto; width: 10%; text-align:center; border: 1px solid; margin-top: 15%">Data Bus</div>
+					<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 panel panel-default' style='border: 1px solid'>
+					<h3 style='text-align:center'>CPU</h3>
+						<div class='panel panel-default' style='width: 100%;'>
+							<!-- table containing the register information -->
+							<div class='col-lg-4  col-md-4 col-sm-4 col-xs-4'>
+								<h4>Registers</h4>
+								<!-- I should be outside of this box -->
+								<div class='spanReg'>
+									<table class='table table-bordered'
+										style='table-layout:auto;' ng-repeat='reg in register'>
+										<tbody>
+											<tr>
+												<th style='text-align:center'>{{reg.content}}</th>
+												<td class='text-center'>{{reg.value}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<!-- program counter and instruction register table -->
+							<div
+								class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1'>
+								<table class='table table-bordered'
+									style='height: 100px; width: 170px; margin-top: 22%'>
+									<tbody>
+										<tr>
+											<th class='text-center' colspan='4'>Program Counter</th>
+										</tr>
+										<tr>
+											<td class='text-center' colspan='4'
+												ng-repeat='cnt in counter'>{{cnt.content}}</td>
+										</tr>
+										<tr>
+											<th class='text-center' colspan='4'>Instruction Register</th>
+										</tr>
+										<tr ng-repeat='inst in instructionRegister'
+											class='text-center'>
+											<td>{{inst.con1}}</td>
+											<td>{{inst.con2}}</td>
+											<td>{{inst.con3}}</td>
+											<td>{{inst.con4}}</td>
+										<tr>
+									</tbody>
+								</table>
+								<!-- flag table -->
+								<div class='row'>
+									<div class='col-lg-2 col-md-2' style='margin-top:22%'>
+										<table class='table table-bordered'
+											style='height: 150px; width: 170px;'>
+											<thead>
+												<tr>
+													<th colspan='2' class='text-center'>Flags</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class='text-center' ng-repeat='carry in carryFlag'>{{carry.flag}}</td>
+													<td>Carry</td>
+												</tr>
+												<tr>
+													<td class='text-center' ng-repeat='neg in negativeFlag'>{{neg.flag}}</td>
+													<td>Negative</td>
+												</tr>
+												<tr>
+													<td class='text-center' ng-repeat='zero in zeroFlag'>{{zero.flag}}</td>
+													<td>Zero</td>
+												</tr>
+												<tr>
+													<td class='text-center' ng-repeat='over in overflowFlag'>{{over.flag}}</td>
+													<td>Overflow</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</tab></tabset>
+			<br>
+		</div>
+	</div>
+
+	<!-- need to get it working so i dont need the online repositories -->
+	
+	<script type='text/javascript' src='lib/js/angular.js'></script>
+	<script type='text/javascript' src='lib/js/jQuery.js'></script>
+	<script type='text/javascript' src='lib/js/less.js'></script>
+	<script type='text/javascript' src='lib/js/ui-bootstrap-0.10.0.js'></script>
+	<script type='text/javascript' src='lib/js/tabs.js'></script>
+	<script type='text/javascript' src='lib/js/ui-bootstrap.js'></script>
+	<script type='text/javascript' src='js/assemblyui.js'></script>
+	<script type='text/javascript' src='js/inputs.js'></script>
+	<script type='text/javascript' src='js/editor.js'></script>
+	<script src="js/NumpadDesign.js"></script>
+		<script src="js/jquery-ui.js"></script>
+</body>
+</html>
