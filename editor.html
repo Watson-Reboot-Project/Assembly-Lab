@@ -2,39 +2,13 @@
 <html>
 
 <head>
-<style type='text/css'>
-table td {
-	border: none;
-}
-
-td.comment {
-	color: #007500;
-}
-
-td.constant {
-	color: #A52A2A;
-}
-
-td.keyword {
-	color: #CC0099;
-}
-
-td.command {
-	color: #0000FF;
-}
-</style>
-
 <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
 <title>Assembly Editor</title>
 <link rel='stylesheet' href='lib/css/bootstrap-3.css'>
-<link rel='stylesheet' href='lib/assembly.css'>
-<script src="js/jquery-1.10.2.js"></script>
-		<link rel="stylesheet" href="css/jquery-ui-custom.css">
-		<script src="js/jquery-ui.js"></script>
-		<link rel="stylesheet" href="css/NumPadStyle.css">
-		<script src="js/KeypadLibrary.js"></script>
-		<script src="js/WatsonDialogs.js"></script>
-		<script src="js/editor.js"></script>
+<link rel='stylesheet' href='css/assembly.css'>
+<link rel='stylesheet' href='css/jquery-ui-custom.css'>
+<link rel='stylesheet' href='css/NumPadStyle.css'>
+<link rel='stylesheet' href='css/editor.css'>
 </head>
 
 <!-- controller for the lab -->
@@ -166,11 +140,11 @@ td.command {
 
 			</tab> <!-- tab containing the memory, register, program counters, and flags -->
 			<tab heading='Architecture'> <br>
-			<div class='container' style="width:100%;">
+			<div class='container' style='width:100%;'>
 				<div class='row'>
 					<div
 						class='col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default'
-						style="width: 220px; border: 1px solid;">
+						style='width: 220px; border: 1px solid;'>
 						<h4 style='text-align:center'>Memory</h4>
 						<div class='spanMem'>
 							<table class='table table-bordered' ng-repeat='mem in memory'
@@ -188,7 +162,7 @@ td.command {
 					</div>
 					<div
 						class='col-lg-1 col-md-1 col-sm-1 col-xs-1'
-						style="height:auto; width: 10%; text-align:center; border: 1px solid; margin-top: 15%">Data Bus</div>
+						style='height:auto; width: 10%; text-align:center; border: 1px solid; margin-top: 15%'>Data Bus</div>
 					<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 panel panel-default' style='border: 1px solid'>
 					<h3 style='text-align:center'>CPU</h3>
 						<div class='panel panel-default' style='width: 100%;'>
@@ -275,7 +249,6 @@ td.command {
 	</div>
 
 	<!-- need to get it working so i dont need the online repositories -->
-	
 	<script type='text/javascript' src='lib/js/angular.js'></script>
 	<script type='text/javascript' src='lib/js/jQuery.js'></script>
 	<script type='text/javascript' src='lib/js/less.js'></script>
@@ -284,8 +257,6 @@ td.command {
 	<script type='text/javascript' src='lib/js/ui-bootstrap.js'></script>
 	<script type='text/javascript' src='js/assemblyui.js'></script>
 	<script type='text/javascript' src='js/inputs.js'></script>
-	<script type='text/javascript' src='js/editor.js'></script>
-	<script src="js/NumpadDesign.js"></script>
-		<script src="js/jquery-ui.js"></script>
 </body>
 </html>
+<!-- vim: set noet ts=2 sw=2 : -->
