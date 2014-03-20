@@ -3030,3 +3030,4 @@ tabsstuff.controller(assemblycontroller,
 
 	});
 }
+// vim: noet ts=2 sw=2 nolist

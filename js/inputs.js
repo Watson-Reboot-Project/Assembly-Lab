@@ -352,3 +352,4 @@
 			row.appendChild(cell2);
 			document.getElementById("commands").appendChild(row);
 		}
+// vim: noet ts=2 sw=2 nolist
