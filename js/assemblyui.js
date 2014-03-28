@@ -2867,7 +2867,7 @@ var tabsstuff = angular
 						// First checks if the code has recently been edited.
 						this.run = function() {
 							if (this.edited) {
-								this.init();
+								//this.init();
 							}
 							if (this.done) {
 								this.reset();
