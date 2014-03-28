@@ -3000,7 +3000,7 @@ tabsstuff.controller('assemblycontroller',
 
 			$scope.assembler = new assembler(tableName, varTable, bool);
 
-			//$scope.assembler.init();
+			$scope.assembler.init();
 
 			$scope.architecture = function(updateCounter) {
 
