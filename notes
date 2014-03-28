@@ -1,0 +1,43 @@
+# notes
+## html figures
+- the initial state is in the html
+- at least they have the syntax highlighting classes right
+- it really is just a big-ass table
+- well, the "editor" is. it's also got the three tabs beneath it
+- to confirm: the editor is just a table, with text in cells
+  - the cells have css classes like "keyword", "comment" and "command"
+- i'm assuming right now that they construct this monstrosity, and then go back
+  and interpret it.
+
+- beneath table, two buttons linked to "runButton" and "walkButton"
+- these wonderful "tabset" and "tab" tags
+
+> go look and see if "col-lg-offset-1" is valid (pretty sure it's not)
+
+- in figure tab
+  - `ng-repeat='mem in varMemory'`
+  - `ng-repeat='reg in varRegister'`
+
+> the main area/table shouldn't be called the editor. it's closer to a
+> 'textarea'. there's also an "editor" tab, with commands for manipulating the
+> textarea
+
+- in editor tab
+  - `onclick='insertWord()'`
+  - etc.
+
+- in architecture tab
+  - `ng-repeat='mem in memory'`
+    - `{{mem.memno}}, {{mem.con*}}`
+  - `ng-repeat='reg in register'`
+    - `{{reg.content}}, {{reg.value}}`
+
+- and then a list of javascript files
+  - doesn't include figure.js
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+okay. so what needs to happen if i want to translate all this to MVC? we need
+to be able to hold everything in javascript, and display it in html, with the
+two being almost completely uncoupled.
