@@ -3016,82 +3016,60 @@ tabsstuff.controller('assemblycontroller',
 					});
 					varmemcount += 1;
 				};
-				for (var i = 0; i < $scope.assembler.varMemory.length; i++) {
-					if ($scope.assembler.varMemory == 0) {
-						break;
-					}
-					$scope.addVarMemory();
-				}
 
 				$scope.varRegister = [];
-				$scope.addRegister = function() {
+				$scope.addVarRegister = function() {
 					$scope.varRegister.push({
 						title : $scope.assembler.varRegister[regcount][0],
 						value : $scope.assembler.varRegister[regcount][1]
 					});
 					regcount += 1;
 				};
-				for (var i = 0; i < $scope.assembler.varRegister.length; i++) {
-					if ($scope.assembler.varRegister == 0) {
-						break;
-					}
-					$scope.addRegister();
-				}
 
 				var assemblerReg = $scope.assembler.register;
 				var register = [];
 				for(var i = 0; i < 16; i++){
 					register[i] = $scope.assembler.decimalToHex(assemblerReg[i][1], 4);
 				}
-				$scope.register = [ {
-					content : "0",
-					value : register[0]
-				}, {
-					content : "1",
-					value : register[1]
-				}, {
-					content : "2",
-					value : register[2]
-				}, {
-					content : "3",
-					value : register[3]
-				}, {
-					content : "4",
-					value : register[4]
-				}, {
-					content : "5",
-					value : register[5]
-				}, {
-					content : "6",
-					value : register[6]
-				}, {
-					content : "7",
-					value : register[7]
-				}, {
-					content : "8",
-					value : register[8]
-				}, {
-					content : "9",
-					value : register[9]
-				}, {
-					content : "A",
-					value : register[10]
-				}, {
-					content : "B",
-					value : register[11]
-				}, {
-					content : "C",
-					value : register[12]
-				}, {
-					content : "D",
-					value : register[13]
-				}, {
-					content : "E",
-					value : register[14]
-				}, {
-					content : "F",
-					value : register[15]
-				}, ];
+				$scope.register = [];
+				$scope.addRegister = function(num){
+					if(num < 10){
+						$scope.register.push({
+							content : num,
+							value : register[num]
+						});
+					}else if(num == 10){
+						$scope.register.push({
+							content : "A",
+							value : register[num]
+						});
+					}else if(num == 11){
+						$scope.register.push({
+							content : "B",
+							value : register[num]
+						});
+					}else if(num == 12){
+						$scope.register.push({
+							content : "C",
+							value : register[num]
+						});
+					}else if(num == 13){
+						$scope.register.push({
+							content : "D",
+							value : register[num]
+						});
+					}else if(num == 14){
+						$scope.register.push({
+							content : "E",
+							value : register[num]
+						});
+					}else if(num == 15){
+						$scope.register.push({
+							content : "F",
+							value : register[num]
+						});
+					}
+				};
 
 				var overflowFlag = $scope.assembler.returnOverflowFlag();
 				$scope.overflowFlag = [ {
@@ -3118,31 +3096,59 @@ tabsstuff.controller('assemblycontroller',
 				for (var i = 0; i < 256; i++) {
 					memory[i] = [ "0", "0", "0", "0" ];
 				}
-				for (var i = 0; i < 256; i++) {
-					for (var j = 0; j < 4; j++) {
-						if (typeof temp[i][j] == 'string'
-								|| temp[i][j] instanceof String) {
-							memory[i][j] = temp[i][j];
-						} else {
-							memory[i][j] = $scope.assembler.decimalToHex(
-									temp[i][j], 1);
+				$scope.memory = [];
+				
+//				for (var i = 0; i < 256; i++) {
+//					memory[i] = [ "0", "0", "0", "0" ];
+//					for (var j = 0; j < 4; j++) {
+//						if (typeof temp[i][j] == 'string'
+//								|| temp[i][j] instanceof String) {
+//							memory[i][j] = temp[i][j];
+//						} else {
+//							memory[i][j] = $scope.assembler.decimalToHex(
+//									temp[i][j], 1);
+//						}
+//					}
+//				}
+				
+				$scope.addmemory = function(num) {
+					if(temp[num][0] == 0 && temp[num][1] == 0 && temp[num][2] == 0 && temp[num][3] == 0){
+						$scope.memory.push({
+							memno : memcount,
+							con1 : "0",
+							con2 : "0",
+							con3 : "0",
+							con4 : "0"
+						});
+					}else{
+						if(typeof temp[num][0] == 'string' || temp[num][0] instanceof String || typeof temp[num][1] == 'string' || temp[num][1] instanceof String
+							|| typeof temp[num][2] == 'string' || temp[num][2] instanceof String || typeof temp[num][3] == 'string' || temp[num][3] instanceof String){
+							
+							$scope.memory.push({
+								memno : memcount,
+								con1 : memory[num][0] = $scope.assembler.decimalToHex(temp[num][0], 1),
+								con2 : memory[num][1] = $scope.assembler.decimalToHex(temp[num][1], 1),
+								con3 : memory[num][2] = $scope.assembler.decimalToHex(temp[num][2], 1),
+								con4 : memory[num][3] = $scope.assembler.decimalToHex(temp[num][3], 1)
+							});
+						}else{
+							$scope.memory.push({
+								memno : memcount,
+								con1 : memory[num][0] = $scope.assembler.decimalToHex(temp[num][0], 1),
+								con2 : memory[num][1] = $scope.assembler.decimalToHex(temp[num][1], 1),
+								con3 : memory[num][2] = $scope.assembler.decimalToHex(temp[num][2], 1),
+								con4 : memory[num][3] = $scope.assembler.decimalToHex(temp[num][3], 1)
+							});
 						}
 					}
-				}
-
-				$scope.memory = [];
-				$scope.addmemory = function() {
-					$scope.memory.push({
-						memno : memcount,
-						con1 : memory[memcount][0],
-						con2 : memory[memcount][1],
-						con3 : memory[memcount][2],
-						con4 : memory[memcount][3]
-					});
 					memcount += 1;
 				};
+				
 				for (var i = 0; i < 256; i++) {
-					$scope.addmemory();
+					if(i < $scope.assembler.varMemory.length){$scope.addVarMemory();}
+					if(i < $scope.assembler.varRegister.length){$scope.addVarRegister();}
+					if(i < 16){$scope.addRegister(i);}
+					$scope.addmemory(i);
 				}
 
 				if (updateCounter) {
@@ -3159,27 +3165,15 @@ tabsstuff.controller('assemblycontroller',
 					} ];
 				}
 
-				$scope.set_color = function(num) {
-					if (running) {
-						if (num == previousCounter) {
-							return {
-								color : "red"
-							};
-						} else {
-							return {
-								color : "black"
-							};
-						}
-					}
-				};
-
 			};
+			
+			
 
 			$scope.buttonColor = function(button) {
 				if (button == "Run") {
 					return 'btn btn-success';
 				} else if (button == "Walk") {
-					return 'btn btn-warning';
+					return 'btn btn-primary';
 				} else if (button == "Pause") {
 					return 'btn btn-warning :hover';
 				} else if (button == "Reset") {
@@ -3236,7 +3230,7 @@ tabsstuff.controller('assemblycontroller',
 					running = true;
 					$scope.assembler.run();
 					$scope.architecture(true);
-					intervalId = $interval($scope.walk, 175);
+					intervalId = $interval($scope.walk, 200);
 					// console.log("Run has been called!");
 				}
 			};
