@@ -1162,9 +1162,9 @@ var Figure = function(figNum) {
 			<div class='row'>\
 			<div class='text-center'>\
 				<div class='btn-group-horizontal'>\
-					<button type='button' ng-class='buttonColor(runtext.name)' style='width:10%'\
+					<button type='button' ng-class='buttonColor(runtext.name)' style='width:10%; min-width:75px'\
 						ng-repeat='runtext in runText' ng-click='runButton()'>{{runtext.name}}</button>\
-					<button type='button' ng-class='buttonColor(walktext.name)' style='width:10%'\
+					<button type='button' ng-class='buttonColor(walktext.name)' style='width:10%; min-width:75px;'\
 						ng-repeat='walktext in walkText' ng-click='walkButton()'>{{walktext.name}}</button>\
 				</div>\
 				</div>\
