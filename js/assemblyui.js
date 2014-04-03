@@ -1373,7 +1373,7 @@ tabsstuff.controller('assemblycontroller', function($scope, assembler,$interval)
 
 	$scope.assembler = new assembler(tableName, varTable, bool);
 
-	$scope.assembler.init();
+	//$scope.assembler.init();
 
 	$scope.architecture = function(updateCounter) {
 
