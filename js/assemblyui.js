@@ -1465,6 +1465,7 @@ tabsstuff.controller('assemblycontroller', function($scope, assembler,$interval)
 		} ];
 
 		var temp = $scope.assembler.memory;
+		console.log(temp[1][0], temp[1][1], temp[1][2], temp[1][2]);
 		var memory = new Array(256);
 		for (var i = 0; i < 256; i++) {
 			memory[i] = [ "0", "0", "0", "0" ];
@@ -1506,26 +1507,18 @@ tabsstuff.controller('assemblycontroller', function($scope, assembler,$interval)
 
 					$scope.memory.push({
 						memno : memcount,
-						con1 : memory[num][0] = $scope.assembler.decimalToHex(
-								temp[num][0], 1),
-						con2 : memory[num][1] = $scope.assembler.decimalToHex(
-								temp[num][1], 1),
-						con3 : memory[num][2] = $scope.assembler.decimalToHex(
-								temp[num][2], 1),
-						con4 : memory[num][3] = $scope.assembler.decimalToHex(
-								temp[num][3], 1)
+						con1 : memory[num][0] = temp[num][0],
+						con2 : memory[num][1] = temp[num][1],
+						con3 : memory[num][2] = temp[num][2],
+						con4 : memory[num][3] = temp[num][3]
 					});
 				} else {
 					$scope.memory.push({
 						memno : memcount,
-						con1 : memory[num][0] = $scope.assembler.decimalToHex(
-								temp[num][0], 1),
-						con2 : memory[num][1] = $scope.assembler.decimalToHex(
-								temp[num][1], 1),
-						con3 : memory[num][2] = $scope.assembler.decimalToHex(
-								temp[num][2], 1),
-						con4 : memory[num][3] = $scope.assembler.decimalToHex(
-								temp[num][3], 1)
+						con1 : memory[num][0] = temp[num][0],
+						con2 : memory[num][1] = temp[num][1],
+						con3 : memory[num][2] = temp[num][2],
+						con4 : memory[num][3] = temp[num][3]
 					});
 				}
 			}
