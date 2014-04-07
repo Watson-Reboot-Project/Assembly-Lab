@@ -1312,7 +1312,45 @@ var tabsstuff = angular.module('assembly', [ 'ui.bootstrap' ]).provider('assembl
 							this.done = false;
 							this.stop = false;
 						};
-
+						/*
+						this.buttons = function() {
+							// change the words in the run/walk buttons
+						};
+						
+						this.walkButton = function() {
+							if (!attemptingToRun) {
+								var rButton = document.getElementById('runButton');
+								var wButton = document.getElementById('walkButton');
+								rButton.disabled = true;
+								wButton.disabled = true;
+								var temp = this.walk();
+								rButton.disabled = false;
+								wButton.disabled = false;
+							} else {
+								this.reset();
+								runText = "Run";
+								walkText = "Walk";
+								this.buttons();
+								attemptingToRun = false;
+							}
+						};
+						
+						this.runButton = function() {
+							if (attemptingToRun) {
+								this.pause();
+								runText = "Run";
+								walkText = "Walk";
+								this.buttons();
+								attemptingToRun = false;
+							} else {
+								runText = "Pause";
+								walkText = "Reset";
+								this.buttons();
+								this.run();
+								attemptingToRun = true;
+							}
+						};
+*/
 						// Returns the current value of the program counter
 						this.returncounter = function() {
 							var progcount = this.programCounter;
