@@ -26,6 +26,7 @@ td.command {
 
 <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
 <title>Assembly Editor</title>
+<link type="text/css" rel="stylesheet" href="css/editor.css"/>
 <link rel='stylesheet' href='lib/css/bootstrap-3.css'>
 <link rel='stylesheet' href='lib/assembly.css'>
 <script src="js/jquery-1.10.2.js"></script>
@@ -127,10 +128,6 @@ td.command {
 								onclick='add()'>ADD</button>
 							<button type='button' class='btn btn-default'
 								onclick='branch()'>BRANCH</button>
-							<button type='button' class='btn btn-default'
-								onclick='cycleRow()'>CYCLE ROW</button>
-							<button type='button' class='btn btn-default'
-								onclick='deleteRow()'>DELETE ROW</button>
 						</div>
 						<div id='editor_button_group'
 							class='btn-group-vertical' style='width:30%'>
@@ -435,7 +432,7 @@ td.command {
 				editor1.addRow(editor1.getSelectedRowIndex(),
 						[{text:"&nbsp"},
 						{text:"JUMP", type:"command"},
-						{text:"&lt;label&gt;,"}]);
+						{text:"&lt;label&gt;"}]);
 			}
 			
 			function halt(){
@@ -456,6 +453,32 @@ td.command {
 			function deleteRow(){
 				editor1.deleteRow(editor1.getSelectedRowIndex());
 			}
+			
+			editor1.setCellClickListener(function(event){
+				console.log('from index, editor1: cell click');
+				console.log('\t' + $(this).attr('class'));
+				
+				if($(this).hasClass("insert")){
+					if($(this).css('cursor', 'pointer'))
+						editor1.selectRowByIndex($(this).parent().index());
+				}
+				else if($(this).hasClass("lineNum")){
+					console.log($(this).parent().parent().parent().parent().parent().index());
+					editor1.deleteRow($(this).parent().parent().parent().parent().parent().index());
+				}
+				else
+					alert("from editor1: " + $(this).html());
+				
+				return false;
+			});
+			
+			editor1.setInsertBarMouseEnterListener(function(event){
+				//console.log('from index, editor1: mouseEnter');
+				//console.log('\t' + $(this).attr('class'));
+				editor1.moveInsertionBarCursor($(this).parent().index());
+				
+				return false;
+			});
 		</script>
 </body>
 </html>
