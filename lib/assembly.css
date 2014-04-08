@@ -1,6 +1,6 @@
 .spanMem {
 	height:413px;
-	width:200px;
+	width:100%;
 	border: 1px solid black;
 	overflow-y:scroll;
 }

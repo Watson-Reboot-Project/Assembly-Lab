@@ -316,7 +316,7 @@ td.command {
 						class='col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default'
 						style="width: 220px; border: 1px solid;">
 						<h4 style='text-align:center'>Memory</h4>
-						<div class='spanMem'>
+						<div class='spanMem' style='margin-bottom:5%;'>
 							<table class='table table-bordered' ng-repeat='mem in memory'
 								style='table-layout: fixed;'>
 								<tr ng-style='set_color(mem.memno)'>
@@ -337,7 +337,7 @@ td.command {
 					<h3 style='text-align:center'>CPU</h3>
 						<div class='panel panel-default' style='width: 100%;'>
 							<!-- table containing the register information -->
-							<div class='col-lg-4  col-md-4 col-sm-4 col-xs-4'>
+							<div class='col-lg-4  col-md-4 col-sm-4 col-xs-4' style='margin-bottom:2.75%'>
 								<h4>Registers</h4>
 								<!-- I should be outside of this box -->
 								<div class='spanReg'>
@@ -354,9 +354,9 @@ td.command {
 							</div>
 							<!-- program counter and instruction register table -->
 							<div
-								class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1'>
+								class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1' style='margin-top:10%'>
 								<table class='table table-bordered'
-									style='height: 100px; width: 170px; margin-top: 22%'>
+									style='height: 100px; width: 170px;'>
 									<tbody>
 										<tr>
 											<th class='text-center' colspan='4'>Program Counter</th>
@@ -379,7 +379,7 @@ td.command {
 								</table>
 								<!-- flag table -->
 								<div class='row'>
-									<div class='col-lg-2 col-md-2' style='margin-top:22%'>
+									<div class='col-lg-2 col-md-2' style='margin-top:30%;'>
 										<table class='table table-bordered'
 											style='height: 150px; width: 170px;'>
 											<thead>
@@ -389,20 +389,20 @@ td.command {
 											</thead>
 											<tbody>
 												<tr>
+													<td><strong>Carry</strong></td>
 													<td class='text-center' ng-repeat='carry in carryFlag'>{{carry.flag}}</td>
-													<td>Carry</td>
 												</tr>
 												<tr>
+													<td><strong>Negative</strong></td>
 													<td class='text-center' ng-repeat='neg in negativeFlag'>{{neg.flag}}</td>
-													<td>Negative</td>
 												</tr>
 												<tr>
+													<td><strong>Zero</strong></td>
 													<td class='text-center' ng-repeat='zero in zeroFlag'>{{zero.flag}}</td>
-													<td>Zero</td>
 												</tr>
 												<tr>
+													<td><strong>Overflow</strong></td>
 													<td class='text-center' ng-repeat='over in overflowFlag'>{{over.flag}}</td>
-													<td>Overflow</td>
 												</tr>
 											</tbody>
 										</table>
@@ -427,5 +427,6 @@ td.command {
 	<script type='text/javascript' src='lib/js/ui-bootstrap.js'></script>
 	<script type='text/javascript' src='js/assemblyui.js'></script>
 	<script type='text/javascript' src='js/inputs.js'></script>
+	<script></script>
 </body>
 </html>
