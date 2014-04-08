@@ -12,6 +12,9 @@ var tabsstuff = angular.module('assembly', [ 'ui.bootstrap' ]).provider('assembl
 						// Has the table been edited recently?
 						// Set to true by default
 						this.edited = true;
+						
+						// Flag for if the recent command has altered memory
+						this.storeFlag = false;
 
 						// A flag indicating whether the program has been run
 						// before
@@ -1081,87 +1084,103 @@ var tabsstuff = angular.module('assembly', [ 'ui.bootstrap' ]).provider('assembl
 										this.memory[line][2],
 										this.memory[line][3]);
 								this.programCounter++;
+								this.storeFlag = false;
 								break;
 							case 1: // 0001b Load
 								this.load(this.memory[line][1],
 										this.memory[line][2],
 										this.memory[line][3]);
 								this.programCounter++;
+								this.storeFlag = false;
 								break;
 							case 2: // 0010b Store
 								this.store(this.memory[line][1],
 										this.memory[line][2],
 										this.memory[line][3]);
 								this.programCounter++;
+								this.storeFlag = true;
 								break;
 							case 3: // 0011b LoadInd
 								this.loadInd(this.memory[line][1],
 										this.memory[line][2]);
 								this.programCounter++;
+								this.storeFlag = false;
 								break;
 							case 4: // 0100b StoreInd
 								this.storeInd(this.memory[line][1],
 										this.memory[line][2]);
 								this.programCounter++;
+								this.storeFlag = true;
 								break;
 							case 5: // 0101b Add
 								this.add(this.memory[line][1],
 										this.memory[line][2],
 										this.memory[line][3]);
 								this.programCounter++;
+								this.storeFlag = false;
 								break;
 							case 6: // 0110b Subtract
 								this.sub(this.memory[line][1],
 										this.memory[line][2],
 										this.memory[line][3]);
 								this.programCounter++;
+								this.storeFlag = false;
 								break;
 							case 7: // 0111b And
 								this.and(this.memory[line][1],
 										this.memory[line][2],
 										this.memory[line][3]);
 								this.programCounter++;
+								this.storeFlag = false;
 								break;
 							case 8: // 1000b Or
 								this.or(this.memory[line][1],
 										this.memory[line][2],
 										this.memory[line][3]);
 								this.programCounter++;
+								this.storeFlag = false;
 								break;
 							case 9: // 1001b Not
 								this.not(this.memory[line][1],
 										this.memory[line][2],
 										this.memory[line][3]);
 								this.programCounter++;
+								this.storeFlag = false;
 								break;
 							case 10: // 1010b ASL
 								this.asl(this.memeory[line][1],
 										this.memory[line][2],
 										this.memory[line][3]);
 								this.programCounter++;
+								this.storeFlag = false;
 								break;
 							case 11: // 1011b ASR
 								this.asr(this.memory[line][1],
 										this.memory[line][2],
 										this.memory[line][3]);
 								this.programCounter++;
+								this.storeFlag = false;
 								break;
 							case 12: // 1100b Compare
 								this.compare(this.memory[line][2],
 										this.memory[line][3]);
 								this.programCounter++;
+								this.storeFlag = false;
 								break;
 							case 13: // 1101b Branch
 								this.branch(this.memory[line][1],
 										this.memory[line][2],
 										this.memory[line][3]);
+								this.storeFlag = false;
 								break;
 							case 14: // 1110b Jump
 								this.jump(this.memory[line][2],
 										this.memory[line][3]);
+								this.storeFlag = false;
 								break;
 							case 15: // 1111b Halt
 								this.halt();
+								this.storeFlag = false;
 								break;
 							}
 						};
@@ -1341,6 +1360,12 @@ var tabsstuff = angular.module('assembly', [ 'ui.bootstrap' ]).provider('assembl
 						this.returnZeroFlag = function() {
 							var zeroflag = this.zeroFlag;
 							return zeroflag;
+						};
+						
+						// Returns value of storeFlag
+						this.returnStoreFlag = function() {
+							var storeFlag = this.storeFlag;
+							return storeFlag;
 						};
 
 					};
