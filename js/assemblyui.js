@@ -15,6 +15,9 @@ var tabsstuff = angular.module('assembly', [ 'ui.bootstrap' ]).provider('assembl
 						
 						// Flag for if the recent command has altered memory
 						this.storeFlag = false;
+						
+						// Location in memory array where memory has recently been altered.
+						this.altMemIndex = 0;
 
 						// A flag indicating whether the program has been run
 						// before
@@ -797,6 +800,7 @@ var tabsstuff = angular.module('assembly', [ 'ui.bootstrap' ]).provider('assembl
 							// Store register data in hex in memory
 							this.memory[parseInt(value1 + value2, 16)] = [
 									hex[0], hex[1], hex[2], hex[3] ];
+							this.altMemIndex = parseInt(value1 + value2, 16);
 							// Update value in Variable array
 							var x = parseInt(value1 + value2, 16);
 							for (var i = 0; i < this.varMemory.length; i++) {
@@ -899,6 +903,7 @@ var tabsstuff = angular.module('assembly', [ 'ui.bootstrap' ]).provider('assembl
 									4);
 							this.memory[this.register[reg2][1]] = [ hex[0],
 									hex[1], hex[2], hex[3] ];
+							this.altMemIndex = this.register[reg2][1];
 							// Updating of the Variable array
 							var x = parseInt(this.register[reg2][1], 10);
 							for (var i = 0; i < this.varMemory.length; i++) {
@@ -1367,6 +1372,12 @@ var tabsstuff = angular.module('assembly', [ 'ui.bootstrap' ]).provider('assembl
 							var storeFlag = this.storeFlag;
 							return storeFlag;
 						};
+						
+						// Returns the index of the most recently altered memory location
+						this.returnAltMemIndex = function() {
+							var memIndex = this.altMemIndex;
+							return memIndex;
+						};
 
 					};
 
@@ -1490,7 +1501,7 @@ tabsstuff.controller('assemblycontroller', function($scope, assembler,$interval)
 		} ];
 
 		var temp = $scope.assembler.memory;
-		console.log(temp[1][0], temp[1][1], temp[1][2], temp[1][2]);
+		//console.log(temp[1][0], temp[1][1], temp[1][2], temp[1][2]);
 		var memory = new Array(256);
 		for (var i = 0; i < 256; i++) {
 			memory[i] = [ "0", "0", "0", "0" ];
@@ -1579,6 +1590,22 @@ tabsstuff.controller('assemblycontroller', function($scope, assembler,$interval)
 
 	};
 
+	
+	// Simplified version to update memory display
+	// Only updates loations that have been changed.
+	$scope.updateMemory = function() {
+		var temp = $scope.assembler.memory; // Grab current memory
+		var memTable = document.getElementById(/*unique memory identifier*/); // Grab current memory display
+		var altered = $scope.assembler.returnStoreFlag();
+		if(altered) { // Determine if memory has been changed
+			var index = $scope.assembler.returnAltMemIndex(); // If true, return where it was changed
+			memTable[index][0].firstChild.nodeValue = temp[index][0];  // Update
+			memTable[index][1].firstChild.nodeValue = temp[index][1];  // Update
+			memTable[index][2].firstChild.nodeValue = temp[index][2];  // Update
+			memTable[index][3].firstChild.nodeValue = temp[index][3];  // Update
+		}
+	};
+	
 	$scope.buttonColor = function(button) {
 		if (button == "Run") {
 			return 'btn btn-success';
