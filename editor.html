@@ -459,8 +459,11 @@ td.command {
 				console.log('\t' + $(this).attr('class'));
 				
 				if($(this).hasClass("insert")){
-					if($(this).css('cursor', 'pointer'))
-						editor1.selectRowByIndex($(this).parent().index());
+					if($(this).css('cursor', 'pointer')) {
+						if($(this).parent().index() >= memPointer-1){
+							editor1.selectRowByIndex($(this).parent().index());
+						}
+					}
 				}
 				else if($(this).hasClass("lineNum")){
 					console.log($(this).parent().parent().parent().parent().parent().index());
