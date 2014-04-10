@@ -291,23 +291,19 @@ td.command {
 			var editor1 = new Editor("Editor1", true, true, 1, -1, true);
 
 			function word(){
-				editor1.selectRowByIndex(memPointer);
-				editor1.addRow(editor1.getSelectedRowIndex(),
+				editor1.addRow(memPointer,
 						[{text:"&lt;label&gt;"},
 						{text:".WORD", type:"keyword"},
 						{text:"&lt;const&gt;", type:"constant"}]);
 				memPointer++;
-				editor1.selectRowByIndex(editor1.getRowCount()-1);
 			}
 			
 			function block(){
-				editor1.selectRowByIndex(memPointer);
-				editor1.addRow(editor1.getSelectedRowIndex(),
+				editor1.addRow(memPointer,
 						[{text:"&lt;label&gt;"},
 						{text:".BLOCK", type:"keyword"},
 						{text:"&lt;const&gt;", type:"constant"}]);
 				memPointer++;
-				editor1.selectRowByIndex(editor1.getRowCount()-1);
 			}
 			
 			function loadIMM(){
