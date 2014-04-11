@@ -6,22 +6,6 @@
 table td {
 	border: none;
 }
-
-td.comment {
-	color: #007500;
-}
-
-td.constant {
-	color: #A52A2A;
-}
-
-td.keyword {
-	color: #CC0099;
-}
-
-td.command {
-	color: #0000FF;
-}
 </style>
 
 <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
@@ -29,11 +13,16 @@ td.command {
 <link type="text/css" rel="stylesheet" href="css/editor.css"/>
 <link rel='stylesheet' href='lib/css/bootstrap-3.css'>
 <link rel='stylesheet' href='lib/assembly.css'>
+<link rel="stylesheet" href="css/jquery-ui-custom.css">
+<script src="js/jquery-ui.js"></script>
+<script src="js/editor.js"></script>
+<script src='js/editorController.js'></script>
 <script src="js/jquery-1.10.2.js"></script>
-		<link rel="stylesheet" href="css/jquery-ui-custom.css">
-		<script src="js/jquery-ui.js"></script>
-		<link rel="stylesheet" href="css/NumPadStyle.css">
-		<script src="js/editor.js"></script>
+<script src="js/WatsonDialogs.js"></script>
+<script src="js/WatsonDataStore.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/jquery-ui-1.10.4.custom.js"></script>
+		
 </head>
 
 <!-- controller for the lab -->
@@ -48,7 +37,7 @@ td.command {
 
 		<div class='row'>
 
-				<div id="wrapper">
+				<div id="wrapper" style='height:300px'>
 					<div id="Editor1"></div>
 				</div>
 			<br>
@@ -282,200 +271,8 @@ td.command {
 	<script type='text/javascript' src='js/assemblyui.js'></script>
 	<script type='text/javascript' src='js/inputs.js'></script>
 	<script type='text/javascript' src='js/editor.js'></script>
-		<script src="js/jquery-ui.js"></script>
-		<script type="text/javascript">
-			var len = 0;
-			var memPointer = 0;
-			var editor1 = new Editor("Editor1", true, true, 1, -1, true);
-
-			function word(){
-				editor1.addRow(memPointer,
-						[{text:"&lt;label&gt;"},
-						{text:".WORD", type:"keyword"},
-						{text:"&lt;const&gt;", type:"constant"}]);
-				memPointer++;
-			}
-			
-			function block(){
-				editor1.addRow(memPointer,
-						[{text:"&lt;label&gt;"},
-						{text:".BLOCK", type:"keyword"},
-						{text:"&lt;const&gt;", type:"constant"}]);
-				memPointer++;
-			}
-			
-			function loadIMM(){
-				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&nbsp"},
-						{text:"LOADIMM", type:"command"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;const&gt;", type:"constant"}]);
-			}
-			
-			function load(){
-				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&nbsp"},
-						{text:"LOAD", type:"command"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;label&gt;"}]);
-			}
-			
-			function store(){
-				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&nbsp"},
-						{text:"STORE", type:"command"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;label&gt;"}]);
-			}
-			
-			function loadIND(){
-				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&nbsp"},
-						{text:"LOADIND", type:"command"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;reg&gt;"}]);
-			}
-			
-			function storeIND(){
-				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&nbsp"},
-						{text:"STOREIND", type:"command"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;label&gt;"}]);
-			}
-			
-			function add(){
-				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&nbsp"},
-						{text:"ADD", type:"command"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;reg&gt;"}]);
-			}
-			
-			function subtract(){
-				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&nbsp"},
-						{text:"SUBTRACT", type:"command"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;reg&gt;"}]);
-			}
-			
-			function and(){
-				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&nbsp"},
-						{text:"AND", type:"command"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;reg&gt;"}]);
-			}
-			
-			function or(){
-				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&nbsp"},
-						{text:"OR", type:"command"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;reg&gt;"}]);
-			}
-			
-			function not(){
-				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&nbsp"},
-						{text:"NOT", type:"command"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;reg&gt;"}]);
-			}
-			
-			function asl(){
-				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&nbsp"},
-						{text:"ASL", type:"command"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;bits&gt;"}]);
-			}
-			
-			function asr(){
-				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&nbsp"},
-						{text:"ASR", type:"command"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;bits&gt;"}]);
-			}
-			
-			function compare(){
-				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&nbsp"},
-						{text:"COMPARE", type:"command"},
-						{text:"&lt;reg&gt;,"},
-						{text:"&lt;reg&gt;"}]);
-			}
-			
-			function branch(){
-				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&nbsp"},
-						{text:"BRANCH", type:"command"},
-						{text:"&lt;cond&gt;,"},
-						{text:"&lt;label&gt;"}]);
-			}
-			
-			function jump(){
-				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&nbsp"},
-						{text:"JUMP", type:"command"},
-						{text:"&lt;label&gt;"}]);
-			}
-			
-			function halt(){
-				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&nbsp"},
-						{text:"HALT", type:"command"}]);
-			}
-			
-			function cycleRow(){
-				var index = editor1.getSelectedRowIndex()+1;
-				if(index >= editor1.getRowCount()){
-					index = 0;
-				}
-				console.log(index + " " + editor1.getRowCount());
-				editor1.selectRowByIndex(index);
-			}
-			
-			function deleteRow(){
-				editor1.deleteRow(editor1.getSelectedRowIndex());
-			}
-			
-			editor1.setCellClickListener(function(event){
-				console.log('from index, editor1: cell click');
-				console.log('\t' + $(this).attr('class'));
-				
-				if($(this).hasClass("insert")){
-					if($(this).css('cursor', 'pointer')) {
-						if($(this).parent().index() >= memPointer-1){
-							editor1.selectRowByIndex($(this).parent().index());
-						}
-					}
-				}
-				else if($(this).hasClass("lineNum")){
-					console.log($(this).parent().parent().parent().parent().parent().index());
-					editor1.deleteRow($(this).parent().parent().parent().parent().parent().index());
-				}
-				else
-					alert("from editor1: " + $(this).html());
-				
-				return false;
-			});
-			
-			editor1.setInsertBarMouseEnterListener(function(event){
-				//console.log('from index, editor1: mouseEnter');
-				//console.log('\t' + $(this).attr('class'));
-				editor1.moveInsertionBarCursor($(this).parent().index());
-				
-				return false;
-			});
-		</script>
+	<script src="js/jquery-ui.js"></script>
+	<script type='text/javascript' src='js/WatsonDialogs.js'></script>
+	<script type="text/javascript" src='js/editorController.js'></script>
 </body>
 </html>
