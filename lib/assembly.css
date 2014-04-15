@@ -1,8 +1,22 @@
-.spanMem {
-	height:413px;
+.spanMemWrapper{
+	height: 410px;
 	width:100%;
 	border: 1px solid black;
-	overflow-y:scroll;
+	overflow-y: scroll;
+}
+
+.spanMem {
+	width:100%;
+	border-bottom: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+}
+
+.spanVarMem{
+	width:100%;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
 }
 
 .spanReg {

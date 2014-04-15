@@ -31,12 +31,13 @@ video {
   display: inline-block;
 }
 
-.spanMem {
-	height:413px;
-	width:200px;
+.spanMemWrapper{
+	height: 400px;
+	width:225px;
 	border: 1px solid black;
-	overflow-y:scroll;
+	overflow-y: scroll;
 }
+
 
 .spanReg {
 	height:auto;
