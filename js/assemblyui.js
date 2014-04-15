@@ -1399,8 +1399,6 @@ tabsstuff.controller('assemblycontroller', function($scope, assembler,$interval)
 	var varTable = "variables";
 	var bool = false;
 	var attemptingToRun = false;
-	var previousCounter;
-	var running = false;
 
 	var runText = "Run";
 	var walkText = "Walk";
@@ -1409,13 +1407,20 @@ tabsstuff.controller('assemblycontroller', function($scope, assembler,$interval)
 
 	$scope.assembler = new assembler(tableName, varTable, bool);
 
-	//$scope.assembler.init();
+	var memoryhasran = false;
+
+	$scope.memory = [];
+	var memory = new Array(256);
+	for ( var i = 0; i < 256; i++) {
+		memory[i] = [ "0", "0", "0", "0" ];
+	}
+	// $scope.assembler.init();
 
 	$scope.architecture = function(updateCounter) {
 
+		// var varlength = $scope.assembler.varMemory.length;
 		var varmemcount = 0;
 		var regcount = 0;
-		var memcount = 0;
 
 		$scope.varMemory = [];
 		$scope.addVarMemory = function() {
@@ -1437,7 +1442,7 @@ tabsstuff.controller('assemblycontroller', function($scope, assembler,$interval)
 
 		var assemblerReg = $scope.assembler.register;
 		var register = [];
-		for (var i = 0; i < 16; i++) {
+		for ( var i = 0; i < 16; i++) {
 			register[i] = $scope.assembler.decimalToHex(assemblerReg[i][1], 4);
 		}
 		$scope.register = [];
@@ -1501,77 +1506,65 @@ tabsstuff.controller('assemblycontroller', function($scope, assembler,$interval)
 		} ];
 
 		var temp = $scope.assembler.memory;
-		//console.log(temp[1][0], temp[1][1], temp[1][2], temp[1][2]);
-		var memory = new Array(256);
-		for (var i = 0; i < 256; i++) {
-			memory[i] = [ "0", "0", "0", "0" ];
-		}
-		$scope.memory = [];
+		$scope.temp = temp;
+		
 
-		// for (var i = 0; i < 256; i++) {
-		// memory[i] = [ "0", "0", "0", "0" ];
-		// for (var j = 0; j < 4; j++) {
-		// if (typeof temp[i][j] == 'string'
-		// || temp[i][j] instanceof String) {
-		// memory[i][j] = temp[i][j];
-		// } else {
-		// memory[i][j] = $scope.assembler.decimalToHex(
-		// temp[i][j], 1);
-		// }
-		// }
-		// }
+		$scope.varlength = $scope.assembler.varMemory.length;
+		$scope.vars = [];
 
-		$scope.addmemory = function(num) {
-			if (temp[num][0] == 0 && temp[num][1] == 0 && temp[num][2] == 0
-					&& temp[num][3] == 0) {
-				$scope.memory.push({
-					memno : memcount,
-					con1 : "0",
-					con2 : "0",
-					con3 : "0",
-					con4 : "0"
-				});
-			} else {
-				if (typeof temp[num][0] == 'string'
-						|| temp[num][0] instanceof String
-						|| typeof temp[num][1] == 'string'
-						|| temp[num][1] instanceof String
-						|| typeof temp[num][2] == 'string'
-						|| temp[num][2] instanceof String
-						|| typeof temp[num][3] == 'string'
-						|| temp[num][3] instanceof String) {
+		$scope.addvars = function(num) {
 
-					$scope.memory.push({
-						memno : memcount,
-						con1 : memory[num][0] = temp[num][0],
-						con2 : memory[num][1] = temp[num][1],
-						con3 : memory[num][2] = temp[num][2],
-						con4 : memory[num][3] = temp[num][3]
-					});
-				} else {
-					$scope.memory.push({
-						memno : memcount,
-						con1 : memory[num][0] = temp[num][0],
-						con2 : memory[num][1] = temp[num][1],
-						con3 : memory[num][2] = temp[num][2],
-						con4 : memory[num][3] = temp[num][3]
-					});
-				}
-			}
-			memcount += 1;
+			$scope.vars.push({
+				memno : num,
+				con1 : memory[num][0] = temp[num][0],
+				con2 : memory[num][1] = temp[num][1],
+				con3 : memory[num][2] = temp[num][2],
+				con4 : memory[num][3] = temp[num][3]
+			});
+
 		};
 
-		for (var i = 0; i < 256; i++) {
-			if (i < $scope.assembler.varMemory.length) {
+		$scope.addmemory = function(num) {
+			$scope.memory.push({
+				memno : num,
+				con1 : memory[num][0] = temp[num][0],
+				con2 : memory[num][1] = temp[num][1],
+				con3 : memory[num][2] = temp[num][2],
+				con4 : memory[num][3] = temp[num][3]
+			});
+		};
+
+		if ($scope.varlength != 0) {
+			if(memoryhasran == false){
+				for ( var i = $scope.varlength; i < 256; i++) {
+					$scope.addmemory(i);
+				}
+				memoryhasran = true;
+			}
+		}
+
+		for ( var i = 0; i < $scope.varlength; i++) {
+			$scope.addvars(i);
+		}
+
+		if ($scope.assembler.varMemory.length > $scope.assembler.varRegister.length) {
+			for ( var i = 0; i < $scope.assembler.varMemory.length; i++) {
 				$scope.addVarMemory();
+				if ($scope.assembler.varRegister[i] != null) {
+					$scope.addVarRegister();
+				}
 			}
-			if (i < $scope.assembler.varRegister.length) {
+		} else {
+			for ( var i = 0; i < $scope.assembler.varRegister.length; i++) {
 				$scope.addVarRegister();
+				if ($scope.assembler.varMemory[i] != null) {
+					$scope.addVarMemory();
+				}
 			}
-			if (i < 16) {
-				$scope.addRegister(i);
-			}
-			$scope.addmemory(i);
+		}
+
+		for ( var i = 0; i < 16; i++) {
+			$scope.addRegister(i);
 		}
 
 		if (updateCounter) {
@@ -1581,10 +1574,10 @@ tabsstuff.controller('assemblycontroller', function($scope, assembler,$interval)
 				content : counter
 			} ];
 			$scope.instructionRegister = [ {
-				con1 : memory[counter][0],
-				con2 : memory[counter][1],
-				con3 : memory[counter][2],
-				con4 : memory[counter][3]
+				con1 : memory[counter][0] = temp[counter][0],
+				con2 : memory[counter][1] = temp[counter][1],
+				con3 : memory[counter][2] = temp[counter][2],
+				con4 : memory[counter][3] = temp[counter][3]
 			} ];
 		}
 

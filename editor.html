@@ -12,7 +12,10 @@ table td {
 <title>Assembly Editor</title>
 <link type="text/css" rel="stylesheet" href="css/editor.css"/>
 <link rel='stylesheet' href='lib/css/bootstrap-3.css'>
+<link rel="stylesheet" href="css/Dialogs.css">
 <link rel='stylesheet' href='lib/assembly.css'>
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/jquery-ui-1.10.4.custom.css">
 <link rel="stylesheet" href="css/jquery-ui-custom.css">
 <script src="js/jquery-ui.js"></script>
 <script src="js/editor.js"></script>
@@ -106,45 +109,45 @@ table td {
 							<button type='button' class='btn btn-default'
 								onclick='word()'>.WORD</button>
 							<button type='button' class='btn btn-default'
-								onclick='block()'>.BLOCK</button>
-							<button type='button' class='btn btn-default'
 								onClick='load()'>LOAD</button>
 							<button type='button' class='btn btn-default'
 								onclick='store()'>STORE</button>
 							<button type='button' class='btn btn-default'
 								onclick='add()'>ADD</button>
 							<button type='button' class='btn btn-default'
+								onclick='asl()'>ASL</button>
+							<button type='button' class='btn btn-default'
+								onclick='compare()'>COMPARE</button>
+						</div>
+						<div id='editor_button_group'
+							class='btn-group-vertical' style='width:30%'>
+							<button type='button' class='btn btn-default'
+								onclick='block()'>.BLOCK</button>
+							<button type='button' class='btn btn-default'
+								onclick='loadIMM()'>LOADIMM</button>
+							<button type='button' class='btn btn-default'
+								onclick='storeIND()'>STOREIND</button>
+							<button type='button' class='btn btn-default'
+								onclick='subtract()'>SUBTRACT</button>
+							<button type='button' class='btn btn-default'
+								onclick='asr()'>ASR</button>
+							<button type='button' class='btn btn-default'
 								onclick='branch()'>BRANCH</button>
 						</div>
 						<div id='editor_button_group'
 							class='btn-group-vertical' style='width:30%'>
 							<button type='button' class='btn btn-default'
-								onclick='jump()'>JUMP</button>
-							<button type='button' class='btn btn-default'
-								onclick='loadIMM()'>LOADIMM</button>
-							<button type='button' class='btn btn-default'
-								onclick='and()'>AND</button>
+								onclick='halt()'>HALT</button>
 							<button type='button' class='btn btn-default'
 								onclick='loadIND()'>LOADIND</button>
 							<button type='button' class='btn btn-default'
-								onclick='storeIND()'>STOREIND</button>
+								onclick='and()'>AND</button>
 							<button type='button' class='btn btn-default'
-								onclick='subtract()'>SUBTRACT</button>
-						</div>
-						<div id='editor_button_group'
-							class='btn-group-vertical' style='width:30%'>
-							<button type='button' class='btn btn-default'
-								onclick='or()'>OR</button>
-							<button type='button' class='btn btn-default'
-								onclick='compare()'>COMPARE</button>
-							<button type='button' class='btn btn-default'
-								onclick='asl()'>ASL</button>
-							<button type='button' class='btn btn-default'
-								onclick='asr()'>ASR</button>
-							<button type='button' class='btn btn-default'
-								onclick='halt()'>HALT</button>
+								onclick='or()'>OR</button>	
 							<button type='button' class='btn btn-default'
 								onclick='not()'>NOT</button>
+							<button type='button' class='btn btn-default'
+								onclick='jump()'>JUMP</button>
 						</div>
 					</div>
 				</div>

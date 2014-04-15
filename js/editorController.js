@@ -178,7 +178,12 @@
 				}
 				else if($(this).hasClass("lineNum")){
 					console.log($(this).parent().parent().parent().parent().parent().index());
+					console.log("Pre-Deletion memPointer = "+memPointer);
+					if($(this).parent().parent().parent().parent().parent().index() <= memPointer){
+						memPointer--;
+					}
 					editor1.deleteRow($(this).parent().parent().parent().parent().parent().index());
+					console.log("Post-Deletion memPointer = "+memPointer);
 				}
 				else{
 					// Woo! We can use this section later! :D
