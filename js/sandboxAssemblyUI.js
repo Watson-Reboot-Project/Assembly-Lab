@@ -1542,10 +1542,10 @@ tabsstuff.controller('assemblycontroller',
 				content : counter
 			} ];
 			$scope.instructionRegister = [ {
-				con1 : memory[num][0] = $scope.assembler.decimalToHex(temp[counter][0], 1),
-				con2 : memory[num][1] = $scope.assembler.decimalToHex(temp[counter][1], 1),
-				con3 : memory[num][2] = $scope.assembler.decimalToHex(temp[counter][2], 1),
-				con4 : memory[num][3] = $scope.assembler.decimalToHex(temp[counter][3], 1)
+				con1 : memory[counter][0] = $scope.assembler.decimalToHex(temp[counter][0], 1),
+				con2 : memory[counter][1] = $scope.assembler.decimalToHex(temp[counter][1], 1),
+				con3 : memory[counter][2] = $scope.assembler.decimalToHex(temp[counter][2], 1),
+				con4 : memory[counter][3] = $scope.assembler.decimalToHex(temp[counter][3], 1)
 			} ];
 		}
 
