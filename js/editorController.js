@@ -18,6 +18,7 @@
 			var labels = [];
 			var editor1 = new Editor("Editor1", true, true, 1, 50, true);
 			var editorDiv = document.getElementById("wrapper");
+			var deleteCell;
 
 			function word(){
 				editor1.addRow(memPointer,
@@ -181,6 +182,7 @@
 				else if($(this).hasClass("lineNum")){
 					console.log($(this).parent().parent().parent().parent().parent().index());
 					console.log("Pre-Deletion memPointer = "+memPointer);
+					deleteCell = $(this).parent().parent().parent().parent().parent().index();
 					createAlertBox("Delete", "Delete this line?", false, fDelete, editorDiv);
 				}
 				else{
@@ -302,7 +304,7 @@
 					if($(this).parent().parent().parent().parent().parent().index() <= memPointer){
 						memPointer--;
 					}
-					editor1.deleteRow($(this).parent().parent().parent().parent().parent().index());
+					editor1.deleteRow(deleteCell);
 					console.log("Post-Deletion memPointer = "+memPointer);
 				}
 		    }
