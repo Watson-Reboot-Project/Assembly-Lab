@@ -19,6 +19,7 @@
 			var editor1 = new Editor("Editor1", true, true, 1, 50, true);
 			var editorDiv = document.getElementById("wrapper");
 			var deleteCell;
+			var edited;
 
 			function word(){
 				editor1.addRow(memPointer,
@@ -26,6 +27,7 @@
 						{text:".WORD", type:"keyword"},
 						{text:"&lt;const&gt;", type:"constant const1"}]);
 				memPointer++;
+				edited = true;
 			}
 			
 			function block(){
@@ -34,6 +36,7 @@
 						{text:".BLOCK", type:"keyword"},
 						{text:"&lt;const&gt;", type:"constant const1"}]);
 				memPointer++;
+				edited = true;
 			}
 			
 			function loadIMM(){
@@ -42,6 +45,7 @@
 						{text:"LOADIMM", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;const&gt;", type:"constant const2"}]);
+				edited = true;
 			}
 			
 			function load(){
@@ -50,6 +54,7 @@
 						{text:"LOAD", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;label&gt;", type:"label2"}]);
+				edited = true;
 			}
 			
 			function store(){
@@ -58,6 +63,7 @@
 						{text:"STORE", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;label&gt;", type:"label2"}]);
+				edited = true;
 			}
 			
 			function loadIND(){
@@ -66,6 +72,7 @@
 						{text:"LOADIND", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;", type:"reg2"}]);
+				edited = true;
 			}
 			
 			function storeIND(){
@@ -74,6 +81,7 @@
 						{text:"STOREIND", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;", type:"reg2"}]);
+				edited = true;
 			}
 			
 			function add(){
@@ -83,6 +91,7 @@
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;", type:"reg2"}]);
+				edited = true;
 			}
 			
 			function subtract(){
@@ -92,6 +101,7 @@
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;", type:"reg2"}]);
+				edited = true;
 			}
 			
 			function and(){
@@ -101,6 +111,7 @@
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;", type:"reg2"}]);
+				edited = true;
 			}
 			
 			function or(){
@@ -110,6 +121,7 @@
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;", type:"reg2"}]);
+				edited = true;
 			}
 			
 			function not(){
@@ -118,6 +130,7 @@
 						{text:"NOT", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;", type:"reg2"}]);
+				edited = true;
 			}
 			
 			function asl(){
@@ -127,6 +140,7 @@
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;bits&gt;", type:"constant bits"}]);
+				edited = true;
 			}
 			
 			function asr(){
@@ -136,6 +150,7 @@
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;bits&gt;", type:"constant bits"}]);
+				edited = true;
 			}
 			
 			function compare(){
@@ -144,6 +159,7 @@
 						{text:"COMPARE", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;", type:"reg2"}]);
+				edited = true;
 			}
 			
 			function branch(){
@@ -152,6 +168,7 @@
 						{text:"BRANCH", type:"command"},
 						{text:"&lt;cond&gt;,", type:"cond"},
 						{text:"&lt;label&gt;"}]);
+				edited = true;
 			}
 			
 			function jump(){
@@ -159,12 +176,14 @@
 						[{text:"&nbsp;", type:"label1"},
 						{text:"JUMP", type:"command"},
 						{text:"&lt;label&gt;", type:"label2"}]);
+				edited = true;
 			}
 			
 			function halt(){
 				editor1.addRow(editor1.getSelectedRowIndex(),
 						[{text:"&nbsp;", type:"label1"},
 						{text:"HALT", type:"command"}]);
+				edited = true;
 			}
 			
 			
@@ -294,8 +313,10 @@
 		    
 		    function fReturn(result) {
 		        //Function that is called when selecting a function that replaces the text of a single cell
-		    	if(result != null)
+		    	if(result != null){
 		    		clickedCell.text(result);
+		    		edited = true;
+		    	}
 		    }
 		    
 		    function fDelete(result) {
@@ -306,25 +327,32 @@
 					}
 					editor1.deleteRow(deleteCell);
 					console.log("Post-Deletion memPointer = "+memPointer);
+					edited = true;
 				}
 		    }
 		    
 		    function fReturnC(result) {
 		    	//Function that returns results padded with a comma ','
-		    	if(result != null)
+		    	if(result != null){
 		    		clickedCell.text(result + ',');
+		    		edited = true;
+		    	}
 		    }
 		    
 		    function fRegister(result) {
 		    	//Function that stores the simple register
-		    	if(result != null)
+		    	if(result != null) {
 		    		clickedCell.text(result);
+		    		edited = true;
+		    	}
 		    }
 		    
 		    function fRegisterC(result) {
 		    	//Function that stores the register and a comma
-		    	if(result != null)
+		    	if(result != null) {
 		    		clickedCell.text(result + ',');
+		    		edited = true;
+		    	}
 		    }
 		    
 		    function fLabel(result) {
@@ -333,5 +361,6 @@
 		    		clickedCell.text(result);
 		    		clickedCell.css("color","black");
 		    		labels.push(result);
+		    		edited = true;
 		    	}
 		    }

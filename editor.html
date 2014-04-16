@@ -40,8 +40,9 @@ table td {
 
 		<div class='row'>
 
-			<div id="Editor1" style='height: 275px; overflow-y:auto;'></div>
-	
+				
+					<div id="Editor1" style='height: 275px; overflow-y:auto;'></div>
+				
 			<br>
 			<div class='row'>
 			<div class='text-center'>
@@ -153,25 +154,37 @@ table td {
 			</div>
 
 			</tab> <!-- tab containing the memory, register, program counters, and flags -->
-			<tab heading='Architecture'> <br>
+<tab heading='Architecture'> <br>
 			<div class='container' style="width:100%;">
 				<div class='row'>
 					<div
 						class='col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default'
-						style="width: 220px; border: 1px solid;">
+						style="width: 245px; border: 1px solid;">
 						<h4 style='text-align:center'>Memory</h4>
-						<div class='spanMem' style='margin-bottom:5%;'>
-							<table class='table table-bordered' ng-repeat='mem in memory'
-								style='table-layout: fixed;'>
-								<tr ng-style='set_color(mem.memno)'>
-									<th style='text-align:right'>{{mem.memno}}</th>
-									<td style='text-align:center'>{{mem.con1}}</td>
-									<td style='text-align:center'>{{mem.con2}}</td>
-									<td style='text-align:center'>{{mem.con3}}</td>
-									<td style='text-align:center'>{{mem.con4}}</td>
-								</tr>
-							</table>
-
+						<div class='spanMemWrapper' style='margin-right:5%; margin-bottom:5%;'>
+							<div class='spanVarMem' >
+								<table class='table table-bordered' ng-repeat='var in vars' style='table-layoud: fixed;'>
+									<tr ng-style='set_color(var.memno)'>
+										<th style='text-align:right'>{{var.memno}}</th>
+										<td style='text-align:center'>{{var.con1}}</td>
+										<td style='text-align:center'>{{var.con2}}</td>
+										<td style='text-align:center'>{{var.con3}}</td>
+										<td style='text-align:center'>{{var.con4}}</td>
+									</tr>
+								</table>
+							</div>
+							<div class='spanMem'>
+								<table class='table table-bordered' ng-repeat='mem in memory' style='table-layout: fixed;'>
+									<tr ng-style='set_color(mem.memno)'>
+										<th style='text-align:right'>{{mem.memno}}</th>
+										<td style='text-align:center'>{{mem.con1}}</td>
+										<td style='text-align:center'>{{mem.con2}}</td>
+										<td style='text-align:center'>{{mem.con3}}</td>
+										<td style='text-align:center'>{{mem.con4}}</td>
+									</tr>
+								</table>
+	
+							</div>
 						</div>
 					</div>
 					<div
@@ -261,6 +274,7 @@ table td {
 			<br>
 		</div>
 	</div>
+
 
 	<!-- need to get it working so i dont need the online repositories -->
 	

@@ -14,10 +14,6 @@ var tabsstuff = angular
 						// True for Figure, False if Architecture
 						this.figureMode = figureMode;
 
-						// Has the table been edited recently?
-						// Set to true by default
-						this.edited = true;
-
 						// A flag indicating whether the program has been run
 						// before
 						// Primarily used for checking if values should be reset
@@ -199,6 +195,7 @@ var tabsstuff = angular
 							var errors = [];
 							for(var i = 0; i < size; i++){
 								var table = editor1.rowToArray(i);
+								console.log(table);
 								switch (table[1]) {
 								case ".WORD": // .Word before program
 								case ".BLOCK":
@@ -802,7 +799,7 @@ var tabsstuff = angular
 								}
 							}
 							// Signal that program has been parsed
-							this.edited = false;
+							edited = false;
 						};
 
 						// Add two registers and store in the first
@@ -1246,8 +1243,8 @@ var tabsstuff = angular
 						this.walk = function() {
 							var table = editor1.rowToArray(this.programCounter);
 							
-							if (this.edited) {
-								
+							if (edited) {
+								this.preprocessor();
 								this.init();
 								this.previousCounter = this.programCounter;
 							}
@@ -1272,7 +1269,8 @@ var tabsstuff = angular
 						// Runs through the program
 						// First checks if the code has recently been edited.
 						this.run = function() {
-							if (this.edited) {
+							if (edited) {
+								this.preprocessor();
 								this.init();
 							}
 							if (this.done) {
