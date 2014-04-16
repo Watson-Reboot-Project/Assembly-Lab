@@ -15,7 +15,8 @@
 					"REGC", "REGD", "REGE", "REGF"];
 			var conditions = ["EQ", "NE", "LT", "LE", "GT", "GE", "CARRY", "NEG", "ZERO", "OVER"];
 			var labels = [];
-			var editor1 = new Editor("Editor1", true, true, 1, -1, true);
+			var editor1 = new Editor("Editor1", true, true, 1, 50, true);
+			var editorDiv = document.getElementById("wrapper");
 
 			function word(){
 				editor1.addRow(memPointer,
@@ -35,7 +36,7 @@
 			
 			function loadIMM(){
 				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&lt;label&gt;", type:"clear label1"},
+						[{text:"&nbsp;", type:"label1"},
 						{text:"LOADIMM", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;const&gt;", type:"constant const2"}]);
@@ -43,7 +44,7 @@
 			
 			function load(){
 				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&lt;label&gt;", type:"clear label1"},
+						[{text:"&nbsp;", type:"label1"},
 						{text:"LOAD", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;label&gt;", type:"label2"}]);
@@ -51,7 +52,7 @@
 			
 			function store(){
 				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&lt;label&gt;", type:"clear label1"},
+						[{text:"&nbsp;", type:"label1"},
 						{text:"STORE", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;label&gt;", type:"label2"}]);
@@ -59,7 +60,7 @@
 			
 			function loadIND(){
 				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&lt;label&gt;", type:"clear label1"},
+						[{text:"&nbsp;", type:"label1"},
 						{text:"LOADIND", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;", type:"reg2"}]);
@@ -67,15 +68,15 @@
 			
 			function storeIND(){
 				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&lt;label&gt;", type:"clear label1"},
+						[{text:"&nbsp;", type:"label1"},
 						{text:"STOREIND", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
-						{text:"&lt;label&gt;", type:"label2"}]);
+						{text:"&lt;reg&gt;", type:"reg2"}]);
 			}
 			
 			function add(){
 				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&lt;label&gt;", type:"clear label1"},
+						[{text:"&nbsp;", type:"label1"},
 						{text:"ADD", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
@@ -84,7 +85,7 @@
 			
 			function subtract(){
 				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&lt;label&gt;", type:"clear label1"},
+						[{text:"&nbsp;", type:"label1"},
 						{text:"SUBTRACT", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
@@ -93,7 +94,7 @@
 			
 			function and(){
 				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&lt;label&gt;", type:"clear label1"},
+						[{text:"&nbsp;", type:"label1"},
 						{text:"AND", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
@@ -102,7 +103,7 @@
 			
 			function or(){
 				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&lt;label&gt;", type:"clear label1"},
+						[{text:"&nbsp;", type:"label1"},
 						{text:"OR", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
@@ -111,7 +112,7 @@
 			
 			function not(){
 				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&lt;label&gt;", type:"clear label1"},
+						[{text:"&nbsp;", type:"label1"},
 						{text:"NOT", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;", type:"reg2"}]);
@@ -119,7 +120,7 @@
 			
 			function asl(){
 				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&lt;label&gt;", type:"clear label1"},
+						[{text:"&nbsp;", type:"label1"},
 						{text:"ASL", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
@@ -128,7 +129,7 @@
 			
 			function asr(){
 				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&lt;label&gt;", type:"clear label1"},
+						[{text:"&nbsp;", type:"label1"},
 						{text:"ASR", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
@@ -137,7 +138,7 @@
 			
 			function compare(){
 				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&lt;label&gt;", type:"clear label1"},
+						[{text:"&nbsp;", type:"label1"},
 						{text:"COMPARE", type:"command"},
 						{text:"&lt;reg&gt;,", type:"reg1"},
 						{text:"&lt;reg&gt;", type:"reg2"}]);
@@ -145,7 +146,7 @@
 			
 			function branch(){
 				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&lt;label&gt;", type:"clear label1"},
+						[{text:"&nbsp;", type:"label1"},
 						{text:"BRANCH", type:"command"},
 						{text:"&lt;cond&gt;,", type:"cond"},
 						{text:"&lt;label&gt;"}]);
@@ -153,14 +154,14 @@
 			
 			function jump(){
 				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&lt;label&gt;", type:"clear label1"},
+						[{text:"&nbsp;", type:"label1"},
 						{text:"JUMP", type:"command"},
 						{text:"&lt;label&gt;", type:"label2"}]);
 			}
 			
 			function halt(){
 				editor1.addRow(editor1.getSelectedRowIndex(),
-						[{text:"&lt;label&gt;", type:"clear label1"},
+						[{text:"&nbsp;", type:"label1"},
 						{text:"HALT", type:"command"}]);
 			}
 			
@@ -196,42 +197,42 @@
 		            if($(this).hasClass("bits"))
 		            {
 		            	console.log("Hey, this one has bits!");
-		            	createNumBitsPad(0, 15, "Shift how many bits?", "Enter a number between 0 and 15", false, 10, fReturn);
+		            	createNumBitsPad(0, 15, "Shift how many bits?", "Enter a number between 0 and 15", false, 10, fReturn, editorDiv);
 		            }
 		            else if($(this).hasClass("const1"))
 		            {
 		            	console.log("This one should have a big constant.");
-		            	createConstNumPad(-32768, 32767, "What's stored here?", "Enter a number between -32,768 and 32,767", false, 10, fReturn);
+		            	createConstNumPad(-32768, 32767, "What's stored here?", "Enter a number between -32,768 and 32,767", false, 10, fReturn, editorDiv);
 		            }
 		            else if($(this).hasClass("const2"))
 		            {
 		            	console.log("This one should have a small constant.");
-		            	createConstNumPad(0, 255, "What value?", "Enter a number between 0 and 255", false, 10, fReturn);
+		            	createConstNumPad(0, 255, "What value?", "Enter a number between 0 and 255", false, 10, fReturn, editorDiv);
 		            }
 		            else if($(this).hasClass("label1"))
 		            {
 		            	console.log("This one will be using the label-maker.");
-		            	createLabelMaker("Create a label", "", fLabel);
+		            	createLabelMaker("Create a label", "", fLabel, editorDiv);
 		            }
 		            else if($(this).hasClass("label2"))
 		            {
 		            	console.log("This one will be selecting from the labels");
-		            	createLabelSelector("Use which label?", labels, fReturn);
+		            	createLabelSelector("Use which label?", labels, fReturn, editorDiv);
 		            }
 		            else if($(this).hasClass("reg1"))
 		            {
 		            	console.log("This one will select from the registers");
-		            	createRegSelector("Select a register", registers, fRegisterC);
+		            	createRegSelector("Select a register", registers, fRegisterC, editorDiv);
 		            }
 		            else if($(this).hasClass("reg2"))
 		            {
 		            	console.log("This one will select from the registers");
-		            	createRegSelector("Select a register", registers, fRegister);
+		            	createRegSelector("Select a register", registers, fRegister, editorDiv);
 		            }
 		            else if($(this).hasClass("cond"))
 		            {
 		            	console.log("This is a conditional thing...");
-		            	createCondSelector("What conditions?", conditions, fReturnC)
+		            	createCondSelector("What conditions?", conditions, fReturnC, editorDiv);
 		            } else {
 		            	console.log("Hey! That doesn't do anything, silly!");
 		            }

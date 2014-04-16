@@ -30,6 +30,10 @@ table td {
 	border: none;
 }
 
+td.clear {
+	color: #FFFFFF;
+}
+
 td.comment {
 	color: #007500;
 }
