@@ -1484,10 +1484,10 @@ tabsstuff.controller('assemblycontroller',
 
 			$scope.vars.push({
 				memno : num,
-				con1 : memory[num][0] = temp[num][0],
-				con2 : memory[num][1] = temp[num][1],
-				con3 : memory[num][2] = temp[num][2],
-				con4 : memory[num][3] = temp[num][3]
+				con1 : memory[num][0] = $scope.assembler.decimalToHex(temp[num][0], 1),
+				con2 : memory[num][1] = $scope.assembler.decimalToHex(temp[num][1], 1),
+				con3 : memory[num][2] = $scope.assembler.decimalToHex(temp[num][2], 1),
+				con4 : memory[num][3] = $scope.assembler.decimalToHex(temp[num][3], 1)
 			});
 
 		};
@@ -1495,10 +1495,10 @@ tabsstuff.controller('assemblycontroller',
 		$scope.addmemory = function(num) {
 			$scope.memory.push({
 				memno : num,
-				con1 : memory[num][0] = temp[num][0],
-				con2 : memory[num][1] = temp[num][1],
-				con3 : memory[num][2] = temp[num][2],
-				con4 : memory[num][3] = temp[num][3]
+				con1 : memory[num][0] = $scope.assembler.decimalToHex(temp[num][0], 1),
+				con2 : memory[num][1] = $scope.assembler.decimalToHex(temp[num][1], 1),
+				con3 : memory[num][2] = $scope.assembler.decimalToHex(temp[num][2], 1),
+				con4 : memory[num][3] = $scope.assembler.decimalToHex(temp[num][3], 1)
 			});
 		};
 
