@@ -9,6 +9,7 @@
 			var memPointer = 0;
 			var clickedCell;
 			var clickedCellNum;
+			var deleteFlag = false;
 			var registers = ["REG0", "REG1", "REG2", "REG3",
 					"REG4", "REG5", "REG6", "REG7",
 					"REG8", "REG9", "REGA", "REGB", 
@@ -180,11 +181,7 @@
 				else if($(this).hasClass("lineNum")){
 					console.log($(this).parent().parent().parent().parent().parent().index());
 					console.log("Pre-Deletion memPointer = "+memPointer);
-					if($(this).parent().parent().parent().parent().parent().index() <= memPointer){
-						memPointer--;
-					}
-					editor1.deleteRow($(this).parent().parent().parent().parent().parent().index());
-					console.log("Post-Deletion memPointer = "+memPointer);
+					createAlertBox("Delete", "Delete this line?", false, fDelete, editorDiv);
 				}
 				else{
 					// Woo! We can use this section later! :D
@@ -297,6 +294,17 @@
 		        //Function that is called when selecting a function that replaces the text of a single cell
 		    	if(result != null)
 		    		clickedCell.text(result);
+		    }
+		    
+		    function fDelete(result) {
+		    	deleteFlag = result;
+		    	if(deleteFlag){
+					if($(this).parent().parent().parent().parent().parent().index() <= memPointer){
+						memPointer--;
+					}
+					editor1.deleteRow($(this).parent().parent().parent().parent().parent().index());
+					console.log("Post-Deletion memPointer = "+memPointer);
+				}
 		    }
 		    
 		    function fReturnC(result) {
