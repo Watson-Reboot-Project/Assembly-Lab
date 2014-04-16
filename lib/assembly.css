@@ -73,3 +73,22 @@ table {
 .nav > li > a {
     padding: 6px 10px;
 }
+
+/* Added by tboz203: trying to gridify the editor buttons */
+#btn-grid > div:not(:last-child) > button {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#btn-grid > div:not(:first-child) > button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/* Added by tboz203: making the */
+@media (max-width: 767px) {
+    .tabbable {
+        padding: 0;
+    }
+}
+
