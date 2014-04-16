@@ -862,3 +862,4 @@ NumberPad.nextDialogID = 0;
 StringPad.nextDialogID = 0;
 Selector.nextDialogID = 0;
 Alert.nextDialogID = 0;
+// vim: ts=4 sw=4 noet nolist

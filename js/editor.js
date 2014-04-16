@@ -568,3 +568,4 @@ function Editor(divID, lineNumBool, syntaxHighlightingBool, lineNumStart, cellWi
 		return false;
 	}
 }
+// vim: ts=4 sw=4 noet nolist
