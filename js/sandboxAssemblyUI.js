@@ -1636,13 +1636,8 @@ tabsstuff.controller('assemblycontroller',
 	};
 
 	$scope.buttons = function() {
-
-		$scope.runText = [ {
-			name : runText
-		} ];
-		$scope.walkText = [ {
-			name : walkText
-		} ];
+		$scope.runText = runText;
+		$scope.walkText = walkText;
 	};
 
 	$scope.buttons();

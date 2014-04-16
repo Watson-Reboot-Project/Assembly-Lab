@@ -8,6 +8,7 @@ table td {
 }
 </style>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
 <title>Assembly Editor</title>
 <link type="text/css" rel="stylesheet" href="css/editor.css"/>
@@ -17,15 +18,7 @@ table td {
 <link rel='stylesheet' href='lib/assembly.css'>
 <link rel="stylesheet" href="css/jquery-ui-1.10.4.custom.css">
 <link rel="stylesheet" href="css/jquery-ui-custom.css">
-<script src="js/jquery-ui.js"></script>
-<script src="js/editor.js"></script>
-<script src='js/editorController.js'></script>
-<script src="js/jquery-1.10.2.js"></script>
-<script src="js/WatsonDialogs.js"></script>
-<script src="js/WatsonDataStore.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="js/jquery-ui-1.10.4.custom.js"></script>
-		
+
 </head>
 
 <!-- controller for the lab -->
@@ -41,15 +34,13 @@ table td {
 		<div class='row'>
 
 			<div id="Editor1" style='height: 275px; overflow-y:auto;'></div>
-	
+
 			<br>
 			<div class='row'>
 			<div class='text-center'>
 				<div class='btn-group-horizontal'>
-					<button id='runButton' type='button' ng-class='buttonColor(runtext.name)' style='width:10%'
-						ng-repeat='runtext in runText' ng-click='runButton()'>{{runtext.name}}</button>
-					<button  id='walkButton' type='button' ng-class='buttonColor(walktext.name)' style='width:10%'
-						ng-repeat='walktext in walkText' ng-click='walkButton()'>{{walktext.name}}</button>
+					<button id='runButton' type='button' ng-class='buttonColor(runText)' ng-click='runButton()'>{{runText}}</button>
+					<button id='walkButton' type='button' ng-class='buttonColor(walkText)' ng-click='walkButton()'>{{walkText}}</button>
 				</div>
 				</div>
 			</div>
@@ -60,7 +51,7 @@ table td {
 			<div class='container'>
 				<div class='row'>
 					<div
-						class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1'>
+						class='col-lg-2 col-md-2'>
 						<div id='table' style='width: 90px'>
 							<table id='variables' class='table table-bordered'>
 								<thead>
@@ -96,57 +87,38 @@ table td {
 					</div>
 				</div>
 			</div>
-			</tab> <!-- editor tab where you can make changes to the code --> <tab
-				heading='Editor' disabled='false'> <br>
+			</tab>
+
+			<!-- editor tab where you can make changes to the code -->
+			<tab heading='Editor' disabled='false'> <br>
 			<div class='container'>
 				<div class='row'>
 
 					<!-- button group for the table and code -->
-					<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6'>
-						<div id='editor_button_group'
-							class='btn-group-vertical' style='width:30%'>
-							<button type='button' class='btn btn-default'
-								onclick='word()'>.WORD</button>
-							<button type='button' class='btn btn-default'
-								onClick='load()'>LOAD</button>
-							<button type='button' class='btn btn-default'
-								onclick='store()'>STORE</button>
-							<button type='button' class='btn btn-default'
-								onclick='add()'>ADD</button>
-							<button type='button' class='btn btn-default'
-								onclick='asl()'>ASL</button>
-							<button type='button' class='btn btn-default'
-								onclick='compare()'>COMPARE</button>
+					<div class='col-lg-6 col-md-6'>
+						<div id='editor_button_group' class='btn-group-vertical' style='width:30%'>
+							<button type='button' class='btn btn-default' onclick='word()'>.WORD</button>
+							<button type='button' class='btn btn-default' onClick='load()'>LOAD</button>
+							<button type='button' class='btn btn-default' onclick='store()'>STORE</button>
+							<button type='button' class='btn btn-default' onclick='add()'>ADD</button>
+							<button type='button' class='btn btn-default' onclick='asl()'>ASL</button>
+							<button type='button' class='btn btn-default' onclick='compare()'>COMPARE</button>
 						</div>
-						<div id='editor_button_group'
-							class='btn-group-vertical' style='width:30%'>
-							<button type='button' class='btn btn-default'
-								onclick='block()'>.BLOCK</button>
-							<button type='button' class='btn btn-default'
-								onclick='loadIMM()'>LOADIMM</button>
-							<button type='button' class='btn btn-default'
-								onclick='storeIND()'>STOREIND</button>
-							<button type='button' class='btn btn-default'
-								onclick='subtract()'>SUBTRACT</button>
-							<button type='button' class='btn btn-default'
-								onclick='asr()'>ASR</button>
-							<button type='button' class='btn btn-default'
-								onclick='branch()'>BRANCH</button>
+						<div id='editor_button_group' class='btn-group-vertical' style='width:30%'>
+							<button type='button' class='btn btn-default' onclick='block()'>.BLOCK</button>
+							<button type='button' class='btn btn-default' onclick='loadIMM()'>LOADIMM</button>
+							<button type='button' class='btn btn-default' onclick='storeIND()'>STOREIND</button>
+							<button type='button' class='btn btn-default' onclick='subtract()'>SUBTRACT</button>
+							<button type='button' class='btn btn-default' onclick='asr()'>ASR</button>
+							<button type='button' class='btn btn-default' onclick='branch()'>BRANCH</button>
 						</div>
-						<div id='editor_button_group'
-							class='btn-group-vertical' style='width:30%'>
-							<button type='button' class='btn btn-default'
-								onclick='halt()'>HALT</button>
-							<button type='button' class='btn btn-default'
-								onclick='loadIND()'>LOADIND</button>
-							<button type='button' class='btn btn-default'
-								onclick='and()'>AND</button>
-							<button type='button' class='btn btn-default'
-								onclick='or()'>OR</button>	
-							<button type='button' class='btn btn-default'
-								onclick='not()'>NOT</button>
-							<button type='button' class='btn btn-default'
-								onclick='jump()'>JUMP</button>
+						<div id='editor_button_group' class='btn-group-vertical' style='width:30%'>
+							<button type='button' class='btn btn-default' onclick='halt()'>HALT</button>
+							<button type='button' class='btn btn-default' onclick='loadIND()'>LOADIND</button>
+							<button type='button' class='btn btn-default' onclick='and()'>AND</button>
+							<button type='button' class='btn btn-default' onclick='or()'>OR</button>
+							<button type='button' class='btn btn-default' onclick='not()'>NOT</button>
+							<button type='button' class='btn btn-default' onclick='jump()'>JUMP</button>
 						</div>
 					</div>
 				</div>
@@ -156,13 +128,10 @@ table td {
 			<tab heading='Architecture'> <br>
 			<div class='container' style="width:100%;">
 				<div class='row'>
-					<div
-						class='col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default'
-						style="width: 220px; border: 1px solid;">
+					<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default' style="width: 220px; border: 1px solid;">
 						<h4 style='text-align:center'>Memory</h4>
 						<div class='spanMem' style='margin-bottom:5%;'>
-							<table class='table table-bordered' ng-repeat='mem in memory'
-								style='table-layout: fixed;'>
+							<table class='table table-bordered' ng-repeat='mem in memory' style='table-layout: fixed;'>
 								<tr ng-style='set_color(mem.memno)'>
 									<th style='text-align:right'>{{mem.memno}}</th>
 									<td style='text-align:center'>{{mem.con1}}</td>
@@ -174,9 +143,7 @@ table td {
 
 						</div>
 					</div>
-					<div
-						class='col-lg-1 col-md-1 col-sm-1 col-xs-1'
-						style="height:auto; width: 10%; text-align:center; border: 1px solid; margin-top: 15%">Data Bus</div>
+					<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' style="height:auto; width: 10%; text-align:center; border: 1px solid; margin-top: 15%">Data Bus</div>
 					<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 panel panel-default' style='border: 1px solid'>
 					<h3 style='text-align:center'>CPU</h3>
 						<div class='panel panel-default' style='width: 100%;'>
@@ -185,8 +152,7 @@ table td {
 								<h4>Registers</h4>
 								<!-- I should be outside of this box -->
 								<div class='spanReg'>
-									<table class='table table-bordered'
-										style='table-layout:auto;' ng-repeat='reg in register'>
+									<table class='table table-bordered' style='table-layout:auto;' ng-repeat='reg in register'>
 										<tbody>
 											<tr>
 												<th style='text-align:center'>{{reg.content}}</th>
@@ -197,23 +163,19 @@ table td {
 								</div>
 							</div>
 							<!-- program counter and instruction register table -->
-							<div
-								class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1' style='margin-top:10%'>
-								<table class='table table-bordered'
-									style='height: 100px; width: 170px;'>
+							<div class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1' style='margin-top:10%'>
+								<table class='table table-bordered' style='height: 100px; width: 170px;'>
 									<tbody>
 										<tr>
 											<th class='text-center' colspan='4'>Program Counter</th>
 										</tr>
 										<tr>
-											<td class='text-center' colspan='4'
-												ng-repeat='cnt in counter'>{{cnt.content}}</td>
+											<td class='text-center' colspan='4' ng-repeat='cnt in counter'>{{cnt.content}}</td>
 										</tr>
 										<tr>
 											<th class='text-center' colspan='4'>Instruction Register</th>
 										</tr>
-										<tr ng-repeat='inst in instructionRegister'
-											class='text-center'>
+										<tr ng-repeat='inst in instructionRegister' class='text-center'>
 											<td>{{inst.con1}}</td>
 											<td>{{inst.con2}}</td>
 											<td>{{inst.con3}}</td>
@@ -224,8 +186,7 @@ table td {
 								<!-- flag table -->
 								<div class='row'>
 									<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' style='margin-top:30%;'>
-										<table class='table table-bordered'
-											style='height: 150px; width: 170px;'>
+										<table class='table table-bordered' style='height: 150px; width: 170px;'>
 											<thead>
 												<tr>
 													<th colspan='2' class='text-center'>Flags</th>
@@ -263,7 +224,7 @@ table td {
 	</div>
 
 	<!-- need to get it working so i dont need the online repositories -->
-	
+
 	<script type='text/javascript' src='lib/js/angular.js'></script>
 	<script type='text/javascript' src='lib/js/jQuery.js'></script>
 	<script type='text/javascript' src='lib/js/less.js'></script>
@@ -273,9 +234,9 @@ table td {
 	<script type='text/javascript' src='js/editor.js'></script>
 	<script type='text/javascript' src='js/sandboxAssemblyUI.js'></script>
 	<script type='text/javascript' src='js/inputs.js'></script>
-	<script src="js/jquery-ui.js"></script>
+	<script type='text/javascript' src="js/jquery-ui.js"></script>
 	<script type='text/javascript' src='js/WatsonDialogs.js'></script>
 	<script type="text/javascript" src='js/editorController.js'></script>
 </body>
 </html>
-<!-- vim: set ts=2 sw=2 noet :-->
+<!-- vim: set ts=2 sw=2 tw=0 noet :-->

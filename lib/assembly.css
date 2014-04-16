@@ -68,3 +68,8 @@ table {
   vertical-align: top;
   border-top: 1px solid #dddddd;
 }
+
+/* Added by tboz203: making the tabs a tad smaller */
+.nav > li > a {
+    padding: 6px 10px;
+}
