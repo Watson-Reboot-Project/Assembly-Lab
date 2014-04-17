@@ -13,7 +13,7 @@ var tabsstuff = angular
 						this.intervalID;
 						// Determines if in Figure or Architecture mode
 						// True for Figure, False if Architecture
-						this.figureMode = figureMode;
+						this.figureMode = figureMode; // Outdated
 
 						// A flag indicating whether the program has been run
 						// before
@@ -288,6 +288,7 @@ var tabsstuff = angular
 							} else {
 								complete = true;
 							}
+							return 0;
 						};
 						
 						
@@ -303,7 +304,18 @@ var tabsstuff = angular
 							var memLine = 0;
 							var refLine = 0;
 							var index = 0;
+							this.offSet = 0;
+							
+							this.memory = [];
+							this.memory = new Array(256);
+							for (var i = 0; i < 256; i++) {
+								this.memory[i] = [ "0", "0", "0", "0" ];
+							}
 
+							this.initMemory = [];
+							this.initVarMemory = [];
+							this.initVarRegister = [];
+							
 							// Populate the labels array for memory lookup
 							while (progLine < editor1.getRowCount()) {
 								table = editor1.rowToArray(progLine);
@@ -1245,18 +1257,17 @@ var tabsstuff = angular
 						// Walks through one step of the program
 						this.walk = function() {
 							var table = editor1.rowToArray(this.programCounter);
-							
+							console.log("Edited: "+edited);
 							if (edited) {
-								this.preprocessor();
+								var temp = this.preprocessor();
 								if(complete){
 									this.init();
 									this.previousCounter = this.programCounter;
 								} else {
 									this.stop = true;
 								}
-							}
-							if (this.done) {
-								this.reset();
+							} else if (this.done) {
+								//this.reset();
 								// console.log("Would you like to go again?");
 								this.done = false;
 							}
@@ -1277,16 +1288,15 @@ var tabsstuff = angular
 						// First checks if the code has recently been edited.
 						this.run = function() {
 							if (edited) {
-								this.preprocessor();
+								var temp = this.preprocessor();
 								if(complete){
 									this.init();
 									this.previousCounter = this.programCounter;
 								} else {
 									this.stop = true;
 								}
-							}
-							if (this.done) {
-								this.reset();
+							} else if (this.done) {
+								//this.reset();
 							}
 						};
 
@@ -1611,9 +1621,11 @@ tabsstuff.controller('assemblycontroller',
 		running = true;
 		// $scope.memory[counter].set_color(1);
 		$scope.architecture(true);
-		if (hasRan) {
-			$scope.reset();
-			hasRan = false;
+		if (edited) {
+			if (hasRan) {
+				$scope.reset();
+				hasRan = false;
+			}
 		}
 		if ($scope.assembler.stop == false) {
 			var temp = $scope.assembler.walk();
@@ -1632,9 +1644,11 @@ tabsstuff.controller('assemblycontroller',
 
 	$scope.run = function() {
 		if (!attemptingToRun) {
-			if (hasRan) {
-				$scope.reset();
-				hasRan = false;
+			if(edited) {
+				if (hasRan) {
+					$scope.reset();
+					hasRan = false;
+				}
 			}
 			running = true;
 			$scope.assembler.run();
