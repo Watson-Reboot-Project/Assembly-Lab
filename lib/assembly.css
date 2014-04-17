@@ -82,7 +82,6 @@ table {
 	}
 }
 
-
 #Editor1 {
 	height: 275px;
 	overflow-y: auto;
@@ -93,15 +92,72 @@ table {
 	width: 100px;
 }
 
+/* TODO: needs to be fixed */
 #bus {
 	height:auto;
-	width: 10%;
+	width: 50px;
+	float: left;
 	text-align:center;
 	border: 1px solid;
-	margin-top: 15%;
+	/* margin-top: 15%; */
 }
 
 #program {
+	min-width: 700px;
+}
+
+.figure {
 	overflow-x: auto;
 }
+
+#cpu {
+	border: 1px solid;
+}
+
+@media (min-width: 768px) {
+	#counter-flags {
+		width: 170px;
+	}
+}
+
+#counter-flags {
+	margin-top:10%;
+}
+
+#counter {
+	height: 100px;
+}
+
+#flags {
+	height: 150px;
+}
+
+#registers {
+	margin-bottom:2.75%;
+}
+
+@media (max-width: 500px) {
+	#registers,
+	#counter-flags {
+		width: 100%;
+	}
+}
+
+@media (max-width: 440px) {
+	#memory,
+	#cpu {
+		width: 100%;
+	}
+
+	#registers,
+	#counter-flags {
+		width: 50%;
+	}
+}
+
+/* #counter-flags > *, */
+/* #counter-flags table { */
+/* 	width: 100%; */
+/* } */
+
 /* vim: set ts=4 sw=4 noet :*/

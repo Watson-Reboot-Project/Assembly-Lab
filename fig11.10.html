@@ -19,7 +19,7 @@
 
 		<div class='row'>
 
-			<div id='fig113'>
+			<div id='fig113' class='figure'>
 				<table id='program' class='spanTable'>
 					<tr>
 						<td></td>
@@ -265,7 +265,7 @@
 			<!-- tab containing the memory, register, program counters, and flags -->
 			<tab heading='Architecture'> <br>
 			<div class='container'>
-				<div class='col-lg-3 col-md-3 panel panel-default'>
+				<div id='memory' class='col-lg-3 col-md-3 col-sm-3 col-xs-4 panel panel-default'>
 					<h4 class='text-center'>Memory</h4>
 					<div id='spanMemWrapper'>
 						<div id='spanVarMem' >
@@ -292,12 +292,12 @@
 						</div>
 					</div>
 				</div>
-				<div id='bus' class='col-lg-1 col-md-1'>Data Bus</div>
-				<div class='col-lg-6 col-md-6 panel panel-default' style='border: 1px solid'>
+				<div id='bus'>Data Bus</div>
+				<div id='cpu' class='col-lg-6 col-md-6 col-sm-6 col-xs-6 panel panel-default'>
 				<h3 class='text-center'>CPU</h3>
 					<div class='panel panel-default' style='width: 100%;'>
 						<!-- table containing the register information -->
-						<div class='col-lg-4  col-md-4 col-sm-4 col-xs-4' style='margin-bottom:2.75%'>
+						<div id='registers' class='col-lg-4  col-md-4 col-sm-4 col-xs-6'>
 							<h4>Registers</h4>
 							<!-- I should be outside of this box -->
 							<div id='spanReg'>
@@ -312,8 +312,8 @@
 							</div>
 						</div>
 						<!-- program counter and instruction register table -->
-						<div class='col-lg-2 col-md-2' style='margin-top:10%'>
-							<table class='table table-bordered' style='height: 100px; width: 170px;'>
+						<div id='counter-flags' class='col-lg-2 col-md-2 col-sm-4 col-xs-6'>
+							<table class='table table-bordered'>
 								<tbody>
 									<tr>
 										<th class='text-center' colspan='4'>Program Counter</th>
@@ -333,35 +333,31 @@
 								</tbody>
 							</table>
 							<!-- flag table -->
-							<div class='row'>
-								<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' style='margin-top:30%;'>
-									<table class='table table-bordered' style='height: 150px; width: 170px;'>
-										<thead>
-											<tr>
-												<th colspan='2' class='text-center'>Flags</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td><strong>Carry</strong></td>
-												<td class='text-center' ng-repeat='carry in carryFlag' ng-bind='carry.flag'></td>
-											</tr>
-											<tr>
-												<td><strong>Negative</strong></td>
-												<td class='text-center' ng-repeat='neg in negativeFlag' ng-bind='neg.flag'></td>
-											</tr>
-											<tr>
-												<td><strong>Zero</strong></td>
-												<td class='text-center' ng-repeat='zero in zeroFlag' ng-bind='zero.flag'></td>
-											</tr>
-											<tr>
-												<td><strong>Overflow</strong></td>
-												<td class='text-center' ng-repeat='over in overflowFlag' ng-bind='over.flag'></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
+							<table class='table table-bordered'>
+								<thead>
+									<tr>
+										<th colspan='2' class='text-center'>Flags</th>
+									</tr>
+								</thead>
+								<tbody>
+								<tr>
+									<td><strong>Carry</strong></td>
+									<td class='text-center' ng-repeat='carry in carryFlag' ng-bind='carry.flag'></td>
+								</tr>
+								<tr>
+									<td><strong>Negative</strong></td>
+									<td class='text-center' ng-repeat='neg in negativeFlag' ng-bind='neg.flag'></td>
+								</tr>
+								<tr>
+									<td><strong>Zero</strong></td>
+									<td class='text-center' ng-repeat='zero in zeroFlag' ng-bind='zero.flag'></td>
+								</tr>
+								<tr>
+									<td><strong>Overflow</strong></td>
+									<td class='text-center' ng-repeat='over in overflowFlag' ng-bind='over.flag'></td>
+								</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
