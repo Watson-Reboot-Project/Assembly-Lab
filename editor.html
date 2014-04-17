@@ -8,16 +8,16 @@ table td {
 }
 </style>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
 <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
 <title>Assembly Editor</title>
-<link type="text/css" rel="stylesheet" href="css/editor.css"/>
 <link rel='stylesheet' href='lib/css/bootstrap-3.css'>
-<link rel="stylesheet" href="css/Dialogs.css">
+<link rel='stylesheet' href='css/jquery-ui-1.10.4.custom.css'>
+<link rel='stylesheet' href='css/jquery-ui-custom.css'>
+<link rel='stylesheet' href='css/Dialogs.css'>
 
+<link type='text/css' rel='stylesheet' href='css/editor.css'/>
 <link rel='stylesheet' href='lib/assembly.css'>
-<link rel="stylesheet" href="css/jquery-ui-1.10.4.custom.css">
-<link rel="stylesheet" href="css/jquery-ui-custom.css">
 
 </head>
 
@@ -27,19 +27,17 @@ table td {
 	<h1 class='text-center'>Assembly Editor</h1>
 	<br>
 	<!-- main container for the index -->
-	<div ng-app='assembly' ng-controller='assemblycontroller'
-		class='container'>
-
+	<div ng-app='assembly' ng-controller='assemblycontroller' class='container'>
 
 		<div class='row'>
 
-			<div id="Editor1" style='height: 275px; overflow-y:auto;'></div>
+			<div id='Editor1'></div>
 			<br>
 			<div class='row'>
 			<div class='text-center'>
 				<div class='btn-group-horizontal'>
-					<button id='runButton' type='button' ng-class='buttonColor(runText)' ng-click='runButton()'>{{runText}}</button>
-					<button id='walkButton' type='button' ng-class='buttonColor(walkText)' ng-click='walkButton()'>{{walkText}}</button>
+					<button id='runButton' type='button' ng-class='buttonColor(runText)' ng-click='runButton()' ng-bind='runText'></button>
+					<button id='walkButton' type='button' ng-class='buttonColor(walkText)' ng-click='walkButton()' ng-bind='walkText'></button>
 				</div>
 				</div>
 			</div>
@@ -60,8 +58,8 @@ table td {
 								</thead>
 								<tbody ng-repeat='mem in varMemory'>
 									<tr>
-										<th>{{mem.title}}</th>
-										<td class='text-center'>{{mem.value}}</td>
+										<th ng-bind='mem.title'></th>
+										<td class='text-center' ng-bind='mem.value'></td>
 									</tr>
 								</tbody>
 							</table>
@@ -77,8 +75,8 @@ table td {
 								</thead>
 								<tbody ng-repeat='reg in varRegister'>
 									<tr>
-										<th>{{reg.title}}</th>
-										<td class='text-center'>{{reg.value}}</td>
+										<th ng-bind'reg.title'></th>
+										<td class='text-center' ng-bind'reg.value'></td>
 									</tr>
 								</tbody>
 							</table>
@@ -94,67 +92,69 @@ table td {
 				<div class='row'>
 
 					<!-- button group for the table and code -->
-					<div id='btn-grid' class='col-lg-6 col-md-6'>
-						<div id='editor_button_group' class='btn-group-vertical'>
-							<button type='button' class='btn btn-default' onclick='word()'>.WORD</button>
-							<button type='button' class='btn btn-default' onClick='load()'>LOAD</button>
-							<button type='button' class='btn btn-default' onclick='store()'>STORE</button>
-							<button type='button' class='btn btn-default' onclick='add()'>ADD</button>
-							<button type='button' class='btn btn-default' onclick='asl()'>ASL</button>
-							<button type='button' class='btn btn-default' onclick='compare()'>COMPARE</button>
-						</div>
-						<div id='editor_button_group' class='btn-group-vertical'>
-							<button type='button' class='btn btn-default' onclick='block()'>.BLOCK</button>
-							<button type='button' class='btn btn-default' onclick='loadIMM()'>LOADIMM</button>
-							<button type='button' class='btn btn-default' onclick='storeIND()'>STOREIND</button>
-							<button type='button' class='btn btn-default' onclick='subtract()'>SUBTRACT</button>
-							<button type='button' class='btn btn-default' onclick='asr()'>ASR</button>
-							<button type='button' class='btn btn-default' onclick='branch()'>BRANCH</button>
-						</div>
-						<div id='editor_button_group' class='btn-group-vertical'>
-							<button type='button' class='btn btn-default' onclick='halt()'>HALT</button>
-							<button type='button' class='btn btn-default' onclick='loadIND()'>LOADIND</button>
-							<button type='button' class='btn btn-default' onclick='and()'>AND</button>
-							<button type='button' class='btn btn-default' onclick='or()'>OR</button>
-							<button type='button' class='btn btn-default' onclick='not()'>NOT</button>
-							<button type='button' class='btn btn-default' onclick='jump()'>JUMP</button>
-						</div>
-					</div>
+					<table id='btn-grid' class='col-lg-6 col-md-6'>
+						<tbody>
+							<tr id='editor_button_group' class='btn-group-vertical'>
+								<td type='button' class='btn btn-default' onclick='word()'>.WORD</td>
+								<td type='button' class='btn btn-default' onClick='load()'>LOAD</td>
+								<td type='button' class='btn btn-default' onclick='store()'>STORE</td>
+								<td type='button' class='btn btn-default' onclick='add()'>ADD</td>
+								<td type='button' class='btn btn-default' onclick='asl()'>ASL</td>
+								<td type='button' class='btn btn-default' onclick='compare()'>COMPARE</td>
+							</tr>
+							<tr id='editor_button_group' class='btn-group-vertical'>
+								<td type='button' class='btn btn-default' onclick='block()'>.BLOCK</td>
+								<td type='button' class='btn btn-default' onclick='loadIMM()'>LOADIMM</td>
+								<td type='button' class='btn btn-default' onclick='storeIND()'>STOREIND</td>
+								<td type='button' class='btn btn-default' onclick='subtract()'>SUBTRACT</td>
+								<td type='button' class='btn btn-default' onclick='asr()'>ASR</td>
+								<td type='button' class='btn btn-default' onclick='branch()'>BRANCH</td>
+							</tr>
+							<tr id='editor_button_group' class='btn-group-vertical'>
+								<td type='button' class='btn btn-default' onclick='halt()'>HALT</td>
+								<td type='button' class='btn btn-default' onclick='loadIND()'>LOADIND</td>
+								<td type='button' class='btn btn-default' onclick='and()'>AND</td>
+								<td type='button' class='btn btn-default' onclick='or()'>OR</td>
+								<td type='button' class='btn btn-default' onclick='not()'>NOT</td>
+								<td type='button' class='btn btn-default' onclick='jump()'>JUMP</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 
 			</tab> <!-- tab containing the memory, register, program counters, and flags -->
 			<tab heading='Architecture'> <br>
-			<div class='container' style="width:100%;">
+			<div class='container' style='width:100%;'>
 				<div class='row'>
-					<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default' style="width: 245px; border: 1px solid;">
+					<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default' style='width: 245px; border: 1px solid;'>
 						<h4 style='text-align:center'>Memory</h4>
 						<div class='spanMemWrapper' style='margin-right:5%; margin-bottom:5%;'>
 							<div class='spanVarMem' >
 								<table class='table table-bordered' ng-repeat='var in vars' style='table-layoud: fixed;'>
 									<tr ng-style='set_color(var.memno)'>
-										<th style='text-align:right'>{{var.memno}}</th>
-										<td style='text-align:center'>{{var.con1}}</td>
-										<td style='text-align:center'>{{var.con2}}</td>
-										<td style='text-align:center'>{{var.con3}}</td>
-										<td style='text-align:center'>{{var.con4}}</td>
+										<th style='text-align:right' ng-bind'var.memno'></th>
+										<td style='text-align:center' ng-bind'var.con1'></td>
+										<td style='text-align:center' ng-bind'var.con2'></td>
+										<td style='text-align:center' ng-bind'var.con3'></td>
+										<td style='text-align:center' ng-bind'var.con4'></td>
 									</tr>
 								</table>
 							</div>
 							<div class='spanMem'>
 								<table class='table table-bordered' ng-repeat='mem in memory' style='table-layout: fixed;'>
 									<tr ng-style='set_color(mem.memno)'>
-										<th style='text-align:right'>{{mem.memno}}</th>
-										<td style='text-align:center'>{{mem.con1}}</td>
-										<td style='text-align:center'>{{mem.con2}}</td>
-										<td style='text-align:center'>{{mem.con3}}</td>
-										<td style='text-align:center'>{{mem.con4}}</td>
+										<th style='text-align:right' ng-bind'mem.memno'></th>
+										<td style='text-align:center' ng-bind'mem.con1'></td>
+										<td style='text-align:center' ng-bind'mem.con2'></td>
+										<td style='text-align:center' ng-bind'mem.con3'></td>
+										<td style='text-align:center' ng-bind'mem.con4'></td>
 									</tr>
 								</table>
 							</div>
 						</div>
 					</div>
-					<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' style="height:auto; width: 10%; text-align:center; border: 1px solid; margin-top: 15%">Data Bus</div>
+					<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' style='height:auto; width: 10%; text-align:center; border: 1px solid; margin-top: 15%'>Data Bus</div>
 					<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 panel panel-default' style='border: 1px solid'>
 					<h3 style='text-align:center'>CPU</h3>
 						<div class='panel panel-default' style='width: 100%;'>
@@ -166,8 +166,8 @@ table td {
 									<table class='table table-bordered' style='table-layout:auto;' ng-repeat='reg in register'>
 										<tbody>
 											<tr>
-												<th style='text-align:center'>{{reg.content}}</th>
-												<td class='text-center'>{{reg.value}}</td>
+												<th style='text-align:center' ng-bind'reg.content'></th>
+												<td class='text-center' ng-bind'reg.value'></td>
 											</tr>
 										</tbody>
 									</table>
@@ -181,16 +181,16 @@ table td {
 											<th class='text-center' colspan='4'>Program Counter</th>
 										</tr>
 										<tr>
-											<td class='text-center' colspan='4' ng-repeat='cnt in counter'>{{cnt.content}}</td>
+											<td class='text-center' colspan='4' ng-repeat='cnt in counter' ng-bind'cnt.content'></td>
 										</tr>
 										<tr>
 											<th class='text-center' colspan='4'>Instruction Register</th>
 										</tr>
 										<tr ng-repeat='inst in instructionRegister' class='text-center'>
-											<td>{{inst.con1}}</td>
-											<td>{{inst.con2}}</td>
-											<td>{{inst.con3}}</td>
-											<td>{{inst.con4}}</td>
+											<td ng-bind'inst.con1'></td>
+											<td ng-bind'inst.con2'></td>
+											<td ng-bind'inst.con3'></td>
+											<td ng-bind'inst.con4'></td>
 										<tr>
 									</tbody>
 								</table>
@@ -206,19 +206,19 @@ table td {
 											<tbody>
 												<tr>
 													<td><strong>Carry</strong></td>
-													<td class='text-center' ng-repeat='carry in carryFlag'>{{carry.flag}}</td>
+													<td class='text-center' ng-repeat='carry in carryFlag' ng-bind'carry.flag'></td>
 												</tr>
 												<tr>
 													<td><strong>Negative</strong></td>
-													<td class='text-center' ng-repeat='neg in negativeFlag'>{{neg.flag}}</td>
+													<td class='text-center' ng-repeat='neg in negativeFlag' ng-bind'neg.flag'></td>
 												</tr>
 												<tr>
 													<td><strong>Zero</strong></td>
-													<td class='text-center' ng-repeat='zero in zeroFlag'>{{zero.flag}}</td>
+													<td class='text-center' ng-repeat='zero in zeroFlag' ng-bind'zero.flag'></td>
 												</tr>
 												<tr>
 													<td><strong>Overflow</strong></td>
-													<td class='text-center' ng-repeat='over in overflowFlag'>{{over.flag}}</td>
+													<td class='text-center' ng-repeat='over in overflowFlag' ng-bind'over.flag'></td>
 												</tr>
 											</tbody>
 										</table>
@@ -236,7 +236,6 @@ table td {
 
 
 	<!-- need to get it working so i dont need the online repositories -->
-
 	<script type='text/javascript' src='lib/js/angular.js'></script>
 	<script type='text/javascript' src='lib/js/jQuery.js'></script>
 	<script type='text/javascript' src='lib/js/less.js'></script>
@@ -246,9 +245,9 @@ table td {
 	<script type='text/javascript' src='js/editor.js'></script>
 	<script type='text/javascript' src='js/sandboxAssemblyUI.js'></script>
 	<script type='text/javascript' src='js/inputs.js'></script>
-	<script type='text/javascript' src="js/jquery-ui.js"></script>
+	<script type='text/javascript' src='js/jquery-ui.js'></script>
 	<script type='text/javascript' src='js/WatsonDialogs.js'></script>
-	<script type="text/javascript" src='js/editorController.js'></script>
+	<script type='text/javascript' src='js/editorController.js'></script>
 </body>
 </html>
 <!-- vim: set ts=2 sw=2 tw=0 noet :-->

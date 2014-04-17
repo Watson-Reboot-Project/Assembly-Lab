@@ -71,24 +71,42 @@ table {
 
 /* Added by tboz203: making the tabs a tad smaller */
 .nav > li > a {
-    padding: 6px 10px;
+	padding: 6px 10px;
+}
+
+#btn-grid {
+	margin-left: 15px;
+	margin-right: 15px;
 }
 
 /* Added by tboz203: trying to gridify the editor buttons */
-#btn-grid > div:not(:last-child) > button {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+#btn-grid tr:not(:last-child) > td {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
 }
 
-#btn-grid > div:not(:first-child) > button {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+#btn-grid tr:not(:first-child) > td {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	border-left: 0;
 }
 
 /* Added by tboz203: making the */
 @media (max-width: 767px) {
-    .tabbable {
-        padding: 0;
-    }
+	.tabbable {
+		padding: 0;
+	}
 }
 
+#table {
+	width: 90px;
+}
+
+#Editor1 {
+	height: 275px;
+	overflow-y: auto;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+/* vim: set ts=4 sw=4 noet :*/

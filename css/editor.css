@@ -34,12 +34,12 @@
 	/*min-height: 200px;
 	max-height: 300px;
 	width:98%;*/
-	height: inherit;
-	width: inherit;
+	/* height: inherit; */
+	/* width: inherit; */
 	border-style: ridge;
-	margin:auto auto;
+	/* margin:auto auto; */
 	font-family:monospace;
-	overflow: auto;
+	/* overflow: auto; */
 }
 
 table {
