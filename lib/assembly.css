@@ -1,10 +1,10 @@
 #spanMemWrapper {
-	margin-right:5%;
-	margin-bottom:5%;
+	/* margin-right:5%; */
+	/* margin-bottom:5%; */
 	height: 410px;
 	width:100%;
 	border: 1px solid black;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 #spanMemWrapper th {
@@ -30,10 +30,10 @@
 }
 
 #spanReg {
-	height:auto;
-	width:auto;
+	height: auto;
+	width: auto;
 	border: 1px solid black;
-	overflow-y:auto;
+	overflow-y: auto;
 }
 
 table {
@@ -76,12 +76,6 @@ table {
 	border-left: 0;
 }
 
-@media (max-width: 767px) {
-	.tabbable {
-		padding: 0;
-	}
-}
-
 #Editor1 {
 	height: 275px;
 	overflow-y: auto;
@@ -92,14 +86,13 @@ table {
 	width: 100px;
 }
 
-/* TODO: needs to be fixed */
 #bus {
 	height:auto;
 	width: 50px;
 	float: left;
 	text-align:center;
 	border: 1px solid;
-	/* margin-top: 15%; */
+	margin-top: 50px;
 }
 
 #program {
@@ -112,12 +105,6 @@ table {
 
 #cpu {
 	border: 1px solid;
-}
-
-@media (min-width: 768px) {
-	#counter-flags {
-		width: 170px;
-	}
 }
 
 #counter-flags {
@@ -136,6 +123,27 @@ table {
 	margin-bottom:2.75%;
 }
 
+@media (min-width: 767px) {
+	#counter-flags {
+		width: 170px;
+	}
+}
+
+@media (max-width: 767px) {
+	#memory,
+	#cpu {
+		padding: 0;
+	}
+
+	#bus {
+		width: 8%;
+	}
+
+	.tabbable {
+		padding: 0;
+	}
+}
+
 @media (max-width: 500px) {
 	#registers,
 	#counter-flags {
@@ -147,17 +155,19 @@ table {
 	#memory,
 	#cpu {
 		width: 100%;
+		margin-bottom: 0;
 	}
 
 	#registers,
 	#counter-flags {
 		width: 50%;
 	}
-}
 
-/* #counter-flags > *, */
-/* #counter-flags table { */
-/* 	width: 100%; */
-/* } */
+	#bus {
+		margin-top: 0;
+		margin-left: 40%;
+		width: 50px;
+	}
+}
 
 /* vim: set ts=4 sw=4 noet :*/
