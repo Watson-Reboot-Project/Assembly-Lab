@@ -2,33 +2,11 @@
 <html>
 
 <head>
-<style type='text/css'>
-table td {
-	border: none;
-}
-
-td.comment {
-	color: #007500;
-}
-
-td.constant {
-	color: #A52A2A;
-}
-
-td.keyword {
-	color: #CC0099;
-}
-
-td.command {
-	color: #0000FF;
-}
-</style>
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
-<title>Figure 11.10</title>
-<link rel='stylesheet' href='lib/css/bootstrap-3.css'>
-<link rel='stylesheet' href='lib/assembly.css'>
+	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+	<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+	<title>Figure 11.10</title>
+	<link rel='stylesheet' href='lib/css/bootstrap-3.css'>
+	<link rel='stylesheet' href='lib/assembly.css'>
 </head>
 
 <!-- controller for the lab -->
@@ -37,61 +15,55 @@ td.command {
 	<h1 class='text-center'>Figure 11.10</h1>
 	<br>
 	<!-- main container for the index -->
-	<div ng-app='assembly' ng-controller='assemblycontroller'
-		class='container'>
-
+	<div ng-app='assembly' ng-controller='assemblycontroller' class='container'>
 
 		<div class='row'>
 
-			<div class='col-lg-12 col-md-12' id='table' id='fig113'>
+			<div id='fig113'>
 				<table id='program' class='spanTable'>
 					<tr>
 						<td></td>
 						<td></td>
 						<td>X</td>
-						<td class="keyword">.WORD</td>
-						<td class="constant">5</td>
+						<td class='keyword'>.WORD</td>
+						<td class='constant'>5</td>
 						<td></td>
 						<td></td>
 						<td>;</td>
-						<td class="comment">declare and initialize 'x' to 5 /* first
-							operand */</td>
+						<td class='comment'>declare and initialize 'x' to 5 /* first operand */</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td></td>
 						<td>Y</td>
-						<td class="keyword">.WORD</td>
-						<td class="constant">4</td>
+						<td class='keyword'>.WORD</td>
+						<td class='constant'>4</td>
 						<td></td>
 						<td></td>
 						<td>;</td>
-						<td class="comment">declare and initialize 'y' to 4 /* second
-							operand */</td>
+						<td class='comment'>declare and initialize 'y' to 4 /* second operand */</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td></td>
 						<td>Z</td>
-						<td class="keyword">.BLOCK</td>
-						<td class="constant">1</td>
+						<td class='keyword'>.BLOCK</td>
+						<td class='constant'>1</td>
 						<td></td>
 						<td></td>
 						<td>;</td>
-						<td class="comment">declare 'z' /* z will hold the product of
-							the operands */</td>
+						<td class='comment'>declare 'z' /* z will hold the product of the operands */</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td></td>
 						<td>I</td>
-						<td class="keyword">.BLOCK</td>
-						<td class="constant">1</td>
+						<td class='keyword'>.BLOCK</td>
+						<td class='constant'>1</td>
 						<td></td>
 						<td></td>
 						<td>;</td>
-						<td class="comment">declare 'i' /* i counts the number of
-							loop iterations */</td>
+						<td class='comment'>declare 'i' /* i counts the number of loop iterations */</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -99,10 +71,10 @@ td.command {
 						<td></td>
 						<td class='command'>LOADIMM</td>
 						<td>REG1,</td>
-						<td class="constant">1</td>
+						<td class='constant'>1</td>
 						<td></td>
 						<td>;</td>
-						<td class="comment">register 1 holds the constant value 1.</td>
+						<td class='comment'>register 1 holds the constant value 1.</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -113,8 +85,7 @@ td.command {
 						<td>X</td>
 						<td></td>
 						<td>;</td>
-						<td class="comment">register A holds the value of variable
-							'x'.</td>
+						<td class='comment'>register A holds the value of variable 'x'.</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -125,8 +96,7 @@ td.command {
 						<td>Y</td>
 						<td></td>
 						<td>;</td>
-						<td class="comment">register B holds the value of variable
-							'y'.</td>
+						<td class='comment'>register B holds the value of variable 'y'.</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -134,11 +104,10 @@ td.command {
 						<td></td>
 						<td class='command'>LOADIMM</td>
 						<td>REGC,</td>
-						<td class="constant">0</td>
+						<td class='constant'>0</td>
 						<td></td>
 						<td>;</td>
-						<td class="comment">register C holds the value of variable
-							'z' &#45; initially 0.</td>
+						<td class='comment'>register C holds the value of variable 'z' &#45; initially 0.</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -146,11 +115,10 @@ td.command {
 						<td></td>
 						<td class='command'>LOADIMM</td>
 						<td>REGD,</td>
-						<td class="constant">1</td>
+						<td class='constant'>1</td>
 						<td></td>
 						<td>;</td>
-						<td class="comment">register D holds the value of variable
-							'i' &#45; initially 1.</td>
+						<td class='comment'>register D holds the value of variable 'i' &#45; initially 1.</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -161,8 +129,7 @@ td.command {
 						<td>REGB</td>
 						<td></td>
 						<td>;</td>
-						<td class="comment">compare register D (the counter 'i') to
-							register B ('y').</td>
+						<td class='comment'>compare register D (the counter 'i') to register B ('y').</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -173,8 +140,7 @@ td.command {
 						<td>ENDLP</td>
 						<td></td>
 						<td>;</td>
-						<td class="comment">if 'i' is greater than 'y' then branch to
-							'endlp'.</td>
+						<td class='comment'>if 'i' is greater than 'y' then branch to 'endlp'.</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -185,7 +151,7 @@ td.command {
 						<td>REGC,</td>
 						<td>REGA</td>
 						<td>;</td>
-						<td class="comment">otherwise, add the value of 'x' to 'z'.</td>
+						<td class='comment'>otherwise, add the value of 'x' to 'z'.</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -196,7 +162,7 @@ td.command {
 						<td>REGD,</td>
 						<td>REG1</td>
 						<td>;</td>
-						<td class="comment">add 1 to the counter 'i'.</td>
+						<td class='comment'>add 1 to the counter 'i'.</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -207,7 +173,7 @@ td.command {
 						<td></td>
 						<td></td>
 						<td>;</td>
-						<td class="comment">return to the top of the loop.</td>
+						<td class='comment'>return to the top of the loop.</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -218,8 +184,7 @@ td.command {
 						<td>I</td>
 						<td></td>
 						<td>;</td>
-						<td class="comment">copy results back to main memory
-							variables.</td>
+						<td class='comment'>copy results back to main memory variables.</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -230,8 +195,7 @@ td.command {
 						<td>Z</td>
 						<td></td>
 						<td>;</td>
-						<td class="comment">the product of 'x' and 'y' is saved in
-							variable 'z'.</td>
+						<td class='comment'>the product of 'x' and 'y' is saved in variable 'z'.</td>
 					</tr>
 					<tr>
 						<td></td>
@@ -242,20 +206,15 @@ td.command {
 						<td></td>
 						<td></td>
 						<td>;</td>
-						<td class="comment">halt execution of this assembly language
-							program.</td>
+						<td class='comment'>halt execution of this assembly language program.</td>
 					</tr>
 				</table>
 			</div>
 			<br>
-			<div class='row'>
 			<div class='text-center'>
 				<div class='btn-group-horizontal'>
-					<button id='runButton' type='button' ng-class='buttonColor(runtext.name)' style='width:10%'
-						ng-repeat='runtext in runText' ng-click='runButton()'>{{runtext.name}}</button>
-					<button  id='walkButton' type='button' ng-class='buttonColor(walktext.name)' style='width:10%'
-						ng-repeat='walktext in walkText' ng-click='walkButton()'>{{walktext.name}}</button>
-				</div>
+					<button id='runButton' type='button' ng-class='buttonColor(runText)' ng-click='runButton()' ng-bind='runText'></button>
+					<button id='walkButton' type='button' ng-class='buttonColor(walkText)' ng-click='walkButton()' ng-bind='walkText'></button>
 				</div>
 			</div>
 			<br>
@@ -264,9 +223,8 @@ td.command {
 			<tab heading='Figure'> <br>
 			<div class='container'>
 				<div class='row'>
-					<div
-						class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1'>
-						<div id='table' style='width: 90px'>
+					<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'>
+						<div id='table'>
 							<table id='variables' class='table table-bordered'>
 								<thead>
 									<tr>
@@ -275,15 +233,15 @@ td.command {
 								</thead>
 								<tbody ng-repeat='mem in varMemory'>
 									<tr>
-										<th>{{mem.title}}</th>
-										<td class='text-center'>{{mem.value}}</td>
+										<th ng-bind='mem.title'></th>
+										<td class='text-center' ng-bind='mem.value'></td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
-					<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' style='margin-left:4%'>
-						<div id='table' style='width: 90px'>
+					<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3' style='margin-left:4%'>
+						<div id='table'>
 							<table id='variables' class='table table-bordered'>
 								<thead>
 									<tr>
@@ -292,8 +250,8 @@ td.command {
 								</thead>
 								<tbody ng-repeat='reg in varRegister'>
 									<tr>
-										<th>{{reg.title}}</th>
-										<td class='text-center'>{{reg.value}}</td>
+										<th ng-bind='reg.title'></th>
+										<td class='text-center' ng-bind='reg.value'></td>
 									</tr>
 								</tbody>
 							</table>
@@ -301,182 +259,107 @@ td.command {
 					</div>
 				</div>
 			</div>
-			</tab> <!-- editor tab where you can make changes to the code --> <tab
-				heading='Editor' disabled='true'> <br>
-			<div class='container'>
-				<div class='row'>
-					<div class='col-lg-4 col-lg-offset-2 col-md-4 col-md-offset-2'>
+			</tab>
 
-						<!-- table that shows the code -->
-						<div id='table'
-							style='overflow-y: scroll; border: 1px solid black; height: 200px; width: 350px'>
-							<table id='commands'>
+			<tab heading='Editor' disabled='true'> </tab>
+			<!-- tab containing the memory, register, program counters, and flags -->
+			<tab heading='Architecture'> <br>
+			<div class='container'>
+				<div class='col-lg-3 col-md-3 panel panel-default'>
+					<h4 class='text-center'>Memory</h4>
+					<div id='spanMemWrapper'>
+						<div id='spanVarMem' >
+							<table class='table table-bordered' ng-repeat='var in vars' style='table-layout: fixed;'>
+								<tr ng-style='set_color(var.memno)'>
+									<th ng-bind='var.memno'></th>
+									<td ng-bind='var.con1'></td>
+									<td ng-bind='var.con2'></td>
+									<td ng-bind='var.con3'></td>
+									<td ng-bind='var.con4'></td>
+								</tr>
+							</table>
+						</div>
+						<div id='spanMem'>
+							<table class='table table-bordered' ng-repeat='mem in memory' style='table-layout: fixed;'>
+								<tr ng-style='set_color(mem.memno)'>
+									<th ng-bind='mem.memno'></th>
+									<td ng-bind='mem.con1'></td>
+									<td ng-bind='mem.con2'></td>
+									<td ng-bind='mem.con3'></td>
+									<td ng-bind='mem.con4'></td>
+								</tr>
 							</table>
 						</div>
 					</div>
-
-					<!-- button group for the table and code -->
-					<div class='col-lg-4 col-md-4'>
-						<div id='editor_button_group'
-							class='col-lg-4 col-md-4 btn-group-vertical'>
-							<button type='button' class='btn btn-default'
-								onclick='insertWord()'>Word</button>
-							<button type='button' class='btn btn-default'
-								onclick='insertBlock()'>Block</button>
-							<button type='button' class='btn btn-default'
-								onClick='insertLoad()'>Load</button>
-							<button type='button' class='btn btn-default'
-								onclick='insertStore()'>Store</button>
-							<button type='button' class='btn btn-default'
-								onclick='insertAdd()'>Add</button>
-							<button type='button' class='btn btn-default'
-								onclick='insertBranch()'>Branch</button>
-						</div>
-						<div id='editor_button_group'
-							class='col-lg-4 col-md-4 btn-group-vertical'>
-							<button type='button' class='btn btn-default'
-								onclick='insertJump()'>Jump</button>
-							<button type='button' class='btn btn-default'
-								onclick='insertLoadImm()'>Load Imm</button>
-							<button type='button' class='btn btn-default'
-								onclick='insertAnd()'>And</button>
-							<button type='button' class='btn btn-default'
-								onclick='insertLoadIn()'>Load In</button>
-							<button type='button' class='btn btn-default'
-								onclick='insertStoreIn()'>Store In</button>
-							<button type='button' class='btn btn-default'
-								onclick='insertSub()'>Subtract</button>
-						</div>
-						<div id='editor_button_group'
-							class='col-lg-4 col-md-4 btn-group-vertical'>
-							<button type='button' class='btn btn-default'
-								onclick='insertOr()'>Or</button>
-							<button type='button' class='btn btn-default'
-								onclick='insertCompare()'>Compare</button>
-							<button type='button' class='btn btn-default'
-								onclick='insertASL()'>ASL</button>
-							<button type='button' class='btn btn-default'
-								onclick='insertASR()'>ASR</button>
-							<button type='button' class='btn btn-default'
-								onclick='insertHalt()'>Halt</button>
-							<button type='button' class='btn btn-default'
-								onclick='insertNot()'>Not</button>
-						</div>
-					</div>
 				</div>
-			</div>
-
-			</tab> <!-- tab containing the memory, register, program counters, and flags -->
-			<tab heading='Architecture'> <br>
-			<div class='container' style="width:100%;">
-				<div class='row'>
-					<div
-						class='col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default'
-						style="width: 245px; border: 1px solid;">
-						<h4 style='text-align:center'>Memory</h4>
-						<div class='spanMemWrapper' style='margin-right:5%; margin-bottom:5%;'>
-							<div class='spanVarMem' >
-								<table class='table table-bordered' ng-repeat='var in vars' style='table-layoud: fixed;'>
-									<tr ng-style='set_color(var.memno)'>
-										<th style='text-align:right'>{{var.memno}}</th>
-										<td style='text-align:center'>{{var.con1}}</td>
-										<td style='text-align:center'>{{var.con2}}</td>
-										<td style='text-align:center'>{{var.con3}}</td>
-										<td style='text-align:center'>{{var.con4}}</td>
-									</tr>
+				<div id='bus' class='col-lg-1 col-md-1'>Data Bus</div>
+				<div class='col-lg-6 col-md-6 panel panel-default' style='border: 1px solid'>
+				<h3 class='text-center'>CPU</h3>
+					<div class='panel panel-default' style='width: 100%;'>
+						<!-- table containing the register information -->
+						<div class='col-lg-4  col-md-4 col-sm-4 col-xs-4' style='margin-bottom:2.75%'>
+							<h4>Registers</h4>
+							<!-- I should be outside of this box -->
+							<div id='spanReg'>
+								<table class='table table-bordered' style='table-layout:auto;' ng-repeat='reg in register'>
+									<tbody>
+										<tr>
+											<th class='text-center' ng-bind='reg.content'></th>
+											<td class='text-center' ng-bind='reg.value'></td>
+										</tr>
+									</tbody>
 								</table>
-							</div>
-							<div class='spanMem'>
-								<table class='table table-bordered' ng-repeat='mem in memory' style='table-layout: fixed;'>
-									<tr ng-style='set_color(mem.memno)'>
-										<th style='text-align:right'>{{mem.memno}}</th>
-										<td style='text-align:center'>{{mem.con1}}</td>
-										<td style='text-align:center'>{{mem.con2}}</td>
-										<td style='text-align:center'>{{mem.con3}}</td>
-										<td style='text-align:center'>{{mem.con4}}</td>
-									</tr>
-								</table>
-	
 							</div>
 						</div>
-					</div>
-					<div
-						class='col-lg-1 col-md-1 col-sm-1 col-xs-1'
-						style="height:auto; width: 10%; text-align:center; border: 1px solid; margin-top: 15%">Data Bus</div>
-					<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 panel panel-default' style='border: 1px solid'>
-					<h3 style='text-align:center'>CPU</h3>
-						<div class='panel panel-default' style='width: 100%;'>
-							<!-- table containing the register information -->
-							<div class='col-lg-4  col-md-4 col-sm-4 col-xs-4' style='margin-bottom:2.75%'>
-								<h4>Registers</h4>
-								<!-- I should be outside of this box -->
-								<div class='spanReg'>
-									<table class='table table-bordered'
-										style='table-layout:auto;' ng-repeat='reg in register'>
+						<!-- program counter and instruction register table -->
+						<div class='col-lg-2 col-md-2' style='margin-top:10%'>
+							<table class='table table-bordered' style='height: 100px; width: 170px;'>
+								<tbody>
+									<tr>
+										<th class='text-center' colspan='4'>Program Counter</th>
+									</tr>
+									<tr>
+										<td class='text-center' colspan='4' ng-repeat='cnt in counter' ng-bind='cnt.content'></td>
+									</tr>
+									<tr>
+										<th class='text-center' colspan='4'>Instruction Register</th>
+									</tr>
+									<tr ng-repeat='inst in instructionRegister' class='text-center'>
+										<td ng-bind='inst.con1'></td>
+										<td ng-bind='inst.con2'></td>
+										<td ng-bind='inst.con3'></td>
+										<td ng-bind='inst.con4'></td>
+									<tr>
+								</tbody>
+							</table>
+							<!-- flag table -->
+							<div class='row'>
+								<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' style='margin-top:30%;'>
+									<table class='table table-bordered' style='height: 150px; width: 170px;'>
+										<thead>
+											<tr>
+												<th colspan='2' class='text-center'>Flags</th>
+											</tr>
+										</thead>
 										<tbody>
 											<tr>
-												<th style='text-align:center'>{{reg.content}}</th>
-												<td class='text-center'>{{reg.value}}</td>
+												<td><strong>Carry</strong></td>
+												<td class='text-center' ng-repeat='carry in carryFlag' ng-bind='carry.flag'></td>
+											</tr>
+											<tr>
+												<td><strong>Negative</strong></td>
+												<td class='text-center' ng-repeat='neg in negativeFlag' ng-bind='neg.flag'></td>
+											</tr>
+											<tr>
+												<td><strong>Zero</strong></td>
+												<td class='text-center' ng-repeat='zero in zeroFlag' ng-bind='zero.flag'></td>
+											</tr>
+											<tr>
+												<td><strong>Overflow</strong></td>
+												<td class='text-center' ng-repeat='over in overflowFlag' ng-bind='over.flag'></td>
 											</tr>
 										</tbody>
 									</table>
-								</div>
-							</div>
-							<!-- program counter and instruction register table -->
-							<div
-								class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1' style='margin-top:10%'>
-								<table class='table table-bordered'
-									style='height: 100px; width: 170px;'>
-									<tbody>
-										<tr>
-											<th class='text-center' colspan='4'>Program Counter</th>
-										</tr>
-										<tr>
-											<td class='text-center' colspan='4'
-												ng-repeat='cnt in counter'>{{cnt.content}}</td>
-										</tr>
-										<tr>
-											<th class='text-center' colspan='4'>Instruction Register</th>
-										</tr>
-										<tr ng-repeat='inst in instructionRegister'
-											class='text-center'>
-											<td>{{inst.con1}}</td>
-											<td>{{inst.con2}}</td>
-											<td>{{inst.con3}}</td>
-											<td>{{inst.con4}}</td>
-										<tr>
-									</tbody>
-								</table>
-								<!-- flag table -->
-								<div class='row'>
-									<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' style='margin-top:30%;'>
-										<table class='table table-bordered'
-											style='height: 150px; width: 170px;'>
-											<thead>
-												<tr>
-													<th colspan='2' class='text-center'>Flags</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td><strong>Carry</strong></td>
-													<td class='text-center' ng-repeat='carry in carryFlag'>{{carry.flag}}</td>
-												</tr>
-												<tr>
-													<td><strong>Negative</strong></td>
-													<td class='text-center' ng-repeat='neg in negativeFlag'>{{neg.flag}}</td>
-												</tr>
-												<tr>
-													<td><strong>Zero</strong></td>
-													<td class='text-center' ng-repeat='zero in zeroFlag'>{{zero.flag}}</td>
-												</tr>
-												<tr>
-													<td><strong>Overflow</strong></td>
-													<td class='text-center' ng-repeat='over in overflowFlag'>{{over.flag}}</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
 								</div>
 							</div>
 						</div>

@@ -39,8 +39,8 @@
 			<tab heading='Figure'> <br>
 			<div class='container'>
 				<div class='row'>
-					<div class='col-lg-2 col-md-2'>
-						<div id='table' style='width: 90px'>
+					<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'>
+						<div id='table'>
 							<table id='variables' class='table table-bordered'>
 								<thead>
 									<tr>
@@ -56,8 +56,8 @@
 							</table>
 						</div>
 					</div>
-					<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' style='margin-left:4%'>
-						<div id='table' style='width: 90px'>
+					<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3' style='margin-left:4%'>
+						<div id='table'>
 							<table id='variables' class='table table-bordered'>
 								<thead>
 									<tr>
@@ -83,7 +83,8 @@
 				<div class='row'>
 
 					<!-- button group for the table and code -->
-					<table id='btn-grid' class='col-lg-6 col-md-6'>
+					<!-- <table id='btn-grid' class='col-lg-6 col-md-6'> -->
+					<table id='btn-grid'>
 						<tbody>
 							<tr id='editor_button_group' class='btn-group-vertical'>
 								<td type='button' class='btn btn-default' onclick='word()'>.WORD</td>
@@ -117,46 +118,46 @@
 			</tab> <!-- tab containing the memory, register, program counters, and flags -->
 			<tab heading='Architecture'> <br>
 			<div class='container'>
-				<div id='architecture-memory' class='col-lg-3 col-md-3 panel panel-default'>
-					<h4 style='text-align:center'>Memory</h4>
-					<div class='spanMemWrapper' style='margin-right:5%; margin-bottom:5%;'>
-						<div class='spanVarMem' >
+				<div class='col-lg-3 col-md-3 panel panel-default'>
+					<h4 class='text-center'>Memory</h4>
+					<div id='spanMemWrapper'>
+						<div id='spanVarMem' >
 							<table class='table table-bordered' ng-repeat='var in vars' style='table-layout: fixed;'>
 								<tr ng-style='set_color(var.memno)'>
-									<th style='text-align:right' ng-bind='var.memno'></th>
-									<td style='text-align:center' ng-bind='var.con1'></td>
-									<td style='text-align:center' ng-bind='var.con2'></td>
-									<td style='text-align:center' ng-bind='var.con3'></td>
-									<td style='text-align:center' ng-bind='var.con4'></td>
+									<th ng-bind='var.memno'></th>
+									<td ng-bind='var.con1'></td>
+									<td ng-bind='var.con2'></td>
+									<td ng-bind='var.con3'></td>
+									<td ng-bind='var.con4'></td>
 								</tr>
 							</table>
 						</div>
-						<div class='spanMem'>
+						<div id='spanMem'>
 							<table class='table table-bordered' ng-repeat='mem in memory' style='table-layout: fixed;'>
 								<tr ng-style='set_color(mem.memno)'>
-									<th style='text-align:right' ng-bind='mem.memno'></th>
-									<td style='text-align:center' ng-bind='mem.con1'></td>
-									<td style='text-align:center' ng-bind='mem.con2'></td>
-									<td style='text-align:center' ng-bind='mem.con3'></td>
-									<td style='text-align:center' ng-bind='mem.con4'></td>
+									<th ng-bind='mem.memno'></th>
+									<td ng-bind='mem.con1'></td>
+									<td ng-bind='mem.con2'></td>
+									<td ng-bind='mem.con3'></td>
+									<td ng-bind='mem.con4'></td>
 								</tr>
 							</table>
 						</div>
 					</div>
 				</div>
-				<div class='col-lg-1 col-md-1 col-sm-1 col-xs-1' style='height:auto; width: 10%; text-align:center; border: 1px solid; margin-top: 15%'>Data Bus</div>
-				<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 panel panel-default' style='border: 1px solid'>
-				<h3 style='text-align:center'>CPU</h3>
+				<div id='bus' class='col-lg-1 col-md-1'>Data Bus</div>
+				<div class='col-lg-6 col-md-6 panel panel-default' style='border: 1px solid'>
+				<h3 class='text-center'>CPU</h3>
 					<div class='panel panel-default' style='width: 100%;'>
 						<!-- table containing the register information -->
 						<div class='col-lg-4  col-md-4 col-sm-4 col-xs-4' style='margin-bottom:2.75%'>
 							<h4>Registers</h4>
 							<!-- I should be outside of this box -->
-							<div class='spanReg'>
+							<div id='spanReg'>
 								<table class='table table-bordered' style='table-layout:auto;' ng-repeat='reg in register'>
 									<tbody>
 										<tr>
-											<th style='text-align:center' ng-bind='reg.content'></th>
+											<th class='text-center' ng-bind='reg.content'></th>
 											<td class='text-center' ng-bind='reg.value'></td>
 										</tr>
 									</tbody>
@@ -164,7 +165,7 @@
 							</div>
 						</div>
 						<!-- program counter and instruction register table -->
-						<div class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1' style='margin-top:10%'>
+						<div class='col-lg-2 col-md-2' style='margin-top:10%'>
 							<table class='table table-bordered' style='height: 100px; width: 170px;'>
 								<tbody>
 									<tr>

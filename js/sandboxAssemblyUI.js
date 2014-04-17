@@ -124,7 +124,7 @@ var tabsstuff = angular
 							}
 
 							var finalVal = parseInt(hex, 16);
-							//console.log("FinalVal is " + finalVal);
+							// console.log("FinalVal is " + finalVal);
 							if (finalVal < 0) {
 								finalVal = 0xFFFF + finalVal + 1;
 							}
@@ -286,8 +286,8 @@ var tabsstuff = angular
 								createAlertBox("You have unfinished code at: ", errors, true, null);
 							}
 						};
-						
-						
+
+
 						// Goes through and checks through the table for changes
 						// as well as which variables are in use.
 						// Initializes the Registers and Variable arrays if
@@ -879,7 +879,7 @@ var tabsstuff = angular
 								if (this.varMemory[i][2] == x) {
 									this.varMemory[i][1] = this.register[reg][1];
 								}
-								
+
 							}
 							// Debug/Demo code
 							// console.log("Store " + this.register[reg][0] + "
@@ -970,7 +970,7 @@ var tabsstuff = angular
 						this.storeInd = function(reg1, reg2) {
 							//console.log(this.decimalToHex(this.register[reg1][1], 4));
 							var hex = this.decimalToHex(this.register[reg1][1], 4);
-							this.memory[this.register[reg2][1]] = [hex[0], hex[1], hex[2], hex[3]]; 
+							this.memory[this.register[reg2][1]] = [hex[0], hex[1], hex[2], hex[3]];
 							// Updating of the Variable array
 							var x = parseInt(this.register[reg2][1], 10);
 							for (var i = 0; i < this.varMemory.length; i++) {
@@ -1242,7 +1242,7 @@ var tabsstuff = angular
 						// Walks through one step of the program
 						this.walk = function() {
 							var table = editor1.rowToArray(this.programCounter);
-							
+
 							if (edited) {
 								this.preprocessor();
 								this.init();
@@ -1256,7 +1256,7 @@ var tabsstuff = angular
 							if (!this.stop) {
 
 								this.previousCounter = this.programCounter;
-								
+
 								editor1.selectAndHighlightRowByIndex(this.programCounter-this.offSet);
 								parser.eval(this.programCounter);
 
@@ -1475,7 +1475,7 @@ tabsstuff.controller('assemblycontroller',
 
 		var temp = $scope.assembler.memory;
 		$scope.temp = temp;
-		
+
 
 		$scope.varlength = $scope.assembler.varMemory.length;
 		$scope.vars = [];
@@ -1551,7 +1551,7 @@ tabsstuff.controller('assemblycontroller',
 
 	};
 
-	
+
 	// Simplified version to update memory display
 	// Only updates loations that have been changed.
 	$scope.updateMemory = function() {
@@ -1566,7 +1566,7 @@ tabsstuff.controller('assemblycontroller',
 			memTable[index][3].firstChild.nodeValue = temp[index][3];  // Update
 		}
 	};
-	
+
 	$scope.buttonColor = function(button) {
 		if (button == "Run") {
 			return 'btn btn-success';
@@ -1674,4 +1674,4 @@ tabsstuff.controller('assemblycontroller',
 		}
 	};
 });
-// vim: ts=4 sw=4 noet nolist
+// vim: ts=4 sw=4 noet

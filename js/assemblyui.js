@@ -12,10 +12,10 @@ var tabsstuff = angular.module('assembly', [ 'ui.bootstrap' ]).provider('assembl
 						// Has the table been edited recently?
 						// Set to true by default
 						this.edited = true;
-						
+
 						// Flag for if the recent command has altered memory
 						this.storeFlag = false;
-						
+
 						// Location in memory array where memory has recently been altered.
 						this.altMemIndex = 0;
 
@@ -23,7 +23,7 @@ var tabsstuff = angular.module('assembly', [ 'ui.bootstrap' ]).provider('assembl
 						// before
 						// Primarily used for checking if values should be reset
 						this.done = false;
-						
+
 						// Initial program counter
 						// Increased when .Block and .Word is used/modified
 						this.programCounter = 0;
@@ -1336,7 +1336,7 @@ var tabsstuff = angular.module('assembly', [ 'ui.bootstrap' ]).provider('assembl
 							this.done = false;
 							this.stop = false;
 						};
-						
+
 						// Returns the current value of the program counter
 						this.returncounter = function() {
 							var progcount = this.programCounter;
@@ -1366,13 +1366,13 @@ var tabsstuff = angular.module('assembly', [ 'ui.bootstrap' ]).provider('assembl
 							var zeroflag = this.zeroFlag;
 							return zeroflag;
 						};
-						
+
 						// Returns value of storeFlag
 						this.returnStoreFlag = function() {
 							var storeFlag = this.storeFlag;
 							return storeFlag;
 						};
-						
+
 						// Returns the index of the most recently altered memory location
 						this.returnAltMemIndex = function() {
 							var memIndex = this.altMemIndex;
@@ -1507,7 +1507,7 @@ tabsstuff.controller('assemblycontroller', function($scope, assembler,$interval)
 
 		var temp = $scope.assembler.memory;
 		$scope.temp = temp;
-		
+
 
 		$scope.varlength = $scope.assembler.varMemory.length;
 		$scope.vars = [];
@@ -1583,7 +1583,7 @@ tabsstuff.controller('assemblycontroller', function($scope, assembler,$interval)
 
 	};
 
-	
+
 	// Simplified version to update memory display
 	// Only updates loations that have been changed.
 	$scope.updateMemory = function() {
@@ -1598,7 +1598,7 @@ tabsstuff.controller('assemblycontroller', function($scope, assembler,$interval)
 			memTable[index][3].firstChild.nodeValue = temp[index][3];  // Update
 		}
 	};
-	
+
 	$scope.buttonColor = function(button) {
 		if (button == "Run") {
 			return 'btn btn-success';
@@ -1666,13 +1666,8 @@ tabsstuff.controller('assemblycontroller', function($scope, assembler,$interval)
 	};
 
 	$scope.buttons = function() {
-
-		$scope.runText = [ {
-			name : runText
-		} ];
-		$scope.walkText = [ {
-			name : walkText
-		} ];
+		$scope.runText = runText;
+		$scope.walkText = walkText;
 	};
 
 	$scope.buttons();
