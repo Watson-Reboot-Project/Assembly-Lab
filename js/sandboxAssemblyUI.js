@@ -9,6 +9,7 @@ var tabsstuff = angular
 						this.tableName = tableName;
 
 						var parser = this;
+						var complete = false;
 						this.intervalID;
 						// Determines if in Figure or Architecture mode
 						// True for Figure, False if Architecture
@@ -195,95 +196,97 @@ var tabsstuff = angular
 							var errors = [];
 							for(var i = 0; i < size; i++){
 								var table = editor1.rowToArray(i);
-								console.log(table);
 								switch (table[1]) {
 								case ".WORD": // .Word before program
 								case ".BLOCK":
-									if(table[0] == "<label>" || table[2] == "<const>"){
-										errors.push(i + ", ");
+									if(table[0] == "&lt;label&gt;" || table[2] == "&lt;const&gt;"){
+										errors.push(i+1);
 									}
 									break;
 								case "HALT":
 									break;
 								case "LOAD":
-									if(table[2] == "<reg>," || table[3] == "<label>"){
-										errors.push(i + ", ");
+									if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;label&gt;"){
+										errors.push(i+1);
 									}
 									break;
 								case "LOADIMM":
-									if(table[2] == "<reg>," || table[3] == "<const>"){
-										errors.push(i + ", ");
+									if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;const&gt;"){
+										errors.push(i+1);
 									}
 									break;
 								case "LOADIND":
-									if(table[2] == "<reg>," || table[3] == "<reg>"){
-										errors.push(i + ", ");
+									if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;"){
+										errors.push(i+1);
 									}
 									break;
 								case "STORE":
-									if(table[2] == "<reg>," || table[3] == "<label>"){
-										errors.push(i + ", ");
+									if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;label&gt;"){
+										errors.push(i+1);
 									}
 									break;
 								case "STOREIND":
-									if(table[2] == "<reg>," || table[3] == "<reg>"){
-										errors.push(i + ", ");
+									if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;"){
+										errors.push(i+1);
 									}
 									break;
 								case "AND":
-									if(table[2] == "<reg>," || table[3] == "<reg>," || table[4] == "<reg>"){
-										errors.push(i + ", ");
+									if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;reg&gt;"){
+										errors.push(i+1);
 									}
 									break;
 								case "ADD":
-									if(table[2] == "<reg>," || table[3] == "<reg>," || table[4] == "<reg>"){
-										errors.push(i + ", ");
+									if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;reg&gt;"){
+										errors.push(i+1);
 									}
 									break;
 								case "SUBTRACT":
-									if(table[2] == "<reg>," || table[3] == "<reg>," || table[4] == "<reg>"){
-										errors.push(i + ", ");
+									if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;reg&gt;"){
+										errors.push(i+1);
 									}
 									break;
 								case "OR":
-									if(table[2] == "<reg>," || table[3] == "<reg>," || table[4] == "<reg>"){
-										errors.push(i + ", ");
+									if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;reg&gt;"){
+										errors.push(i+1);
 									}
 									break;
 								case "ASL":
-									if(table[2] == "<reg>," || table[3] == "<reg>," || table[4] == "<bits>"){
-										errors.push(i + ", ");
+									if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;bits&gt;"){
+										errors.push(i+1);
 									}
 									break;
 								case "ASR":
-									if(table[2] == "<reg>," || table[3] == "<reg>," || table[4] == "<bits>"){
-										errors.push(i + ", ");
+									if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;bits&gt;"){
+										errors.push(i+1);
 									}
 									break;
 								case "NOT":
-									if(table[2] == "<reg>," || table[3] == "<reg>"){
-										errors.push(i + ", ");
+									if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;"){
+										errors.push(i+1);
 									}
 									break;
 								case "COMPARE":
-									if(table[2] == "<reg>," || table[3] == "<reg>"){
-										errors.push(i + ", ");
+									if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;"){
+										errors.push(i+1);
 									}
 									break;
 								case "BRANCH":
-									if(table[2] == "<cond>," || table[3] == "<label>"){
-										errors.push(i + ", ");
+									if(table[2] == "&lt;cond&gt;," || table[3] == "&lt;label&gt;"){
+										errors.push(i+1);
 									}
 									break;
 								case "JUMP":
-									if(table[2] == "<lable>"){
-										errors.push(i + ", ");
+									if(table[2] == "&lt;label&gt;"){
+										errors.push(i+1);
 									}
 									break;
 								}
 							}
 							if(errors.length > 0){
 								createAlertBox("You have unfinished code at: ", errors, true, null);
+								complete = false;
+							} else {
+								complete = true;
 							}
 						};
 						
@@ -1245,8 +1248,12 @@ var tabsstuff = angular
 							
 							if (edited) {
 								this.preprocessor();
-								this.init();
-								this.previousCounter = this.programCounter;
+								if(complete){
+									this.init();
+									this.previousCounter = this.programCounter;
+								} else {
+									this.stop = true;
+								}
 							}
 							if (this.done) {
 								this.reset();
@@ -1271,7 +1278,12 @@ var tabsstuff = angular
 						this.run = function() {
 							if (edited) {
 								this.preprocessor();
-								this.init();
+								if(complete){
+									this.init();
+									this.previousCounter = this.programCounter;
+								} else {
+									this.stop = true;
+								}
 							}
 							if (this.done) {
 								this.reset();
@@ -1475,7 +1487,6 @@ tabsstuff.controller('assemblycontroller',
 
 		var temp = $scope.assembler.memory;
 		$scope.temp = temp;
-		
 
 		$scope.varlength = $scope.assembler.varMemory.length;
 		$scope.vars = [];
@@ -1560,10 +1571,10 @@ tabsstuff.controller('assemblycontroller',
 		var altered = $scope.assembler.returnStoreFlag();
 		if(altered) { // Determine if memory has been changed
 			var index = $scope.assembler.returnAltMemIndex(); // If true, return where it was changed
-			memTable[index][0].firstChild.nodeValue = temp[index][0];  // Update
-			memTable[index][1].firstChild.nodeValue = temp[index][1];  // Update
-			memTable[index][2].firstChild.nodeValue = temp[index][2];  // Update
-			memTable[index][3].firstChild.nodeValue = temp[index][3];  // Update
+			memTable[index][0].firstChild.nodeValue = $scope.assembler.decimalToHex(temp[index][0], 1);  // Update
+			memTable[index][1].firstChild.nodeValue = $scope.assembler.decimalToHex(temp[index][1], 1);  // Update
+			memTable[index][2].firstChild.nodeValue = $scope.assembler.decimalToHex(temp[index][2], 1);  // Update
+			memTable[index][3].firstChild.nodeValue = $scope.assembler.decimalToHex(temp[index][3], 1);  // Update
 		}
 	};
 	
