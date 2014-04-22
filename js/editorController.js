@@ -214,42 +214,42 @@
 		            
 		            if($(this).hasClass("bits"))
 		            {
-		            	console.log("Hey, this one has bits!");
+		            	//console.log("Hey, this one has bits!");
 		            	createNumBitsPad(0, 15, "Shift how many bits?", "Enter a number between 0 and 15", false, 10, fReturn, editorDiv);
 		            }
 		            else if($(this).hasClass("const1"))
 		            {
-		            	console.log("This one should have a big constant.");
+		            	//console.log("This one should have a big constant.");
 		            	createConstNumPad(-32768, 32767, "What's stored here?", "Enter a number between -32,768 and 32,767", false, 10, fReturn, editorDiv);
 		            }
 		            else if($(this).hasClass("const2"))
 		            {
-		            	console.log("This one should have a small constant.");
+		            	//console.log("This one should have a small constant.");
 		            	createConstNumPad(0, 255, "What value?", "Enter a number between 0 and 255", false, 10, fReturn, editorDiv);
 		            }
 		            else if($(this).hasClass("label1"))
 		            {
-		            	console.log("This one will be using the label-maker.");
+		            	//console.log("This one will be using the label-maker.");
 		            	createLabelMaker("Create a label", "", fLabel, editorDiv);
 		            }
 		            else if($(this).hasClass("label2"))
 		            {
-		            	console.log("This one will be selecting from the labels");
+		            	//console.log("This one will be selecting from the labels");
 		            	createLabelSelector("Use which label?", labels, fReturn, editorDiv);
 		            }
 		            else if($(this).hasClass("reg1"))
 		            {
-		            	console.log("This one will select from the registers");
+		            	//console.log("This one will select from the registers");
 		            	createRegSelector("Select a register", registers, fRegisterC, editorDiv);
 		            }
 		            else if($(this).hasClass("reg2"))
 		            {
-		            	console.log("This one will select from the registers");
+		            	//console.log("This one will select from the registers");
 		            	createRegSelector("Select a register", registers, fRegister, editorDiv);
 		            }
 		            else if($(this).hasClass("cond"))
 		            {
-		            	console.log("This is a conditional thing...");
+		            	//console.log("This is a conditional thing...");
 		            	createCondSelector("What conditions?", conditions, fReturnC, editorDiv);
 		            } else {
 		            	console.log("Hey! That doesn't do anything, silly!");
