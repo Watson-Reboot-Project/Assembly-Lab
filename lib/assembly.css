@@ -36,6 +36,14 @@
 	overflow-y: auto;
 }
 
+#spanReg th {
+	width: 20px;
+}
+
+.table {
+	margin-bottom: 0;
+}
+
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
@@ -119,9 +127,9 @@ table {
 	height: 150px;
 }
 
-#registers {
-	margin-bottom:2.75%;
-}
+/* #registers { */
+/* 	margin-bottom:2.75%; */
+/* } */
 
 @media (min-width: 767px) {
 	#counter-flags {
