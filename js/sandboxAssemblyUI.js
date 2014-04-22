@@ -9,7 +9,7 @@ var tabsstuff = angular
 						this.tableName = tableName;
 
 						var parser = this;
-						var complete = false;
+						this.complete = false;
 						this.intervalID;
 						// Determines if in Figure or Architecture mode
 						// True for Figure, False if Architecture
@@ -284,9 +284,9 @@ var tabsstuff = angular
 							}
 							if(errors.length > 0){
 								createAlertBox("You have unfinished code at: ", errors, true, null);
-								complete = false;
+								this.complete = false;
 							} else {
-								complete = true;
+								this.complete = true;
 							}
 							return 0;
 						};
@@ -298,6 +298,7 @@ var tabsstuff = angular
 						// needed.
 						// If on figure tab, also populates Variable Table.
 						this.init = function() {
+							console.log("Init has been called.");
 							var table;
 							// "Compile"
 							var progLine = 0;
@@ -305,6 +306,9 @@ var tabsstuff = angular
 							var refLine = 0;
 							var index = 0;
 							this.offSet = 0;
+							this.startCounter = 0;
+							this.previousCounter = 0;
+							this.programCounter = 0;
 							
 							this.memory = [];
 							this.memory = new Array(256);
@@ -313,6 +317,10 @@ var tabsstuff = angular
 							}
 
 							this.initMemory = [];
+							this.initMemory = new Array(256);
+							for (var i = 0; i < 256; i++) {
+								this.initMemory[i] = ["0", "0", "0", "0"];
+							}
 							this.initVarMemory = [];
 							this.initVarRegister = [];
 							
@@ -815,6 +823,7 @@ var tabsstuff = angular
 							}
 							// Signal that program has been parsed
 							edited = false;
+							return 0;
 						};
 
 						// Add two registers and store in the first
@@ -1257,20 +1266,12 @@ var tabsstuff = angular
 						// Walks through one step of the program
 						this.walk = function() {
 							var table = editor1.rowToArray(this.programCounter);
-							console.log("Edited: "+edited);
-							if (edited) {
-								var temp = this.preprocessor();
-								if(complete){
-									this.init();
-									this.previousCounter = this.programCounter;
-								} else {
-									this.stop = true;
-								}
-							} else if (this.done) {
+							//console.log("Edited: "+edited);
+							//if (this.done) {
 								//this.reset();
 								// console.log("Would you like to go again?");
-								this.done = false;
-							}
+								//this.done = false;
+							//}
 							if (!this.stop) {
 
 								this.previousCounter = this.programCounter;
@@ -1287,17 +1288,17 @@ var tabsstuff = angular
 						// Runs through the program
 						// First checks if the code has recently been edited.
 						this.run = function() {
-							if (edited) {
-								var temp = this.preprocessor();
-								if(complete){
-									this.init();
-									this.previousCounter = this.programCounter;
-								} else {
-									this.stop = true;
-								}
-							} else if (this.done) {
+							//if (edited) {
+								//var temp = this.preprocessor();
+								//if(complete){
+								//	this.init();
+								//	this.previousCounter = this.programCounter;
+								//} else {
+								//	this.stop = true;
+								//}
+							//} else if (this.done) {
 								//this.reset();
-							}
+							//}
 						};
 
 						// Pauses execution of program
@@ -1310,12 +1311,13 @@ var tabsstuff = angular
 						this.reset = function() {
 							this.programCounter = this.startCounter;
 							// Need to reset Memory
+							console.log("Reset was called.")
 							for (var i = 0; i < this.startCounter; i++) {
 								this.memory[i][0] = this.initMemory[i][0];
 								this.memory[i][1] = this.initMemory[i][1];
 								this.memory[i][2] = this.initMemory[i][2];
 								this.memory[i][3] = this.initMemory[i][3];
-								console.log("Line "+i+", Memory: "+this.memory[i]+", InitMem: "+this.initMemory[i]);
+								// console.log("Line "+i+", Memory: "+this.memory[i]+", InitMem: "+this.initMemory[i]);
 							}
 
 							for (var i = 0; i < this.varMemory.length; i++) {
@@ -1336,6 +1338,9 @@ var tabsstuff = angular
 							this.clearRegister();
 							this.done = false;
 							this.stop = false;
+							console.log("Reset has finished.");
+							console.log("Program Counter: "+this.programCounter);
+							return 0;
 						};
 
 						// Returns the current value of the program counter
@@ -1617,41 +1622,51 @@ tabsstuff.controller('assemblycontroller',
 	};
 
 	$scope.walk = function() {
-		$scope.done = $scope.assembler.done;
-		running = true;
-		// $scope.memory[counter].set_color(1);
-		$scope.architecture(true);
-		if (edited) {
-			if (hasRan) {
-				$scope.reset();
+		if(edited) {
+			console.log("It's been edited.");
+			var temp = $scope.assembler.preprocessor();
+			if($scope.assembler.complete){
+				var tem = $scope.assembler.init();
 				hasRan = false;
+				memoryhasran = false;
+				$scope.architecture(true);
+			} else {
+				//alert to user
+				$interval.cancel(intervalId);
+				hasRan = false;
+				attemptingToRun = false;
+				runText = "Run";
+				walkText = "Walk";
+				$scope.buttons();
 			}
-		}
-		if ($scope.assembler.stop == false) {
-			var temp = $scope.assembler.walk();
 		} else {
-			$interval.cancel(intervalId);
-			// console.log("I've stopped!");
-			hasRan = true;
-			attemptingToRun = false;
-			runText = "Run";
-			walkText = "Walk";
-			$scope.buttons();
+			$scope.done = $scope.assembler.done;
+			running = true;
+			// $scope.memory[counter].set_color(1);
+			$scope.architecture(true);
+			if (hasRan) {
+				var temp = $scope.assembler.reset();
+				hasRan = false;
+			} else if ($scope.assembler.stop == false) {
+				var temp = $scope.assembler.walk();
+			} else {
+				$interval.cancel(intervalId);
+				// console.log("I've stopped!");
+				hasRan = true;
+				attemptingToRun = false;
+				runText = "Run";
+				walkText = "Walk";
+				$scope.buttons();
+			}
+			$scope.architecture(false);
 		}
-		$scope.architecture(false);
 		return 0;
 	};
 
 	$scope.run = function() {
 		if (!attemptingToRun) {
-			if(edited) {
-				if (hasRan) {
-					$scope.reset();
-					hasRan = false;
-				}
-			}
 			running = true;
-			$scope.assembler.run();
+			//$scope.assembler.run();
 			$scope.architecture(true);
 			intervalId = $interval($scope.walk, 200);
 			// console.log("Run has been called!");
