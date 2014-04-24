@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<style type='text/css'>
+			table td {
+			border:none;
+			}
+		</style>
+		
+		<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+		<title>Assembly-Lab</title>
+		
+		<link rel='stylesheet' href='lib/css/bootstrap-3.css'>
+	<link rel='stylesheet' href='css/jquery-ui-1.10.4.custom.css'>
+	<link rel='stylesheet' href='css/jquery-ui-custom.css'>
+	<link rel='stylesheet' href='css/Dialogs.css'>
+
+	<link type='text/css' rel='stylesheet' href='css/editor.css'/>
+	<link rel='stylesheet' href='lib/assembly.css'>
+	</head>
+	
+	<!-- controller for the lab -->
+	<body>
+	
+		<h1 class='text-center'>Figure 11.3</h1>
+		<div id='fig113Div'></div>
+		<p>Here's Figure 11.3. It is one of the simpler programs.</p>
+	
+		<h1 class='text-center'>Figure 11.4</h1>
+		<div id='fig114Div'></div>
+		<p>We've got all of the programs in here now.</p>
+		
+		<h1 class='text-center'>Figure 11.5</h1>
+		<div id='fig115Div'></div>
+		<p>These are all also built using the Watson Editor API</p>
+		
+		<h1 class='text-center'>Figure 11.6</h1>
+		<div id='fig116Div'></div>
+		<p>Unfortunately (or fortunately?) you can't edit any of these...</p>
+		
+		<h1 class='text-center'>Figure 11.9</h1>
+		<div id='fig119Div'></div>
+		<p>At least there aren't as many of these as there are in JavaScript, am I right?</p>
+		
+		<h1 class='text-center'>Figure 11.10</h1>
+		<div id='fig1110Div'></div>
+		<p>Here's one of the more ridiculous ones.</p>
+		
+		<h1 class='text-center'>Figure 11.11</h1>
+		<div id='fig1111Div'></div>
+		<p>And here's the demon that is Figure 11.11. :/</p>
+		
+		<h1 class='text-center'>Sandbox 1</h1>
+		<div id='editor1'></div>
+		<p>Here's one of the new ones. This is an editable sandbox you can play with.</p>
+		
+		<h1 class='text-center'>Sandbox 2</h1>
+		<div id='editor2'></div>
+		<p>Here's another one to serve as a sanity check. Ideally both should work without messing the other up.</p>
+		
+		<!-- need to get it working so i dont need the online repositories -->
+    	<script type='text/javascript' src='lib/js/angular.js'></script>
+    	<script type='text/javascript' src='lib/js/jQuery.js'></script>
+    	<script type='text/javascript' src='lib/js/less.js'></script>
+    	<script type='text/javascript' src='lib/js/ui-bootstrap-0.10.0.js'></script>
+    	<script type='text/javascript' src='lib/js/tabs.js'></script>
+    	<script type='text/javascript' src='lib/js/ui-bootstrap.js'></script>   	
+		<script type='text/javascript' src='js/assemblyui.js'></script>	
+    	<script type='text/javascript' src='js/inputs.js'></script>
+    	<script type='text/javascript' src='js/WatsonDialogs.js'></script>
+    	<script type='text/javascript' src='js/editor.js'></script>
+    	<script src='js/figuresV2.js'></script>
+		<script>var fig113 = new Figure(113, true);
+				var fig114 = new Figure(114, true);
+				var fig115 = new Figure(115, true);
+				var fig116 = new Figure(116, true);
+				var fig119 = new Figure(119, true);
+				var fig1110 = new Figure(1110, true);
+				var fig1111 = new Figure(1111, true);
+				
+				angular.bootstrap(document.getElementById("fig113"), ['assembly113']);
+				angular.bootstrap(document.getElementById("fig114"), ['assembly114']);
+				angular.bootstrap(document.getElementById("fig115"), ['assembly115']);
+				angular.bootstrap(document.getElementById("fig116"), ['assembly116']);
+				angular.bootstrap(document.getElementById("fig119"), ['assembly119']);
+				angular.bootstrap(document.getElementById("fig1110"), ['assembly1110']);
+				angular.bootstrap(document.getElementById("fig1111"), ['assembly1111']);
+		</script>
+	</body>
+</html>
+<!-- vim: set ts=2 sw=2 noet :-->
