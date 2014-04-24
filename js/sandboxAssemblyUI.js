@@ -1404,11 +1404,12 @@ tabsstuff.controller('assemblycontroller',
 
 	var memoryhasran = false;
 
-	$scope.memory = [];
 	var memory = new Array(256);
 	for ( var i = 0; i < 256; i++) {
 		memory[i] = [ "0", "0", "0", "0" ];
 	}
+	
+	
 	// $scope.assembler.init();
 
 	$scope.architecture = function(updateCounter) {
@@ -1505,7 +1506,11 @@ tabsstuff.controller('assemblycontroller',
 
 		$scope.varlength = $scope.assembler.varMemory.length;
 		$scope.vars = [];
-
+		
+		
+		
+	
+		
 		$scope.addvars = function(num) {
 
 			$scope.vars.push({
@@ -1530,6 +1535,7 @@ tabsstuff.controller('assemblycontroller',
 
 		if ($scope.varlength != 0) {
 			if(memoryhasran == false){
+				$scope.memory = [];
 				for ( var i = $scope.varlength; i < 256; i++) {
 					$scope.addmemory(i);
 				}
