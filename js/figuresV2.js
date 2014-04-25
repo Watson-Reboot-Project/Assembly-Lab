@@ -19,244 +19,202 @@ var Figure = function(figNum, figureMode) {
 	
 	this.codeID = "code"+editorDivID;
 	
+	var self = this;
+	
 	this.htmlString = "<div ng-controller='assemblycontroller"+this.figNum+"' class='container' id='fig"+this.figNum+"'>\
 	<div class='row'>\
 \
 		<div id='"+this.codeID+"'></div>\
 		<br>\
-		<div class='row'>\
 		<div class='text-center'>\
 				<div class='btn-group-horizontal'>\
 					<button id='runButton' type='button' ng-class='buttonColor(runText)' ng-click='runButton()' ng-bind='runText'></button>\
 					<button id='walkButton' type='button' ng-class='buttonColor(walkText)' ng-click='walkButton()' ng-bind='walkText'></button>\
 				</div>\
 			</div>\
-		<br>\
-		<!-- begining of the tabs -->\
-		<tabset class='col-lg-9'> <!-- demo tab - shows all of the information for the current lab -->\
-		<tab heading='Figure'> <br>\
-		<div class='container'>\
-			<div class='row'>\
-				<div\
-					class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1'>\
-					<div id='table' style='width: 90px'>\
-						<table id='variables"+this.figNum+"' class='table table-bordered'>\
-							<thead>\
-								<tr>\
-									<th colspan='2' class='text-center'>Memory</th>\
-								</tr>\
-							</thead>\
-							<tbody ng-repeat='mem in varMemory'>\
-								<tr>\
-									<th>{{mem.title}}</th>\
-									<td class='text-center'>{{mem.value}}</td>\
-								</tr>\
-							</tbody>\
-						</table>\
+			<br>\
+			<!-- begining of the tabs -->\
+			<tabset class='col-lg-9'> <!-- demo tab - shows all of the information for the current lab -->\
+			<tab heading='Figure'> <br>\
+			<div class='container'>\
+				<div class='row'>\
+					<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3'>\
+						<div id='table'>\
+							<table id='variables"+this.figNum+"' class='table table-bordered'>\
+								<thead>\
+									<tr>\
+										<th colspan='2' class='text-center'>Memory</th>\
+									</tr>\
+								</thead>\
+								<tbody ng-repeat='mem in varMemory'>\
+									<tr>\
+										<th ng-bind='mem.title'></th>\
+										<td class='text-center' ng-bind='mem.value'></td>\
+									</tr>\
+								</tbody>\
+							</table>\
+						</div>\
 					</div>\
-				</div>\
-				<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' style='margin-left:4%'>\
-					<div id='table' style='width: 90px'>\
-						<table id='variables' class='table table-bordered'>\
-							<thead>\
-								<tr>\
-									<th colspan='2' class='text-center'>Register</th>\
-								</tr>\
-							</thead>\
-							<tbody ng-repeat='reg in varRegister'>\
-								<tr>\
-									<th>{{reg.title}}</th>\
-									<td class='text-center'>{{reg.value}}</td>\
-								</tr>\
-							</tbody>\
-						</table>\
-					</div>\
-				</div>\
-			</div>\
-		</div>\
-		</tab> <!-- editor tab where you can make changes to the code --> <tab\
-			heading='Editor' disabled='"+cantEdit+"'> <br>\
-		<div class='container'>\
-			<div class='row'>\
-				<div class='col-lg-4 col-lg-offset-2 col-md-4 col-md-offset-2'>\
-\
-					<!-- table that shows the code -->\
-					<div id='table'\
-						style='overflow-y: scroll; border: 1px solid black; height: 200px; width: 350px'>\
-						<table id='commands"+this.figNum+"'>\
-						</table>\
-					</div>\
-				</div>\
-\
-				<!-- button group for the table and code -->\
-				<div class='col-lg-4 col-md-4'>\
-					<div id='editor_button_group'\
-						class='col-lg-4 col-md-4 btn-group-vertical'>\
-						<button type='button' class='btn btn-default'\
-							onclick='insertWord()'>Word</button>\
-						<button type='button' class='btn btn-default'\
-							onclick='insertBlock()'>Block</button>\
-						<button type='button' class='btn btn-default'\
-							onClick='insertLoad()'>Load</button>\
-						<button type='button' class='btn btn-default'\
-							onclick='insertStore()'>Store</button>\
-						<button type='button' class='btn btn-default'\
-							onclick='insertAdd()'>Add</button>\
-						<button type='button' class='btn btn-default'\
-							onclick='insertBranch()'>Branch</button>\
-					</div>\
-					<div id='editor_button_group'\
-						class='col-lg-4 col-md-4 btn-group-vertical'>\
-						<button type='button' class='btn btn-default'\
-							onclick='insertJump()'>Jump</button>\
-						<button type='button' class='btn btn-default'\
-							onclick='insertLoadImm()'>Load Imm</button>\
-						<button type='button' class='btn btn-default'\
-							onclick='insertAnd()'>And</button>\
-						<button type='button' class='btn btn-default'\
-							onclick='insertLoadIn()'>Load In</button>\
-						<button type='button' class='btn btn-default'\
-							onclick='insertStoreIn()'>Store In</button>\
-						<button type='button' class='btn btn-default'\
-							onclick='insertSub()'>Subtract</button>\
-					</div>\
-					<div id='editor_button_group'\
-						class='col-lg-4 col-md-4 btn-group-vertical'>\
-						<button type='button' class='btn btn-default'\
-							onclick='insertOr()'>Or</button>\
-						<button type='button' class='btn btn-default'\
-							onclick='insertCompare()'>Compare</button>\
-						<button type='button' class='btn btn-default'\
-							onclick='insertASL()'>ASL</button>\
-						<button type='button' class='btn btn-default'\
-							onclick='insertASR()'>ASR</button>\
-						<button type='button' class='btn btn-default'\
-							onclick='insertHalt()'>Halt</button>\
-						<button type='button' class='btn btn-default'\
-							onclick='insertNot()'>Not</button>\
+					<div class='col-lg-2 col-md-2 col-sm-2 col-xs-3' style='margin-left:4%'>\
+						<div id='table'>\
+							<table id='variables' class='table table-bordered'>\
+								<thead>\
+									<tr>\
+										<th colspan='2' class='text-center'>Register</th>\
+									</tr>\
+								</thead>\
+								<tbody ng-repeat='reg in varRegister'>\
+									<tr>\
+										<th ng-bind='reg.title'></th>\
+										<td class='text-center' ng-bind='reg.value'></td>\
+									</tr>\
+								</tbody>\
+							</table>\
+						</div>\
 					</div>\
 				</div>\
 			</div>\
-		</div>\
+			</tab>\
 \
-		</tab> <!-- tab containing the memory, register, program counters, and flags -->\
-		<tab heading='Architecture'> <br>\
-		<div class='container' style='width:100%;'>\
-			<div class='row'>\
-				<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default'\
-					style='width: 245px; border: 1px solid;'>\
-					<h4 style='text-align:center'>Memory</h4>\
-					<div class='spanMemWrapper' style='margin-right:5%; margin-bottom:5%;'>\
-						<div class='spanVarMem' >\
-							<table class='table table-bordered' ng-repeat='var in vars' style='table-layoud: fixed;'>\
+			<tab heading='Editor' disabled='"+cantEdit+"'> <br>\
+			<div class='container'>\
+				<div class='row'>\
+\
+					<!-- button group for the table and code -->\
+					<!-- <table id='btn-grid' class='col-lg-6 col-md-6'> -->\
+					<table id='btn-grid'>\
+						<tbody>\
+							<tr id='editor_button_group' class='btn-group-vertical'>\
+								<td type='button' class='btn btn-default' onclick='word(editor"+this.figNum+")'>.WORD</td>\
+								<td type='button' class='btn btn-default' onclick='load(editor"+this.figNum+")'>LOAD</td>\
+								<td type='button' class='btn btn-default' onclick='store(editor"+this.figNum+")'>STORE</td>\
+								<td type='button' class='btn btn-default' onclick='add(editor"+this.figNum+")'>ADD</td>\
+								<td type='button' class='btn btn-default' onclick='asl(editor"+this.figNum+")'>ASL</td>\
+								<td type='button' class='btn btn-default' onclick='compare(editor"+this.figNum+")'>COMPARE</td>\
+							</tr>\
+							<tr id='editor_button_group' class='btn-group-vertical'>\
+								<td type='button' class='btn btn-default' onclick='block(editor"+this.figNum+")'>.BLOCK</td>\
+								<td type='button' class='btn btn-default' onclick='loadIMM(editor"+this.figNum+")'>LOADIMM</td>\
+								<td type='button' class='btn btn-default' onclick='storeIND(editor"+this.figNum+")'>STOREIND</td>\
+								<td type='button' class='btn btn-default' onclick='subtract(editor"+this.figNum+")'>SUBTRACT</td>\
+								<td type='button' class='btn btn-default' onclick='asr(editor"+this.figNum+")'>ASR</td>\
+								<td type='button' class='btn btn-default' onclick='branch(editor"+this.figNum+")'>BRANCH</td>\
+							</tr>\
+							<tr id='editor_button_group' class='btn-group-vertical'>\
+								<td type='button' class='btn btn-default' onclick='halt(editor"+this.figNum+")'>HALT</td>\
+								<td type='button' class='btn btn-default' onclick='loadIND(editor"+this.figNum+")'>LOADIND</td>\
+								<td type='button' class='btn btn-default' onclick='and(editor"+this.figNum+")'>AND</td>\
+								<td type='button' class='btn btn-default' onclick='or(editor"+this.figNum+")'>OR</td>\
+								<td type='button' class='btn btn-default' onclick='not(editor"+this.figNum+")'>NOT</td>\
+								<td type='button' class='btn btn-default' onclick='jump(editor"+this.figNum+")'>JUMP</td>\
+							</tr>\
+						</tbody>\
+					</table>\
+				</div>\
+			</div>\
+			</tab>\
+			<!-- tab containing the memory, register, program counters, and flags -->\
+			<tab heading='Architecture'> <br>\
+			<div class='container'>\
+				<div id='memory' class='col-lg-3 col-md-3 col-sm-3 col-xs-4 panel panel-default'>\
+					<h4 class='text-center'>Memory</h4>\
+					<div id='spanMemWrapper'>\
+						<div id='spanVarMem' >\
+							<table class='table table-bordered' ng-repeat='var in vars' style='table-layout: fixed;'>\
 								<tr ng-style='set_color(var.memno)'>\
-									<th style='text-align:right'>{{var.memno}}</th>\
-									<td style='text-align:center'>{{var.con1}}</td>\
-									<td style='text-align:center'>{{var.con2}}</td>\
-									<td style='text-align:center'>{{var.con3}}</td>\
-									<td style='text-align:center'>{{var.con4}}</td>\
+									<th ng-bind='var.memno'></th>\
+									<td ng-bind='var.con1'></td>\
+									<td ng-bind='var.con2'></td>\
+									<td ng-bind='var.con3'></td>\
+									<td ng-bind='var.con4'></td>\
 								</tr>\
 							</table>\
 						</div>\
-						<div class='spanMem'>\
+						<div id='spanMem'>\
 							<table class='table table-bordered' ng-repeat='mem in memory' style='table-layout: fixed;'>\
 								<tr ng-style='set_color(mem.memno)'>\
-									<th style='text-align:right'>{{mem.memno}}</th>\
-									<td style='text-align:center'>{{mem.con1}}</td>\
-									<td style='text-align:center'>{{mem.con2}}</td>\
-									<td style='text-align:center'>{{mem.con3}}</td>\
-									<td style='text-align:center'>{{mem.con4}}</td>\
+									<th ng-bind='mem.memno'></th>\
+									<td ng-bind='mem.con1'></td>\
+									<td ng-bind='mem.con2'></td>\
+									<td ng-bind='mem.con3'></td>\
+									<td ng-bind='mem.con4'></td>\
 								</tr>\
 							</table>\
-\
 						</div>\
 					</div>\
 				</div>\
-				<div\
-					class='col-lg-1 col-md-1 col-sm-1 col-xs-1'\
-					style='height:auto; width: 10%; text-align:center; border: 1px solid; margin-top: 15%'>Data Bus</div>\
-				<div class='col-lg-6 col-md-6 col-sm-6 col-xs-6 panel panel-default' style='border: 1px solid'>\
-				<h3 style='text-align:center'>CPU</h3>\
+				<div id='bus'>Data Bus</div>\
+				<div id='cpu' class='col-lg-6 col-md-6 col-sm-6 col-xs-6 panel panel-default'>\
+				<h3 class='text-center'>CPU</h3>\
 					<div class='panel panel-default' style='width: 100%;'>\
 						<!-- table containing the register information -->\
-						<div class='col-lg-4  col-md-4 col-sm-4 col-xs-4' style='margin-bottom:2.75%'>\
+						<div id='registers' class='col-lg-4  col-md-4 col-sm-4 col-xs-6'>\
 							<h4>Registers</h4>\
 							<!-- I should be outside of this box -->\
-							<div class='spanReg'>\
-								<table class='table table-bordered'\
-									style='table-layout: fixed;' ng-repeat='reg in register'>\
+							<div id='spanReg'>\
+								<table class='table table-bordered' style='table-layout:auto;' ng-repeat='reg in register'>\
 									<tbody>\
 										<tr>\
-											<th style='text-align:center'>{{reg.content}}</th>\
-											<td class='text-center'>{{reg.value}}</td>\
+											<th class='text-center' ng-bind='reg.content'></th>\
+											<td class='text-center' ng-bind='reg.value'></td>\
 										</tr>\
 									</tbody>\
 								</table>\
 							</div>\
 						</div>\
 						<!-- program counter and instruction register table -->\
-						<div\
-							class='col-lg-2 col-lg-offset-1 col-md-2 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1'>\
-							<table class='table table-bordered'\
-								style='height: 100px; width: 170px; margin-top: 22%'>\
+						<div id='counter-flags' class='col-lg-2 col-md-2 col-sm-4 col-xs-6'>\
+							<table class='table table-bordered'>\
 								<tbody>\
 									<tr>\
 										<th class='text-center' colspan='4'>Program Counter</th>\
 									</tr>\
 									<tr>\
-										<td class='text-center' colspan='4'\
-											ng-repeat='cnt in counter'>{{cnt.content}}</td>\
+										<td class='text-center' colspan='4' ng-repeat='cnt in counter' ng-bind='cnt.content'></td>\
 									</tr>\
 									<tr>\
 										<th class='text-center' colspan='4'>Instruction Register</th>\
 									</tr>\
-									<tr ng-repeat='inst in instructionRegister'\
-										class='text-center'>\
-										<td>{{inst.con1}}</td>\
-										<td>{{inst.con2}}</td>\
-										<td>{{inst.con3}}</td>\
-										<td>{{inst.con4}}</td>\
+									<tr ng-repeat='inst in instructionRegister' class='text-center'>\
+										<td ng-bind='inst.con1'></td>\
+										<td ng-bind='inst.con2'></td>\
+										<td ng-bind='inst.con3'></td>\
+										<td ng-bind='inst.con4'></td>\
 									<tr>\
 								</tbody>\
 							</table>\
 							<!-- flag table -->\
-							<div class='row'>\
-								<div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' style='margin-top:30%'>\
-									<table class='table table-bordered'\
-										style='height: 150px; width: 170px;'>\
-										<thead>\
-											<tr>\
-												<th colspan='2' class='text-center'>Flags</th>\
-											</tr>\
-										</thead>\
-										<tbody>\
-											<tr>\
-												<td><strong>Carry</strong></td>\
-												<td class='text-center' ng-repeat='carry in carryFlag'>{{carry.flag}}</td>\
-											</tr>\
-											<tr>\
-												<td><strong>Negative</strong></td>\
-												<td class='text-center' ng-repeat='neg in negativeFlag'>{{neg.flag}}</td>\
-											</tr>\
-											<tr>\
-												<td><strong>Zero</strong></td>\
-												<td class='text-center' ng-repeat='zero in zeroFlag'>{{zero.flag}}</td>\
-											</tr>\
-											<tr>\
-												<td><strong>Overflow</strong></td>\
-												<td class='text-center' ng-repeat='over in overflowFlag'>{{over.flag}}</td>\
-											</tr>\
-										</tbody>\
-									</table>\
-								</div>\
-							</div>\
+							<table class='table table-bordered'>\
+								<thead>\
+									<tr>\
+										<th colspan='2' class='text-center'>Flags</th>\
+									</tr>\
+								</thead>\
+								<tbody>\
+								<tr>\
+									<td><strong>Carry</strong></td>\
+									<td class='text-center' ng-repeat='carry in carryFlag' ng-bind='carry.flag'></td>\
+								</tr>\
+								<tr>\
+									<td><strong>Negative</strong></td>\
+									<td class='text-center' ng-repeat='neg in negativeFlag' ng-bind='neg.flag'></td>\
+								</tr>\
+								<tr>\
+									<td><strong>Zero</strong></td>\
+									<td class='text-center' ng-repeat='zero in zeroFlag' ng-bind='zero.flag'></td>\
+								</tr>\
+								<tr>\
+									<td><strong>Overflow</strong></td>\
+									<td class='text-center' ng-repeat='over in overflowFlag' ng-bind='over.flag'></td>\
+								</tr>\
+								</tbody>\
+							</table>\
 						</div>\
 					</div>\
 				</div>\
 			</div>\
-		</div>\
-		</tab></tabset>\
-		<br>\
+			</tab></tabset>\
+			<br>\
 		</div>\
 	</div>";
 	var divName = document.getElementById(editorDivID);
@@ -279,70 +237,77 @@ var Figure = function(figNum, figureMode) {
 	var deleteCell;
 	var edited;
 
-	function word(){
+	this.word = function(){
 		editor1.addRow(memPointer,
 				[{text:"&lt;label&gt;", type:"label1"},
 				{text:".WORD", type:"keyword"},
 				{text:"&lt;const&gt;", type:"constant const1"}]);
 		memPointer++;
 		edited = true;
-	}
+		console.log(".WORD pressed for "+this.figNum);
+	};
 	
-	function block(){
+	this.block = function(){
 		editor1.addRow(memPointer,
 				[{text:"&lt;label&gt;", type:"label1"},
 				{text:".BLOCK", type:"keyword"},
 				{text:"&lt;const&gt;", type:"constant const1"}]);
 		memPointer++;
 		edited = true;
-	}
+		console.log(".BLOCK pressed for "+this.figNum);
+	};
 	
-	function loadIMM(){
+	this.loadIMM = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1"},
 				{text:"LOADIMM", type:"command"},
 				{text:"&lt;reg&gt;,", type:"reg1"},
 				{text:"&lt;const&gt;", type:"constant const2"}]);
 		edited = true;
-	}
+		console.log("LOADIMM pressed for "+this.figNum);
+	};
 	
-	function load(){
+	this.load = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1"},
 				{text:"LOAD", type:"command"},
 				{text:"&lt;reg&gt;,", type:"reg1"},
 				{text:"&lt;label&gt;", type:"label2"}]);
 		edited = true;
-	}
+		console.log("LOAD pressed for "+this.figNum);
+	};
 	
-	function store(){
+	this.store = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1"},
 				{text:"STORE", type:"command"},
 				{text:"&lt;reg&gt;,", type:"reg1"},
 				{text:"&lt;label&gt;", type:"label2"}]);
 		edited = true;
-	}
+		console.log("STORE pressed for "+this.figNum);
+	};
 	
-	function loadIND(){
+	this.loadIND = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1"},
 				{text:"LOADIND", type:"command"},
 				{text:"&lt;reg&gt;,", type:"reg1"},
 				{text:"&lt;reg&gt;", type:"reg2"}]);
 		edited = true;
-	}
+		console.log("LOADIND pressed for "+this.figNum);
+	};
 	
-	function storeIND(){
+	this.storeIND = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1"},
 				{text:"STOREIND", type:"command"},
 				{text:"&lt;reg&gt;,", type:"reg1"},
 				{text:"&lt;reg&gt;", type:"reg2"}]);
 		edited = true;
-	}
+		console.log("STOREIND pressed for "+this.figNum);
+	};
 	
-	function add(){
+	this.add = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1"},
 				{text:"ADD", type:"command"},
@@ -350,9 +315,10 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1"},
 				{text:"&lt;reg&gt;", type:"reg2"}]);
 		edited = true;
-	}
+		console.log("ADD pressed for "+this.figNum);
+	};
 	
-	function subtract(){
+	this.subtract = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1"},
 				{text:"SUBTRACT", type:"command"},
@@ -360,9 +326,10 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1"},
 				{text:"&lt;reg&gt;", type:"reg2"}]);
 		edited = true;
-	}
+		console.log("SUBTRACT pressed for "+this.figNum);
+	};
 	
-	function and(){
+	this.and = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1"},
 				{text:"AND", type:"command"},
@@ -370,9 +337,10 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1"},
 				{text:"&lt;reg&gt;", type:"reg2"}]);
 		edited = true;
-	}
+		console.log("AND pressed for "+this.figNum);
+	};
 	
-	function or(){
+	this.or = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1"},
 				{text:"OR", type:"command"},
@@ -380,18 +348,20 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1"},
 				{text:"&lt;reg&gt;", type:"reg2"}]);
 		edited = true;
-	}
+		console.log("OR pressed for "+this.figNum);
+	};
 	
-	function not(){
+	this.not = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1"},
 				{text:"NOT", type:"command"},
 				{text:"&lt;reg&gt;,", type:"reg1"},
 				{text:"&lt;reg&gt;", type:"reg2"}]);
 		edited = true;
-	}
+		console.log("NOT pressed for "+this.figNum);
+	};
 	
-	function asl(){
+	this.asl = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1"},
 				{text:"ASL", type:"command"},
@@ -399,9 +369,10 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1"},
 				{text:"&lt;bits&gt;", type:"constant bits"}]);
 		edited = true;
-	}
+		console.log("ASL pressed for "+this.figNum);
+	};
 	
-	function asr(){
+	this.asr = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1"},
 				{text:"ASR", type:"command"},
@@ -409,40 +380,99 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1"},
 				{text:"&lt;bits&gt;", type:"constant bits"}]);
 		edited = true;
-	}
+		console.log("ASL pressed for "+this.figNum);
+	};
 	
-	function compare(){
+	this.compare = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1"},
 				{text:"COMPARE", type:"command"},
 				{text:"&lt;reg&gt;,", type:"reg1"},
 				{text:"&lt;reg&gt;", type:"reg2"}]);
 		edited = true;
-	}
+		console.log("COMPARE pressed for "+this.figNum);
+	};
 	
-	function branch(){
+	this.branch = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1"},
 				{text:"BRANCH", type:"command"},
 				{text:"&lt;cond&gt;,", type:"cond"},
 				{text:"&lt;label&gt;"}]);
 		edited = true;
-	}
+		console.log("BRANCH pressed for "+this.figNum);
+	};
 	
-	function jump(){
+	this.jump = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1"},
 				{text:"JUMP", type:"command"},
 				{text:"&lt;label&gt;", type:"label2"}]);
 		edited = true;
-	}
+		console.log("JUMP pressed for "+this.figNum);
+	};
 	
-	function halt(){
+	this.halt = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1"},
 				{text:"HALT", type:"command"}]);
 		edited = true;
-	}
+	};
+	
+	
+	//var insertWord = document.getElementById("word"+this.figNum);
+	//insertWord.onclick = function(){console.log("Yo");};
+	
+	//var insertBlock = document.getElementById("block"+this.figNum);
+	//insertBlock.onclick = this.block;
+	
+	//var insertHalt = document.getElementById("halt"+this.figNum);
+	//insertHalt.onclick = this.halt;
+	
+	//var insertLoad = document.getElementById("load"+this.figNum);
+	//insertLoad.onclick = this.load;
+	
+	//var insertLoadIMM = document.getElementById("loadimm"+this.figNum);
+	//insertLoadIMM.onclick = this.loadIMM;
+	
+	//var insertLoadIND = document.getElementById("loadind"+this.figNum);
+	//insertLoadIND.onclick = this.loadIND;
+	
+	//var insertStore = document.getElementById("store"+this.figNum);
+	//insertStore.onclick = this.store;
+	
+	//var insertStoreIND = document.getElementById("storeind"+this.figNum);
+	//insertStoreIND.onclick = this.storeIND;
+	
+	//var insertAnd = document.getElementById("and"+this.figNum);
+	//insertAnd.onclick = this.and;
+	
+	//var insertAdd = document.getElementById("add"+this.figNum);
+	//insertAdd.onclick = this.add;
+	
+	//var insertSubtract = document.getElementById("subtract"+this.figNum);
+	//insertSubtract.onclick = this.subtract;
+	
+	//var insertOr = document.getElementById("or"+this.figNum);
+	//insertOr.onclick = this.or;
+	
+	//var insertASL = document.getElementById("asl"+this.figNum);
+	//insertASL.onclick = this.asl;
+	
+	//var insertASR = document.getElementById("asr"+this.figNum);
+	//insertASR.onclick = this.asr;
+	
+	//var insertNot = document.getElementById("not"+this.figNum);
+	//insertNot.onclick = this.not;
+	
+	//var insertCompare = document.getElementById("compare"+this.figNum);
+	//insertCompare.onclick = this.compare;
+	
+	//var insertBranch = document.getElementById("branch"+this.figNum);
+	//insertBranch.onclick = this.branch;
+	
+	//var insertJump = document.getElementById("jump"+this.figNum);
+	//insertJump.onclick = this.jump;
 	
 	/* Selector for the available <label>'s */
     function createLabelSelector(title, optionS, callback) {
@@ -586,42 +616,42 @@ var Figure = function(figNum, figureMode) {
 	            if($(this).hasClass("bits"))
 	            {
 	            	//console.log("Hey, this one has bits!");
-	            	createNumBitsPad(0, 15, "Shift how many bits?", "Enter a number between 0 and 15", false, 10, fReturn, this.codeID);
+	            	createNumBitsPad(0, 15, "Shift how many bits?", "Enter a number between 0 and 15", false, 10, fReturn, editorDiv);
 	            }
 	            else if($(this).hasClass("const1"))
 	            {
 	            	//console.log("This one should have a big constant.");
-	            	createConstNumPad(-32768, 32767, "What's stored here?", "Enter a number between -32,768 and 32,767", false, 10, fReturn, this.codeID);
+	            	createConstNumPad(-32768, 32767, "What's stored here?", "Enter a number between -32,768 and 32,767", false, 10, fReturn, editorDiv);
 	            }
 	            else if($(this).hasClass("const2"))
 	            {
 	            	//console.log("This one should have a small constant.");
-	            	createConstNumPad(0, 255, "What value?", "Enter a number between 0 and 255", false, 10, fReturn, this.codeID);
+	            	createConstNumPad(0, 255, "What value?", "Enter a number between 0 and 255", false, 10, fReturn, editorDiv);
 	            }
 	            else if($(this).hasClass("label1"))
 	            {
 	            	//console.log("This one will be using the label-maker.");
-	            	createLabelMaker("Create a label", "", fLabel, this.codeID);
+	            	createLabelMaker("Create a label", "", fLabel, editorDiv);
 	            }
 	            else if($(this).hasClass("label2"))
 	            {
 	            	//console.log("This one will be selecting from the labels");
-	            	createLabelSelector("Use which label?", labels, fReturn, this.codeID);
+	            	createLabelSelector("Use which label?", labels, fReturn, editorDiv);
 	            }
 	            else if($(this).hasClass("reg1"))
 	            {
 	            	//console.log("This one will select from the registers");
-	            	createRegSelector("Select a register", registers, fRegisterC, this.codeID);
+	            	createRegSelector("Select a register", registers, fRegisterC, editorDiv);
 	            }
 	            else if($(this).hasClass("reg2"))
 	            {
 	            	//console.log("This one will select from the registers");
-	            	createRegSelector("Select a register", registers, fRegister, this.codeID);
+	            	createRegSelector("Select a register", registers, fRegister, editorDiv);
 	            }
 	            else if($(this).hasClass("cond"))
 	            {
 	            	//console.log("This is a conditional thing...");
-	            	createCondSelector("What conditions?", conditions, fReturnC, this.codeID);
+	            	createCondSelector("What conditions?", conditions, fReturnC, editorDiv);
 	            } else {
 	            	console.log("Hey! That doesn't do anything, silly!");
 	            }
