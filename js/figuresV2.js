@@ -24,7 +24,7 @@ var Figure = function(figNum, figureMode) {
 	this.htmlString = "<div ng-controller='assemblycontroller"+this.figNum+"' class='container' id='fig"+this.figNum+"'>\
 	<div class='row'>\
 \
-		<div id='"+this.codeID+"'></div>\
+		<div id='"+this.codeID+"' style='width:100%; height:250px; overflow-y:auto;'></div>\
 		<br>\
 		<div class='text-center'>\
 				<div class='btn-group-horizontal'>\
