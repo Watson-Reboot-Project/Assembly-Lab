@@ -579,6 +579,145 @@ var Figure = function(figNum, figureMode) {
 		// Editor Calls
 	} else if (this.figNum == 116) {
 		// Editor Calls
+		//MINORS .WORD 0   ; declare and initialize the number of 'minors' to 0. 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"MINORS", type:"label1"},
+				{text:".WORD", type:"keyword"},
+				{text:"0", type:"constant"},
+				{text:";"},
+				{text:"declare and initialize the number of 'minors' to 0.", type:"comment"}]);
+		//ADULTS .WORD 0   ; declare and initialize the number of 'adults' to 0.
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"ADULTS", type:"label1"},
+				{text:".WORD", type:"keyword"},
+				{text:"0", type:"constant"},
+				{text:";"},
+				{text:"declare and initialize the number of 'adults' to 0.", type:"comment"}]);
+		//AGE .WORD 21   ; declare and initialize the 'age' of the person to 21.
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"AGE", type:"label1"},
+				{text:".WORD", type:"keyword"},
+				{text:"21", type:"constant"},
+				{text:";"},
+				{text:"declare and initialize the 'age' of the person to 21.", type:"comment"}]);
+		//IF LOAD REGA, AGE  ; load the value of variable 'age' into register A.
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"IF", type:"label1"},
+				{text:"LOAD", type:"command"},
+				{text:"REGA,"},
+				{text:"AGE"},
+				{text:";"},
+				{text:"load the value of variable 'age' into register A.", type:"comment"}]);
+		//LOADIMM REGB, 18  ; load the constant value 18 into register B.
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOADIMM", type:"command"},
+				{text:"REGB,"},
+				{text:"18", type:"constant"},
+				{text:";"},
+				{text:"load the constant value 18 into register B.", type:"comment"}]);
+		//COMPARE REGA, REGB  ; compare registers A & B - i.e., the value of 'age' to 18
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"COMPARE", type:"command"},
+				{text:"REGA,"},
+				{text:"REGB"},
+				{text:";"},
+				{text:"compare registers A & B - i.e., the value of 'age to 18", type:"comment"}]);
+		//BRANCH LT, THEN  ; IF 'age' is less than 18 branch to 'then'.
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"BRANCH", type:"command"},
+				{text:"LT,"},
+				{text:"THEN"},
+				{text:";"},
+				{text:"IF 'age' is less than 18 branch to 'then'.", type:"comment"}]);
+		//JUMP ELSE   ; otherwise jump to 'else'. 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"JUMP", type:"command"},
+				{text:"ELSE"},
+				{text:";"},
+				{text:"otherwise jump to 'else'.", type:"comment"}]);
+		//THEN LOAD REG0, MINORS  ; THEN: load the number of minors into register 0. 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"THEN", type:"label1"},
+				{text:"LOAD", type:"command"},
+				{text:"REG0,"},
+				{text:"MINORS"},
+				{text:";"},
+				{text:"load the number of minors into register 0.", type:"comment"}]);
+		//LOADIMM REG1, 1  ; load the constant value 1 into register 1. 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOADIMM", type:"command"},
+				{text:"REG1,"},
+				{text:"1", type:"constant"},
+				{text:";"},
+				{text:"load the constant value 1 into register 1.", type:"comment"}]);
+		//ADD REG0, REG0, REG1 ; add contents of register 1 to register 0.
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"ADD", type:"command"},
+				{text:"REG0,"},
+				{text:"REG0,"},
+				{text:"REG1"},
+				{text:";"},
+				{text:"add contents of register 1 to register 0.", type:"comment"}]);
+		//STORE REG0, MINORS  ; update number of minors from register 0. 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"STORE", type:"command"},
+				{text:"REG0,"},
+				{text:"MINORS"},
+				{text:";"},
+				{text:"update number of minors from register 0.", type:"comment"}]);
+		//JUMP ENDIF   ; go to the statement labelled 'endif'. 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"JUMP", type:"command"},
+				{text:"ENDIF"},
+				{text:";"},
+				{text:"go to the statement labeled 'endif'", type:"comment"}]);
+		//ELSE LOAD REG0, ADULTS  ; ELSE: load the number of adults into register 0.
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"ELSE", type:"label1"},
+				{text:"LOAD", type:"command"},
+				{text:"REG0,"},
+				{text:"ADULTS"},
+				{text:";"},
+				{text:"ELSE: load the number of adults into register 0.", type:"comment"}]);
+		//LOADIMM REG1, 1  ; load the constant value 1 into register 1 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOADIMM", type:"command"},
+				{text:"REG1,"},
+				{text:"1", type:"constant"},
+				{text:";"},
+				{text:"load the constant value 1 into register 1", type:"comment"}]);
+		// ADD REG0, REG0, REG1 ; add contents of register 1 to register 0.
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"ADD", type:"command"},
+				{text:"REG0,"},
+				{text:"REG0,"},
+				{text:"REG1"},
+				{text:";"},
+				{text:"add contents of register 1 to register 0.", type:"comment"}]);
+		//STORE REG0, ADULTS  ; update number of adults from register 0. 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"STORE", type:"command"},
+				{text:"REG0,"},
+				{text:"ADULTS"},
+				{text:";"},
+				{text:"update number of adults from register 0.", type:"comment"}]);
+		//ENDIF HALT    ; halt execution of this assembly language program.
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"ENDIF", type:"label1"},
+				{text:"HALT", type:"command"},
+				{text:";"},
+				{text:"halt execution of this assembly language program.", type:"comment"}]);
 	} else if (this.figNum == 119) {
 		// Editor Calls
 		editor1.addRow(editor1.getSelectedRowIndex(),
