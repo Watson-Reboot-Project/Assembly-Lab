@@ -720,6 +720,137 @@ var Figure = function(figNum, figureMode) {
 				{text:";"}]);
 	} else if (this.figNum == 1110) {
 		// Editor Calls
+		// X .WORD 5   ; declare and initialize 'x' to 5 /* first operand */
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"X", type:"label1"},
+				{text:".WORD", type:"keyword"},
+				{text:"5", type:"constant"},
+				{text:";"},
+				{text:"declare and initialize 'x' to 5 /* first operand */", type:"comment"}]);
+		// Y .WORD 4   ; declare and initialize 'y' to 4 /* second operand */ 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"Y", type:"label1"},
+				{text:".WORD", type:"keyword"},
+				{text:"4", type:"constant"},
+				{text:";"},
+				{text:"declare and initialize 'y' to 4 /* second operand */", type:"comment"}]);
+		// Z .BLOCK 1   ; declare 'z' /* z will hold the product of the operands */ 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"Z", type:"label1"},
+				{text:".BLOCK", type:"keyword"},
+				{text:"1", type:"constant"},
+				{text:";"},
+				{text:"declare 'z' /* z will hold the product of the operands */", type:"comment"}]);
+		// I .BLOCK 1   ; declare 'i' /* i counts the number of loop iterations */ 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"I", type:"label1"},
+				{text:".BLOCK", type:"keyword"},
+				{text:"1", type:"constant"},
+				{text:";"},
+				{text:"declare 'i' /* i counts the number of loop iterations */", type:"comment"}]);
+		//   LOADIMM REG1, 1  ; register 1 holds the constant value 1. 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOADIMM", type:"command"},
+				{text:"REG1,"},
+				{text:"1", type:"constant"},
+				{text:";"},
+				{text:"register 1 holds the constant value 1.", type:"comment"}]);
+		//   LOAD REGA, X  ; register A holds the value of variable 'x'.
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOAD", type:"command"},
+				{text:"REGA,"},
+				{text:"X"},
+				{text:";"},
+				{text:"register A holds the value of variable 'x'.", type:"comment"}]);
+		//   LOAD REGB, Y  ; register B holds the value of variable 'y'. 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOAD", type:"command"},
+				{text:"REGB,"},
+				{text:"Y"},
+				{text:";"},
+				{text:"register B holds the value of variable 'y'.", type:"comment"}]);
+		//   LOADIMM REGC, 0  ; register C holds the value of variable 'z' - initially 0. 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOADIMM", type:"command"},
+				{text:"REGC,"},
+				{text:"0", type:"constant"},
+				{text:";"},
+				{text:"register C holds the value of variable 'z' - initially 0.", type:"comment"}]);
+		//   LOADIMM REGD, 1  ; register D holds the value of variable 'i' - initially 1.
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOADIMM", type:"command"},
+				{text:"REGD,"},
+				{text:"1", type:"constant"},
+				{text:";"},
+				{text:"register D holds the value of variable 'i' - initially 1.", type:"comment"}]);
+		// LOOP COMPARE REGD, REGB  ; compare register D (the counter 'i') to register B ('y').
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"LOOP", type:"label1"},
+				{text:"COMPARE", type:"command"},
+				{text:"REGD,"},
+				{text:"REGB"},
+				{text:";"},
+				{text:"compare register D (the counter 'i') to register B ('y').", type:"comment"}]);
+		//   BRANCH GT, ENDLP  ; if 'i' is greater than 'y' then branch to 'endlp'.
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"BRANCH", type:"command"},
+				{text:"GT,"},
+				{text:"ENDLP"},
+				{text:";"},
+				{text:"if 'i' is greater than 'y' then branch to 'endlp'.", type:"comment"}]);
+		//   ADD REGC, REGC, REGA ; otherwise, add the value of 'x' to 'z'.
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"ADD", type:"command"},
+				{text:"REGC,"},
+				{text:"REGC,"},
+				{text:"REGA"},
+				{text:";"},
+				{text:"otherwise, add the value of 'x' to 'z'.", type:"comment"}]);
+		//   ADD REGD, REGD, REG1 ; add 1 to the counter 'i'.
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"ADD", type:"command"},
+				{text:"REGD,"},
+				{text:"REGD,"},
+				{text:"REG1"},
+				{text:";"},
+				{text:"add 1 to the counter 'i'.", type:"comment"}]);
+		//   JUMP LOOP   ; return to the top of the loop. 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"JUMP", type:"command"},
+				{text:"LOOP"},
+				{text:";"},
+				{text:"return to the top of the loop.", type:"comment"}]);
+		// ENDLP STORE REGD, I  ; copy results back to main memory variables.
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"ENDLP", type:"label1"},
+				{text:"STORE", type:"command"},
+				{text:"REGD,"},
+				{text:"I"},
+				{text:";"},
+				{text:"copy results back to the main memory variables.", type:"comment"}]);
+		//   STORE REGC, Z  ; the product of 'x' and 'y' is saved in variable 'z'.
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"STORE", type:"command"},
+				{text:"REGC,"},
+				{text:"Z"},
+				{text:";"},
+				{text:"the product of 'x' and 'y' is saved in variable 'z'.", type:"comment"}]);
+		//   HALT    ; halt execution of this assembly language program.
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"HALT", type:"command"},
+				{text:";"},
+				{text:"halt execution of this assembly language program.", type:"comment"}]);
 	} else if (this.figNum == 1111) {
 		// Editor Calls
 	} else if (this.figureMode ==  false) {
