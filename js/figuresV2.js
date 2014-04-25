@@ -573,10 +573,181 @@ var Figure = function(figNum, figureMode) {
 	this.figCode;
 	if (this.figNum == 113) {
 		// Editor Calls
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"TOTAL", type:"label1"},
+				 {text:".BLOCK", type: "keywoard"},
+				 {text:"1", type: "constant"},
+				 {text:";"},
+				 {text:"reserve a block of memory one word long for 'total'", type: "comment"}]);
+	editor1.addRow(editor1.getSelectedRowIndex(),
+			[{text:"ABC", type:"label1"},
+			 {text:".WORD", type:"keyword"},
+			 {text:"2", type:"constant"},
+			 {text:";"},
+			 {text:"reserve a word of memory for variable 'abc'. Initialize to 2.", type: "comment"}]);
+	editor1.addRow(editor1.getSelectedRowIndex(),
+			[{text:"XYZ", type:"label1"},
+			 {text:".WORD", type:"keyword"},
+			 {text:"3", type:"constant"},
+			 {text:";"},
+			 {text:"reserve a word of memory for variable 'xyz'. Initialize to 3.", type: "comment"}]);
+	editor1.addRow(editor1.getSelectedRowIndex(),
+			[{text:"&nbsp;", type:"label1"},
+			 {text:"LOAD", type:"command"},
+			 {text:"REGD,"},
+			 {text:"ABC"},
+			 {text:";"},
+			 {text:"load the value of variable 'abc' into register D.", type:"comment"}]);
+	editor1.addRow(editor1.getSelectedRowIndex(),
+			[{text:"&nbsp;", type:"label1"},
+			 {text:"LOAD", type:"command"},
+			 {text:"REGE,"},
+			 {text:"XYZ"},
+			 {text:";"},
+			 {text:"load the value of variable 'xyz' into register D.", type:"comment"}]);
+	editor1.addRow(editor1.getSelectedRowIndex(),
+			[{text:"&nbsp;", type:"label1"},
+			 {text:"ADD", type:"command"},
+			 {text:"REGF,"},
+			 {text:"REGD,"},
+			 {text:"REGE"},
+			 {text:";"},
+			 {text:"add the contents of registers D and E placing the result in F.", type:"comment"}]);
+	editor1.addRow(editor1.getSelectedRowIndex(),
+			[{text:"&nbsp;", type:"label1"},
+			 {text:"STORE", type:"command"},
+			 {text:"REGF,"},
+			 {text:"TOTAL"},
+			 {text:";"},
+			 {text:"store the value held in register F into the variable 'total'.", type:"comment"}]);
+	editor1.addRow(editor1.getSelectedRowIndex(),
+			[{text:"&nbsp;", type:"label1"},
+			 {text:"HALT", type:"command"},
+			 {text:";"},
+			 {text:"halt execution of this assembly language program.", type:"comment"}]);	
 	} else if (this.figNum == 114) {
 		// Editor Calls
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"X", type:"label1"},
+				 {text:".WORD", type:"keyword"},
+				 {text:"15", type:"constant"},
+				 {text:";"},
+				 {text:"reserve a word of memory for variable 'x'. Initialize to 15.", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				 {text:"LOAD", type:"command"},
+				 {text:"REGA,"},
+				 {text:"X"},
+				 {text:";"},
+				 {text:"load the value of variable 'x' into register A.", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				 {text:"LOADIMM", type:"command"},
+				 {text:"REGB,"},
+				 {text:"1", type:"constant"},
+				 {text:";"},
+				 {text:"load the constant value 1 into register B.", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				 {text:"SUBTRACT", type:"command"},
+				 {text:"REG0,"},
+				 {text:"REGA,"},
+				 {text:"REGB"},
+				 {text:";"},
+				 {text:"subtract the contents of register B from A placing result in 0.", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				 {text:"STORE", type:"command"},
+				 {text:"REG0,"},
+				 {text:"X"},
+				 {text:";"},
+				 {text:"store the value held in register 0 into the variable 'x'.", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				 {text:"HALT", type:"command"},
+				 {text:";"},
+				 {text:"halt execution of this assembly language program.", type:"comment"}]);
 	} else if (this.figNum == 115) {
 		// Editor Calls
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"AGE", type:"label1"},
+				 {text:".WORD", type:"keyword"},
+				 {text:"2", type:"constant"},
+				 {text:";"},
+				 {text:"declare and initialize 'age' to 2. Our subject is 2 years old.", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"MINOR", type:"label1"},
+				 {text:".BLOCK", type:"keyword"},
+				 {text:"1", type:"constant"},
+				 {text:";"},
+				 {text:"declare 'minor'.", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				 {text:"LOADIMM", type:"COMMAND"},
+				 {text:"REG0,"},
+				 {text:"0", type:"constant"},
+				 {text:";"},
+				 {text:"load the constant value 0 into register 0.", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				 {text:"STORE", type:"command"},
+				 {text:"REG0,"},
+				 {text:"MINOR", type:"constant"},
+				 {text:";"},
+				 {text:"store a zero into 'minor' – i.e., minor is assumed 'false'.", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"IF", type:"label1"},
+				 {text:"LOAD", type:"command"},
+				 {text:"REGA,"},
+				 {text:"AGE"},
+				 {text:";"},
+				 {text:"load the value of variable 'age' into register A.", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				 {text:"LOADIMM", type:"command"},
+				 {text:"REGB,"},
+				 {text:"18", type:"constant"},
+				 {text:";"},
+				 {text:"load the constant value 18 into register B.", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				 {text:"COMPARE", type:"command"},
+				 {text:"REGA,"},
+				 {text:"REGB"},
+				 {text:";"},
+				 {text:"compare registers A & B &#45; i.e., the value of 'age' to 18.", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				 {text:"BRANCH", type:"command"},
+				 {text:"LT,"},
+				 {text:"THEN"},
+				 {text:";"},
+				 {text:"comment'>IF 'age' is less than 18 branch to 'then'.", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				 {text:"JUMP", type:"command"},
+				 {text:"ENDIF"},
+				 {text:";"},
+				 {text:"otherwise jump to the end of the if block &#45; 'endif'.", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"THEN", type:"label1"},
+				 {text:"LOADIMM", type:"command"},
+				 {text:"REG1,"},
+				 {text:"1", type:"constant"},
+				 {text:";"},
+				 {text:"THEN: load the constant value 1 into register 1.", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				 {text:"STORE", type:"command"},
+				 {text:"REG1,"},
+				 {text:"MINOR"},
+				 {text:";"},
+				 {text:"store a one into 'minor' &#45; i.e., minor is 'true'.", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"ENDIF", type:"label1"},
+				 {text:"HALT", type:"command"},
+				 {text:";"},
+				 {text:"halt execution of this assembly language program.", type:"comment"}]);
 	} else if (this.figNum == 116) {
 		// Editor Calls
 		//MINORS .WORD 0   ; declare and initialize the number of 'minors' to 0. 
