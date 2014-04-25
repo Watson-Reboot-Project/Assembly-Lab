@@ -853,6 +853,147 @@ var Figure = function(figNum, figureMode) {
 				{text:"halt execution of this assembly language program.", type:"comment"}]);
 	} else if (this.figNum == 1111) {
 		// Editor Calls
+		// I .BLOCK 1   ; var i; // Numeric
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"I", type:"label1"},
+				{text:".BLOCK", type:"keyword"},
+				{text:"1", type:"constant"},
+				{text:";"},
+				{text:"var i; // Numeric", type:"comment"}]);
+		// A .BLOCK 30   ; var a = new array(30); // Numeric 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"A", type:"label1"},
+				{text:".BLOCK", type:"keyword"},
+				{text:"30", type:"constant"},
+				{text:";"},
+				{text:"var a = new array(30); // Numeric", type:"comment"}]);
+		//   LOADIMM REGA, 0  ;
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOADIMM", type:"command"},
+				{text:"REGA,"},
+				{text:"0", type:"constant"},
+				{text:";"}]);
+		//   STORE REGA, I  ; i = 0;
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"STORE", type:"command"},
+				{text:"REGA,"},
+				{text:"I"},
+				{text:";"},
+				{text:"i = 0;", type:"constant"}]);
+		// LOOP LOAD REGA, I  ; while (i < 30)
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"LOOP", type:"label1"},
+				{text:"LOAD", type:"command"},
+				{text:"REGA,"},
+				{text:"I"},
+				{text:";"},
+				{text:"while (i < 30)", type:"comment"}]);
+		//   LOADIMM REGB, 30  ;
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOADIMM", type:"command"},
+				{text:"REGB,"},
+				{text:"30", type:"constant"},
+				{text:";"}]);
+		//   COMPARE REGA, REGB  ;
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"COMPARE", type:"command"},
+				{text:"REGA,"},
+				{text:"REGB"},
+				{text:";"}]);
+		//   BRANCH GE, ENDLP  ; {
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"BRANCH", type:"command"},
+				{text:"GE,"},
+				{text:"ENDLP"},
+				{text:";"}]);
+		//   LOADIMM REGA, 1  ; Register A assigned the base address of array a
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOADIMM", type:"command"},
+				{text:"REGA,"},
+				{text:"1", type:"constant"},
+				{text:";"},
+				{text:"Register A assigned the base address of array a", type:"comment"}]);
+		//   LOAD REGB, I  ; Register B assigned the value of subscript i
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOAD", type:"command"},
+				{text:"REGB,"},
+				{text:"I"},
+				{text:";"},
+				{text:"Register B assigned the value of subscript i", type:"comment"}]);
+		//   ADD REGC, REGA, REGB ; Register C assigned the address of a[i]
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"ADD", type:"command"},
+				{text:"REGC,"},
+				{text:"REGA,"},
+				{text:"REGB"},
+				{text:";"},
+				{text:"Register C assigned the address of a[i]", type:"comment"}]);
+		//   LOADIMM REGD, -1  ; Register D assigned the constant -1 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOADIMM", type:"command"},
+				{text:"REGD,"},
+				{text:"-1", type:"constant"},
+				{text:";"},
+				{text:"Register D assigned the constant -1", type:"comment"}]);
+		//   STOREIND REGD, REGC  ; a[i] = -1;
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"STOREIND", type:"command"},
+				{text:"REGD,"},
+				{text:"REGC"},
+				{text:";"},
+				{text:"a[i] = -1;", type:"comment"}]);
+		//   LOAD REGA, I  ;
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOAD", type:"command"},
+				{text:"REGA,"},
+				{text:"I"},
+				{text:";"}]);
+		//   LOADIMM REGB, 1  ;
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOADIMM", type:"command"},
+				{text:"REGB,"},
+				{text:"1", type:"constant"},
+				{text:";"}]);
+		//   ADD REGC, REGA, REGB ; 
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"ADD", type:"command"},
+				{text:"REGC,"},
+				{text:"REGA,"},
+				{text:"REGB"},
+				{text:";"}]);
+		//   STORE REGC, I  ; i = i + 1;
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"STORE", type:"command"},
+				{text:"REGC,"},
+				{text:"I"},
+				{text:";"},
+				{text:"i = i + 1;", type:"comment"}]);
+		//   JUMP LOOP   ; }
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"JUMP", type:"command"},
+				{text:"LOOP"},
+				{text:";"},
+				{text:"}", type:"comment"}]);
+		// ENDLP HALT    ;
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"ENDLP", type:"label1"},
+				{text:"HALT", type:"command"},
+				{text:";"},]);
 	} else if (this.figureMode ==  false) {
 		// Editor Calls
 		// Essentially empty box
@@ -2211,7 +2352,7 @@ var Figure = function(figNum, figureMode) {
 
 					// Walks through one step of the program
 					this.walk = function() {
-						var table = editor1.rowToArray(this.programCounter);
+						//var table = editor1.rowToArray(this.programCounter);
 						//console.log("Edited: "+edited);
 						//if (this.done) {
 							//this.reset();
