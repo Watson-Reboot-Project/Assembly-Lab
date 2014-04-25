@@ -581,6 +581,143 @@ var Figure = function(figNum, figureMode) {
 		// Editor Calls
 	} else if (this.figNum == 119) {
 		// Editor Calls
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"X", type:"label1"},
+				{text:".WORD", type:"keyword"},
+				{text:"5", type:"constant const1"},
+				{text:";"},
+				{text:"declare and initialize 'x' to 5 /* first operand */",type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"Y", type:"label1"},
+				{text:".WORD", type:"keyword"},
+				{text:"4", type:"constant const1"},
+				{text:";"},
+				{text:"declare and initialize 'y' to 4 /* second operand */",type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"Z", type:"label1"},
+				{text:".BLOCK", type:"keyword"},
+				{text:"1", type:"constant const1"},
+				{text:";"},
+				{text:"declare 'z' /* z will hold the product of the operands */",type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"I", type:"label1"},
+				{text:".BLOCK", type:"keyword"},
+				{text:"1", type:"constant const1"},
+				{text:";"},
+				{text:"declare 'i' /* i counts the number of loop iterations */",type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOADIMM", type:"command"},
+				{text:"REGA,", type:"reg1"},
+				{text:"0", type:"constant const2"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"STORE", type:"command"},
+				{text:"REGA,", type:"reg1"},
+				{text:"Z", type:"const2"},
+				{text:";"},
+				{text:"z=0", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOADIMM", type:"command"},
+				{text:"REGA,", type:"reg1"},
+				{text:"1", type:"constant const1"},
+				{text:";"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"STORE", type:"command"},
+				{text:"REGA,", type:"reg1"},
+				{text:"I", type:"const2"},
+				{text:";"},
+				{text:"i=1", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"LOOP", type:"label1"},
+				{text:"LOAD", type:"command"},
+				{text:"REGA,", type:"reg1"},
+				{text:"I", type:"const2"},
+				{text:";"},
+				{text:"while(i<=y)", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOAD", type:"command"},
+				{text:"REGB,", type:"reg1"},
+				{text:"Y", type:"const2"},
+				{text:";"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"COMPARE", type:"command"},
+				{text:"REGA,", type:"reg1"},
+				{text:"REGB", type:"reg2"},
+				{text:";"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"BRANCH", type:"command"},
+				{text:"GT,", type:"cond"},
+				{text:"ENDLP", type:"const2"},
+				{text:";"},
+				{text:"{", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOAD", type:"command"},
+				{text:"REGA,", type:"reg1"},
+				{text:"Z", type:"const2"},
+				{text:";"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOAD", type:"command"},
+				{text:"REGB,", type:"reg1"},
+				{text:"X", type:"const2"},
+				{text:";"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"ADD", type:"command"},
+				{text:"REGC,", type:"reg1"},
+				{text:"REGA,", type:"reg1"},
+				{text:"REGB", type:"reg2"},
+				{text:";"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"STORE", type:"command"},
+				{text:"REGC,", type:"reg1"},
+				{text:"Z", type:"reg1"},
+				{text:";"},
+				{text:"z = z + x;", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOAD", type:"command"},
+				{text:"REGA,", type:"reg1"},
+				{text:"I", type:"const2"},
+				{text:";"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"LOADIMM", type:"command"},
+				{text:"REGB,", type:"reg1"},
+				{text:"1", type:"constant"},
+				{text:";"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"ADD", type:"command"},
+				{text:"REGC,", type:"reg1"},
+				{text:"REGA,", type:"reg1"},
+				{text:"REGB", type:"reg2"},
+				{text:";"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"STORE", type:"command"},
+				{text:"REGC,", type:"reg1"},
+				{text:"I", type:"const2"},
+				{text:";"},
+				{text:"i = i + 1;", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"&nbsp;", type:"label1"},
+				{text:"JUMP", type:"command"},
+				{text:"LOOP", type:"const2"},
+				{text:";"},
+				{text:"}", type:"comment"}]);
+		editor1.addRow(editor1.getSelectedRowIndex(),
+				[{text:"ENDLP", type:"label1"},
+				{text:"HALT", type:"command"},
+				{text:";"}]);
 	} else if (this.figNum == 1110) {
 		// Editor Calls
 	} else if (this.figNum == 1111) {
@@ -976,7 +1113,7 @@ var Figure = function(figNum, figureMode) {
 					// needed.
 					// If on figure tab, also populates Variable Table.
 					this.init = function() {
-						console.log("Init has been called.");
+						//console.log("Init has been called.");
 						var table;
 						// "Compile"
 						var progLine = 0;
@@ -1463,7 +1600,7 @@ var Figure = function(figNum, figureMode) {
 								var arg1, arg2, label;
 								arg1 = 0;
 								// Find memory location to jump to
-								label = table[progLine][this.arg1Num];
+								label = table[this.arg1Num];
 								for (var i = 0; i < this.labels.length; i++) {
 									if (this.labels[i][0] == label) {
 										arg2 = this.labels[i][1];
@@ -2089,7 +2226,7 @@ tabsstuff.controller(assemblycontroller,
 	}
 	
 	
-	// $scope.assembler.init();
+	$scope.assembler.init();
 
 	$scope.architecture = function(updateCounter) {
 
