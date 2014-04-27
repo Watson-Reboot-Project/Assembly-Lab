@@ -18,13 +18,44 @@ var Figure = function(figNum, figureMode) {
 	}
 	
 	this.codeID = "code"+editorDivID;
+
+	this.windowHeight;
 	
+	if(this.figureMode){
+		if(this.figNum == 113) {
+			// Figure 11.3 Height
+			this.windowHeight = "195px";
+		} else if(this.figNum == 114) {
+			// Figure 11.4 Height
+			this.windowHeight = "160px";
+		} else if(this.figNum == 115) {
+			// Figure 11.5 Height
+			this.windowHeight = "275px";
+		} else if(this.figNum == 116) {
+			// Figure 11.6 Height
+			this.windowHeight = "390px";
+		} else if(this.figNum == 119) {
+			// Figure 11.9 Height
+			this.windowHeight = "470px";
+		} else if(this.figNum == 1110) {
+			// Figure 11.10 Height
+			this.windowHeight = "375px";
+		} else if(this.figNum == 1111) {
+			// Figure 11.11 Height
+			this.windowHeight = "415px";
+		}
+	
+	} else {
+		// Editor Height
+		this.windowHeight = "250px";
+	}
+		
 	var self = this;
 	
 	this.htmlString = "<div ng-controller='assemblycontroller"+this.figNum+"' class='container' id='fig"+this.figNum+"'>\
 	<div class='row'>\
 \
-		<div id='"+this.codeID+"' style='width:100%; height:250px; overflow-y:auto;'></div>\
+		<div id='"+this.codeID+"' style='width:100%; height:"+this.windowHeight+"; overflow-y:auto;'></div>\
 		<br>\
 		<div class='text-center'>\
 				<div class='btn-group-horizontal'>\
