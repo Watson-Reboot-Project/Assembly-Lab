@@ -30,10 +30,10 @@
 	@param {boolean} lineNumBool - if true use line numbers, if false do not
 	@param {boolean} syntaxHighlightingBool - if true use syntax highlighting, if false do not
 	@param {number} lineNumStart - what number line numbers should start at
-	@param {number} cellWidth - the width of the first cell? if < 0 fit to text
 	@param {number} insertBetweenRowsBool - if true a line can be inserted/deleted anywhere, if false lines can only be inserted/deleted from the end of the editor
+	@param {number} cellWidth - the width of the first cell? if < 0 fit to text : DEPRECATED. use addRow() to set widths
 */
-function Editor(divID, lineNumBool, syntaxHighlightingBool, lineNumStart, cellWidth, insertBetweenRowsBool){
+function Editor(divID, lineNumBool, syntaxHighlightingBool, lineNumStart, insertBetweenRowsBool){
 
 	/*GLOBAL VARIABLES********************************************************/
 	
@@ -76,7 +76,7 @@ function Editor(divID, lineNumBool, syntaxHighlightingBool, lineNumStart, cellWi
 	var showLineCountFlag = false;
 	/*end copy*/
 	
-	editorDiv.innerHTML = '<div class="textArea"><div class="insertDiv"><div class="offsetDiv"></div><table id="insertTable' + divID + '"></table></div><div class="codeContainer"><table id="figEditor' + divID + '" class="codeTable"></table></div></div>';
+	editorDiv.innerHTML = '<div class="textArea"><div class="insertDiv"><div class="offsetDiv"></div><table id="insertTable' + divID + '" class="insertTable"></table></div><div class="codeContainer"><table id="figEditor' + divID + '" class="codeTable"></table></div></div>';
 	codeTable = document.getElementById('figEditor' + divID);
 	insertTable = document.getElementById('insertTable' + divID);
 	
@@ -102,17 +102,21 @@ function Editor(divID, lineNumBool, syntaxHighlightingBool, lineNumStart, cellWi
         var row = insertTable.insertRow(selRow);
         var cell = row.insertCell(0);
         cell.className = 'cell' + divID + ' insert insert' + divID;
-        cell.innerHTML = blank;
+        cell.innerHTML = "&nbsp;";
 	}
 	
 	/*PUBLIC FUNCTIONS********************************************************/
 
 	this.rowToArray = rowToArray;
+	this.rowToArrayHtml = rowToArrayHtml;
 	this.getRowCount = getRowCount;
 	this.addRow = addRow;
+	this.addCell = addCell;
 	this.deleteRow = deleteRow;
 	this.selectRowByIndex = selectRowByIndex;
 	this.selectAndHighlightRowByIndex = selectAndHighlightRowByIndex;
+	this.setSelectedRow = setSelectedRow;
+	this.clearHighlighting = clearHighlighting;
 	this.moveInsertionBarCursor = moveInsertionBarCursor;
 	this.getSelectedRowIndex = getSelectedRowIndex;
 	this.setCellClickListener = setCellClickListener;
@@ -127,6 +131,25 @@ function Editor(divID, lineNumBool, syntaxHighlightingBool, lineNumStart, cellWi
 		@returns {array} an array of strings of the cells of the row
 	*/
 	function rowToArray(index){
+		//console.log(codeTable.rows[index].cells[0].children[0].rows[0].cells[2].innerHTML);
+		var cells = codeTable.rows[index].cells[0].children[0].rows[0].cells;
+		var ret = []; //the return array
+		
+		//i starts at 2 so it doesn't get the line number
+		for(var i = 2; i < cells.length; i++)
+		{
+			ret.push(cells[i].textContent);
+		}
+		
+		//console.log(ret);
+		return ret;
+	}
+	
+	/* rowToArrayHtml - returns an array with each entry representing a cell in the row
+		@param {number} index - the index of the row to process
+		@returns {array} an array of strings of the cells of the row
+	*/
+	function rowToArrayHtml(index){
 		//console.log(codeTable.rows[index].cells[0].children[0].rows[0].cells[2].innerHTML);
 		var cells = codeTable.rows[index].cells[0].children[0].rows[0].cells;
 		var ret = []; //the return array
@@ -159,6 +182,8 @@ function Editor(divID, lineNumBool, syntaxHighlightingBool, lineNumStart, cellWi
 		cell.innerHTML = innerTableTemplate;			// put our inner table template in the new cell
 		var innerTable = codeTable.rows[index].cells[0].children[0];	// grab the inner table over we just created
 		
+		var hasFixedWidths = 0;
+		
 		var startIndex = 2;		//start at 2 to avoid the line numbers
 		
 		for (var i = 0; i < values.length; i++) {			// for all cells in the table
@@ -176,13 +201,43 @@ function Editor(divID, lineNumBool, syntaxHighlightingBool, lineNumStart, cellWi
 			//if the class is not equal to "code", add whatever it is
 			if(values[i].type != "code" && typeof values[i].type != "undefined")
 				cell.className += " " + values[i].type;
+			
+			//as soon as we see a value with a width do fixed width stuff
+			if(typeof values[i].width != "undefined"){
+				//if this is the first column we've seen with fixed widths, set the width for every column before it
+				// mainly to catch the line number and indent
+				if(hasFixedWidths == 0){
+					for(var j = 0; j < startIndex; j++){
+						innerTable.rows[0].cells[j].style.width = innerTable.rows[0].cells[j].clientWidth + "px";
+						innerTable.rows[0].cells[j].style.overflow = "hidden";
+					}
+				}
+				
+				//so we know that this row should have fixed widths
+				hasFixedWidths = 1;
+			
+				//set the actual width
+				cell.style.width = values[i].width;
+				cell.style.overflow = "hidden";
+			}
+		}
+		
+		/*
+		  if you try to put the stuff in this if statement above where the widths
+		   for each cell are set, everything messes up, so leave it here
+		*/
+		if(hasFixedWidths == 1){
+			var cell = innerTable.rows[0].insertCell(-1);
+			
+			innerTable.style.tableLayout = "fixed";
+			innerTable.style.width = "100%";
 		}
 		
 		//add a row to the insert bar
         var row = insertTable.insertRow(selRow);
         var cell = row.insertCell(0);
         cell.className = 'cell' + divID + ' insert insert' + divID;
-        cell.innerHTML = blank;
+        cell.innerHTML = "&nbsp;";
 		
 		//console.log(codeTable.getAttribute('id'));
 		
@@ -190,6 +245,37 @@ function Editor(divID, lineNumBool, syntaxHighlightingBool, lineNumStart, cellWi
 		selRow++;
 		
 		refreshLineCount(); // refresh the line count along the left margin
+	}
+	
+	/* addCell - adds a cell after the one passed
+		@param {DOM object} cell - the initial cell
+		@param {object} values - an array of objects with two things: the text of the cell and the class for syntax highlighting
+			every cell automatically receives the "code" class
+	*/
+	function addCell(cell, values){
+		//to make things easier, if cell is not a jQuery object, turn it into one
+		if(!(cell instanceof jQuery))
+			cell = $(cell);
+	
+		for(var i = 0; i < values.length; i++){
+			//insert a blank cell
+			cell.after('<td class="cell' + divID + ' code"></td>')
+			
+			//move to the new cell
+			cell = cell.next();
+			
+			//set the text
+			cell.html(values[i].text);
+			
+			//if no Highlighting, add class to override others
+			if(!syntaxHighlightingBool){
+				cell.className += " noHighlighting";
+			}
+			
+			//if the class is not equal to "code", add whatever it is
+			if(values[i].type != "code" && typeof values[i].type != "undefined")
+				cell.addClass(values[i].type);
+		}
 	}
 	
 	/* deleteRow - deletes the row at the specified index
@@ -255,10 +341,10 @@ function Editor(divID, lineNumBool, syntaxHighlightingBool, lineNumStart, cellWi
 		@param {number} index - the row to select
 	*/
 	function selectAndHighlightRowByIndex(index){
-		if(codeTable.rows[selRow].cells.length <= 0){
-			innerTable = codeTable.rows[selRow].cells[0].children[0];
-			innerTable.rows[0].cells[1].innerHTML = blank;
-			
+		innerTable = codeTable.rows[selRow].cells[0].children[0];
+		innerTable.rows[0].cells[1].innerHTML = blank;
+		
+		if(codeTable.rows[selRow].cells.length >= 0){
 			//remove the 'selected' class the hard way
 			for(var i = 0; i < innerTable.rows[0].cells.length; i++){
 				innerTable.rows[0].cells[i].className = innerTable.rows[0].cells[i].className.replace("selected running", "");
@@ -274,6 +360,24 @@ function Editor(divID, lineNumBool, syntaxHighlightingBool, lineNumStart, cellWi
 		for(var i = 0; i < innerTable.rows[0].cells.length; i++){
 			innerTable.rows[0].cells[i].className += " selected running";
 		}
+	}
+	
+	/* setSelectedRow - sets the selected row to the value passed
+		@param {numeric} index - the row index to set the selected row to
+	*/
+	function setSelectedRow(index){
+		innerTable = codeTable.rows[selRow].cells[0].children[0];
+		innerTable.rows[0].cells[1].innerHTML = blank;
+		
+		selRow = index;
+		innerTable = codeTable.rows[selRow].cells[0].children[0];
+		innerTable.rows[0].cells[1].innerHTML = arrow;
+	}
+	
+	/* clearHighilighting - manually clears all of the highlighting across the editor
+	*/
+	function clearHighlighting(){
+		$(codeTable).find('.code').removeClass('selected running');
 	}
 	
 	/* moveInsertionBarCursor - moves the cursor in the insertion bar, which is removed in the mouse leave event below
@@ -381,7 +485,7 @@ function Editor(divID, lineNumBool, syntaxHighlightingBool, lineNumStart, cellWi
 	$('div').on('mouseleave', '.insert' + divID, function(event){
 		if($(this).css('cursor') == 'pointer'){
 			$(this).css('cursor', 'default');
-			$(this).html(blank);
+			$(this).html("&nbsp;");
 			insertBarCursorIndex = -1;
 		}
 	});
@@ -568,4 +672,3 @@ function Editor(divID, lineNumBool, syntaxHighlightingBool, lineNumStart, cellWi
 		return false;
 	}
 }
-// vim: ts=4 sw=4 noet nolist

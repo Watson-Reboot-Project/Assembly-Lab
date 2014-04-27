@@ -263,16 +263,16 @@ var Figure = function(figNum, figureMode) {
 			"REGC", "REGD", "REGE", "REGF"];
 	var conditions = ["EQ", "NE", "LT", "LE", "GT", "GE", "CARRY", "NEG", "ZERO", "OVER"];
 	var labels = [];
-	var editor1 = new Editor(this.codeID, true, true, 1, 50, true);
+	var editor1 = new Editor(this.codeID, true, true, 1, -1, true);
 	var editorDiv = document.getElementById(this.codeID);
 	var deleteCell;
 	var edited;
 
 	this.word = function(){
 		editor1.addRow(memPointer,
-				[{text:"&lt;label&gt;", type:"label1"},
-				{text:".WORD", type:"keyword"},
-				{text:"&lt;const&gt;", type:"constant const1"}]);
+				[{text:"&lt;label&gt;", type:"label1", width:"50px"},
+				{text:".WORD", type:"keyword", width:"74px"},
+				{text:"&lt;const&gt;", type:"constant const1", width:"50px"}]);
 		memPointer++;
 		edited = true;
 		console.log(".WORD pressed for "+this.figNum);
@@ -280,8 +280,8 @@ var Figure = function(figNum, figureMode) {
 	
 	this.block = function(){
 		editor1.addRow(memPointer,
-				[{text:"&lt;label&gt;", type:"label1"},
-				{text:".BLOCK", type:"keyword"},
+				[{text:"&lt;label&gt;", type:"label1", width:"50px"},
+				{text:".BLOCK", type:"keyword", width:"74px", width:"50px"},
 				{text:"&lt;const&gt;", type:"constant const1"}]);
 		memPointer++;
 		edited = true;
@@ -290,220 +290,165 @@ var Figure = function(figNum, figureMode) {
 	
 	this.loadIMM = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOADIMM", type:"command"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;const&gt;", type:"constant const2"}]);
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOADIMM", type:"command", width:"74px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;const&gt;", type:"constant const2", width:"50px"}]);
 		edited = true;
 		console.log("LOADIMM pressed for "+this.figNum);
 	};
 	
 	this.load = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOAD", type:"command"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;label&gt;", type:"label2"}]);
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOAD", type:"command", width:"74px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;label&gt;", type:"label2", width:"50px"}]);
 		edited = true;
 		console.log("LOAD pressed for "+this.figNum);
 	};
 	
 	this.store = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"STORE", type:"command"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;label&gt;", type:"label2"}]);
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"STORE", type:"command", width:"74px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;label&gt;", type:"label2", width:"50px"}]);
 		edited = true;
 		console.log("STORE pressed for "+this.figNum);
 	};
 	
 	this.loadIND = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOADIND", type:"command"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;reg&gt;", type:"reg2"}]);
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOADIND", type:"command", width:"74px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;reg&gt;", type:"reg2", width:"50px"}]);
 		edited = true;
 		console.log("LOADIND pressed for "+this.figNum);
 	};
 	
 	this.storeIND = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"STOREIND", type:"command"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;reg&gt;", type:"reg2"}]);
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"STOREIND", type:"command", width:"74px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;reg&gt;", type:"reg2", width:"50px"}]);
 		edited = true;
 		console.log("STOREIND pressed for "+this.figNum);
 	};
 	
 	this.add = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"ADD", type:"command"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;reg&gt;", type:"reg2"}]);
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"ADD", type:"command", width:"74px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;reg&gt;", type:"reg2", width:"50px"}]);
 		edited = true;
 		console.log("ADD pressed for "+this.figNum);
 	};
 	
 	this.subtract = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"SUBTRACT", type:"command"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;reg&gt;", type:"reg2"}]);
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"SUBTRACT", type:"command", width:"74px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;reg&gt;", type:"reg2", width:"50px"}]);
 		edited = true;
 		console.log("SUBTRACT pressed for "+this.figNum);
 	};
 	
 	this.and = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"AND", type:"command"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;reg&gt;", type:"reg2"}]);
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"AND", type:"command", width:"74px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;reg&gt;", type:"reg2", width:"50px"}]);
 		edited = true;
 		console.log("AND pressed for "+this.figNum);
 	};
 	
 	this.or = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"OR", type:"command"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;reg&gt;", type:"reg2"}]);
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"OR", type:"command", width:"74px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;reg&gt;", type:"reg2", width:"50px"}]);
 		edited = true;
 		console.log("OR pressed for "+this.figNum);
 	};
 	
 	this.not = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"NOT", type:"command"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;reg&gt;", type:"reg2"}]);
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"NOT", type:"command", width:"74px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;reg&gt;", type:"reg2", width:"50px"}]);
 		edited = true;
 		console.log("NOT pressed for "+this.figNum);
 	};
 	
 	this.asl = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"ASL", type:"command"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;bits&gt;", type:"constant bits"}]);
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"ASL", type:"command", width:"74px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;bits&gt;", type:"constant bits", width:"50px"}]);
 		edited = true;
 		console.log("ASL pressed for "+this.figNum);
 	};
 	
 	this.asr = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"ASR", type:"command"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;bits&gt;", type:"constant bits"}]);
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"ASR", type:"command", width:"74px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;bits&gt;", type:"constant bits", width:"50px"}]);
 		edited = true;
 		console.log("ASL pressed for "+this.figNum);
 	};
 	
 	this.compare = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"COMPARE", type:"command"},
-				{text:"&lt;reg&gt;,", type:"reg1"},
-				{text:"&lt;reg&gt;", type:"reg2"}]);
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"COMPARE", type:"command", width:"74px"},
+				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
+				{text:"&lt;reg&gt;", type:"reg2", width:"50px"}]);
 		edited = true;
 		console.log("COMPARE pressed for "+this.figNum);
 	};
 	
 	this.branch = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"BRANCH", type:"command"},
-				{text:"&lt;cond&gt;,", type:"cond"},
-				{text:"&lt;label&gt;"}]);
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"BRANCH", type:"command", width:"74px"},
+				{text:"&lt;cond&gt;,", type:"cond", width:"50px"},
+				{text:"&lt;label&gt;", width:"50px"}]);
 		edited = true;
 		console.log("BRANCH pressed for "+this.figNum);
 	};
 	
 	this.jump = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"JUMP", type:"command"},
-				{text:"&lt;label&gt;", type:"label2"}]);
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"JUMP", type:"command", width:"74px"},
+				{text:"&lt;label&gt;", type:"label2", width:"50px"}]);
 		edited = true;
 		console.log("JUMP pressed for "+this.figNum);
 	};
 	
 	this.halt = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"HALT", type:"command"}]);
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"HALT", type:"command", width:"74px"}]);
 		edited = true;
 	};
-	
-	
-	//var insertWord = document.getElementById("word"+this.figNum);
-	//insertWord.onclick = function(){console.log("Yo");};
-	
-	//var insertBlock = document.getElementById("block"+this.figNum);
-	//insertBlock.onclick = this.block;
-	
-	//var insertHalt = document.getElementById("halt"+this.figNum);
-	//insertHalt.onclick = this.halt;
-	
-	//var insertLoad = document.getElementById("load"+this.figNum);
-	//insertLoad.onclick = this.load;
-	
-	//var insertLoadIMM = document.getElementById("loadimm"+this.figNum);
-	//insertLoadIMM.onclick = this.loadIMM;
-	
-	//var insertLoadIND = document.getElementById("loadind"+this.figNum);
-	//insertLoadIND.onclick = this.loadIND;
-	
-	//var insertStore = document.getElementById("store"+this.figNum);
-	//insertStore.onclick = this.store;
-	
-	//var insertStoreIND = document.getElementById("storeind"+this.figNum);
-	//insertStoreIND.onclick = this.storeIND;
-	
-	//var insertAnd = document.getElementById("and"+this.figNum);
-	//insertAnd.onclick = this.and;
-	
-	//var insertAdd = document.getElementById("add"+this.figNum);
-	//insertAdd.onclick = this.add;
-	
-	//var insertSubtract = document.getElementById("subtract"+this.figNum);
-	//insertSubtract.onclick = this.subtract;
-	
-	//var insertOr = document.getElementById("or"+this.figNum);
-	//insertOr.onclick = this.or;
-	
-	//var insertASL = document.getElementById("asl"+this.figNum);
-	//insertASL.onclick = this.asl;
-	
-	//var insertASR = document.getElementById("asr"+this.figNum);
-	//insertASR.onclick = this.asr;
-	
-	//var insertNot = document.getElementById("not"+this.figNum);
-	//insertNot.onclick = this.not;
-	
-	//var insertCompare = document.getElementById("compare"+this.figNum);
-	//insertCompare.onclick = this.compare;
-	
-	//var insertBranch = document.getElementById("branch"+this.figNum);
-	//insertBranch.onclick = this.branch;
-	
-	//var insertJump = document.getElementById("jump"+this.figNum);
-	//insertJump.onclick = this.jump;
 	
 	/* Selector for the available <label>'s */
     function createLabelSelector(title, optionS, callback) {
@@ -605,735 +550,735 @@ var Figure = function(figNum, figureMode) {
 	if (this.figNum == 113) {
 		// Editor Calls
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"TOTAL", type:"label1"},
-				 {text:".BLOCK", type: "keywoard"},
-				 {text:"1", type: "constant"},
+				[{text:"TOTAL", type:"label1", width:"50px"},
+				 {text:".BLOCK", type: "keyword", width:"74px"},
+				 {text:"1", type: "constant", width:"50px"},
 				 {text:";"},
 				 {text:"reserve a block of memory one word long for 'total'", type: "comment"}]);
 	editor1.addRow(editor1.getSelectedRowIndex(),
-			[{text:"ABC", type:"label1"},
-			 {text:".WORD", type:"keyword"},
-			 {text:"2", type:"constant"},
+			[{text:"ABC", type:"label1", width:"50px"},
+			 {text:".WORD", type:"keyword", width:"74px"},
+			 {text:"2", type:"constant", width:"50px"},
 			 {text:";"},
 			 {text:"reserve a word of memory for variable 'abc'. Initialize to 2.", type: "comment"}]);
 	editor1.addRow(editor1.getSelectedRowIndex(),
-			[{text:"XYZ", type:"label1"},
-			 {text:".WORD", type:"keyword"},
-			 {text:"3", type:"constant"},
+			[{text:"XYZ", type:"label1", width:"50px"},
+			 {text:".WORD", type:"keyword", width:"74px"},
+			 {text:"3", type:"constant", width:"50px"},
 			 {text:";"},
 			 {text:"reserve a word of memory for variable 'xyz'. Initialize to 3.", type: "comment"}]);
 	editor1.addRow(editor1.getSelectedRowIndex(),
-			[{text:"&nbsp;", type:"label1"},
-			 {text:"LOAD", type:"command"},
-			 {text:"REGD,"},
-			 {text:"ABC"},
+			[{text:"&nbsp;", type:"label1", width:"50px"},
+			 {text:"LOAD", type:"command", width:"74px"},
+			 {text:"REGD,", width:"50px"},
+			 {text:"ABC", width:"50px"},
 			 {text:";"},
 			 {text:"load the value of variable 'abc' into register D.", type:"comment"}]);
 	editor1.addRow(editor1.getSelectedRowIndex(),
-			[{text:"&nbsp;", type:"label1"},
-			 {text:"LOAD", type:"command"},
-			 {text:"REGE,"},
-			 {text:"XYZ"},
+			[{text:"&nbsp;", type:"label1", width:"50px"},
+			 {text:"LOAD", type:"command", width:"74px"},
+			 {text:"REGE,", width:"50px"},
+			 {text:"XYZ", width:"50px"},
 			 {text:";"},
 			 {text:"load the value of variable 'xyz' into register D.", type:"comment"}]);
 	editor1.addRow(editor1.getSelectedRowIndex(),
-			[{text:"&nbsp;", type:"label1"},
-			 {text:"ADD", type:"command"},
-			 {text:"REGF,"},
-			 {text:"REGD,"},
-			 {text:"REGE"},
+			[{text:"&nbsp;", type:"label1", width:"50px"},
+			 {text:"ADD", type:"command", width:"74px"},
+			 {text:"REGF,", width:"50px"},
+			 {text:"REGD,", width:"50px"},
+			 {text:"REGE", width:"50px"},
 			 {text:";"},
 			 {text:"add the contents of registers D and E placing the result in F.", type:"comment"}]);
 	editor1.addRow(editor1.getSelectedRowIndex(),
-			[{text:"&nbsp;", type:"label1"},
-			 {text:"STORE", type:"command"},
-			 {text:"REGF,"},
-			 {text:"TOTAL"},
+			[{text:"&nbsp;", type:"label1", width:"50px"},
+			 {text:"STORE", type:"command", width:"74px"},
+			 {text:"REGF,", width:"50px"},
+			 {text:"TOTAL", width:"50px"},
 			 {text:";"},
 			 {text:"store the value held in register F into the variable 'total'.", type:"comment"}]);
 	editor1.addRow(editor1.getSelectedRowIndex(),
-			[{text:"&nbsp;", type:"label1"},
-			 {text:"HALT", type:"command"},
+			[{text:"&nbsp;", type:"label1", width:"50px"},
+			 {text:"HALT", type:"command", width:"74px"},
 			 {text:";"},
 			 {text:"halt execution of this assembly language program.", type:"comment"}]);	
 	} else if (this.figNum == 114) {
 		// Editor Calls
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"X", type:"label1"},
-				 {text:".WORD", type:"keyword"},
-				 {text:"15", type:"constant"},
+				[{text:"X", type:"label1", width:"50px"},
+				 {text:".WORD", type:"keyword", width:"74px"},
+				 {text:"15", type:"constant", width:"50px"},
 				 {text:";"},
 				 {text:"reserve a word of memory for variable 'x'. Initialize to 15.", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				 {text:"LOAD", type:"command"},
-				 {text:"REGA,"},
-				 {text:"X"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				 {text:"LOAD", type:"command", width:"74px"},
+				 {text:"REGA,", width:"50px"},
+				 {text:"X", width:"50px"},
 				 {text:";"},
 				 {text:"load the value of variable 'x' into register A.", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				 {text:"LOADIMM", type:"command"},
-				 {text:"REGB,"},
-				 {text:"1", type:"constant"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				 {text:"LOADIMM", type:"command", width:"74px"},
+				 {text:"REGB,", width:"50px"},
+				 {text:"1", type:"constant", width:"50px"},
 				 {text:";"},
 				 {text:"load the constant value 1 into register B.", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				 {text:"SUBTRACT", type:"command"},
-				 {text:"REG0,"},
-				 {text:"REGA,"},
-				 {text:"REGB"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				 {text:"SUBTRACT", type:"command", width:"74px"},
+				 {text:"REG0,", width:"50px"},
+				 {text:"REGA,", width:"50px"},
+				 {text:"REGB", width:"50px"},
 				 {text:";"},
 				 {text:"subtract the contents of register B from A placing result in 0.", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				 {text:"STORE", type:"command"},
-				 {text:"REG0,"},
-				 {text:"X"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				 {text:"STORE", type:"command", width:"74px"},
+				 {text:"REG0,", width:"50px"},
+				 {text:"X", width:"50px"},
 				 {text:";"},
 				 {text:"store the value held in register 0 into the variable 'x'.", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				 {text:"HALT", type:"command"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				 {text:"HALT", type:"command", width:"74px"},
 				 {text:";"},
 				 {text:"halt execution of this assembly language program.", type:"comment"}]);
 	} else if (this.figNum == 115) {
 		// Editor Calls
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"AGE", type:"label1"},
-				 {text:".WORD", type:"keyword"},
-				 {text:"2", type:"constant"},
+				[{text:"AGE", type:"label1", width:"50px"},
+				 {text:".WORD", type:"keyword", width:"74px"},
+				 {text:"2", type:"constant", width:"50px"},
 				 {text:";"},
 				 {text:"declare and initialize 'age' to 2. Our subject is 2 years old.", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"MINOR", type:"label1"},
-				 {text:".BLOCK", type:"keyword"},
-				 {text:"1", type:"constant"},
+				[{text:"MINOR", type:"label1", width:"50px"},
+				 {text:".BLOCK", type:"keyword", width:"74px"},
+				 {text:"1", type:"constant", width:"50px"},
 				 {text:";"},
-				 {text:"declare 'minor'.", type:"comment"}]);
+				 {text:"declare 'minor'.", type:"comment", width:"74px"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				 {text:"LOADIMM", type:"COMMAND"},
-				 {text:"REG0,"},
-				 {text:"0", type:"constant"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				 {text:"LOADIMM", type:"command", width:"74px"},
+				 {text:"REG0,", width:"50px"},
+				 {text:"0", type:"constant", width:"50px"},
 				 {text:";"},
 				 {text:"load the constant value 0 into register 0.", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				 {text:"STORE", type:"command"},
-				 {text:"REG0,"},
-				 {text:"MINOR", type:"constant"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				 {text:"STORE", type:"command", width:"74px"},
+				 {text:"REG0,", width:"50px"},
+				 {text:"MINOR", width:"50px"},
 				 {text:";"},
 				 {text:"store a zero into 'minor' – i.e., minor is assumed 'false'.", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"IF", type:"label1"},
-				 {text:"LOAD", type:"command"},
-				 {text:"REGA,"},
-				 {text:"AGE"},
+				[{text:"IF", type:"label1", width:"50px"},
+				 {text:"LOAD", type:"command", width:"74px"},
+				 {text:"REGA,", width:"50px"},
+				 {text:"AGE", width:"50px"},
 				 {text:";"},
 				 {text:"load the value of variable 'age' into register A.", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				 {text:"LOADIMM", type:"command"},
-				 {text:"REGB,"},
-				 {text:"18", type:"constant"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				 {text:"LOADIMM", type:"command", width:"74px"},
+				 {text:"REGB,", width:"50px"},
+				 {text:"18", type:"constant", width:"50px"},
 				 {text:";"},
 				 {text:"load the constant value 18 into register B.", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				 {text:"COMPARE", type:"command"},
-				 {text:"REGA,"},
-				 {text:"REGB"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				 {text:"COMPARE", type:"command", width:"74px"},
+				 {text:"REGA,", width:"50px"},
+				 {text:"REGB", width:"50px"},
 				 {text:";"},
 				 {text:"compare registers A & B &#45; i.e., the value of 'age' to 18.", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				 {text:"BRANCH", type:"command"},
-				 {text:"LT,"},
-				 {text:"THEN"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				 {text:"BRANCH", type:"command", width:"74px"},
+				 {text:"LT,", width:"50px"},
+				 {text:"THEN", width:"50px"},
 				 {text:";"},
 				 {text:"comment'>IF 'age' is less than 18 branch to 'then'.", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				 {text:"JUMP", type:"command"},
-				 {text:"ENDIF"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				 {text:"JUMP", type:"command", width:"74px"},
+				 {text:"ENDIF", width:"50px"},
 				 {text:";"},
 				 {text:"otherwise jump to the end of the if block &#45; 'endif'.", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"THEN", type:"label1"},
-				 {text:"LOADIMM", type:"command"},
-				 {text:"REG1,"},
-				 {text:"1", type:"constant"},
+				[{text:"THEN", type:"label1", width:"50px"},
+				 {text:"LOADIMM", type:"command", width:"74px"},
+				 {text:"REG1,", width:"50px"},
+				 {text:"1", type:"constant", width:"50px"},
 				 {text:";"},
 				 {text:"THEN: load the constant value 1 into register 1.", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				 {text:"STORE", type:"command"},
-				 {text:"REG1,"},
-				 {text:"MINOR"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				 {text:"STORE", type:"command", width:"74px"},
+				 {text:"REG1,", width:"50px"},
+				 {text:"MINOR", width:"50px"},
 				 {text:";"},
 				 {text:"store a one into 'minor' &#45; i.e., minor is 'true'.", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"ENDIF", type:"label1"},
-				 {text:"HALT", type:"command"},
+				[{text:"ENDIF", type:"label1", width:"50px"},
+				 {text:"HALT", type:"command", width:"74px"},
 				 {text:";"},
 				 {text:"halt execution of this assembly language program.", type:"comment"}]);
 	} else if (this.figNum == 116) {
 		// Editor Calls
 		//MINORS .WORD 0   ; declare and initialize the number of 'minors' to 0. 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"MINORS", type:"label1"},
-				{text:".WORD", type:"keyword"},
-				{text:"0", type:"constant"},
+				[{text:"MINORS", type:"label1", width:"50px"},
+				{text:".WORD", type:"keyword", width:"74px"},
+				{text:"0", type:"constant", width:"50px"},
 				{text:";"},
 				{text:"declare and initialize the number of 'minors' to 0.", type:"comment"}]);
 		//ADULTS .WORD 0   ; declare and initialize the number of 'adults' to 0.
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"ADULTS", type:"label1"},
-				{text:".WORD", type:"keyword"},
-				{text:"0", type:"constant"},
+				[{text:"ADULTS", type:"label1", width:"50px"},
+				{text:".WORD", type:"keyword", width:"74px"},
+				{text:"0", type:"constant", width:"50px"},
 				{text:";"},
 				{text:"declare and initialize the number of 'adults' to 0.", type:"comment"}]);
 		//AGE .WORD 21   ; declare and initialize the 'age' of the person to 21.
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"AGE", type:"label1"},
-				{text:".WORD", type:"keyword"},
-				{text:"21", type:"constant"},
+				[{text:"AGE", type:"label1", width:"50px"},
+				{text:".WORD", type:"keyword", width:"74px"},
+				{text:"21", type:"constant", width:"50px"},
 				{text:";"},
 				{text:"declare and initialize the 'age' of the person to 21.", type:"comment"}]);
 		//IF LOAD REGA, AGE  ; load the value of variable 'age' into register A.
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"IF", type:"label1"},
-				{text:"LOAD", type:"command"},
-				{text:"REGA,"},
-				{text:"AGE"},
+				[{text:"IF", type:"label1", width:"50px"},
+				{text:"LOAD", type:"command", width:"74px"},
+				{text:"REGA,", width:"50px"},
+				{text:"AGE", width:"50px"},
 				{text:";"},
 				{text:"load the value of variable 'age' into register A.", type:"comment"}]);
 		//LOADIMM REGB, 18  ; load the constant value 18 into register B.
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOADIMM", type:"command"},
-				{text:"REGB,"},
-				{text:"18", type:"constant"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOADIMM", type:"command", width:"74px"},
+				{text:"REGB,", width:"50px"},
+				{text:"18", type:"constant", width:"50px"},
 				{text:";"},
 				{text:"load the constant value 18 into register B.", type:"comment"}]);
 		//COMPARE REGA, REGB  ; compare registers A & B - i.e., the value of 'age' to 18
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"COMPARE", type:"command"},
-				{text:"REGA,"},
-				{text:"REGB"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"COMPARE", type:"command", width:"74px"},
+				{text:"REGA,", width:"50px"},
+				{text:"REGB", width:"50px"},
 				{text:";"},
 				{text:"compare registers A & B - i.e., the value of 'age to 18", type:"comment"}]);
 		//BRANCH LT, THEN  ; IF 'age' is less than 18 branch to 'then'.
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"BRANCH", type:"command"},
-				{text:"LT,"},
-				{text:"THEN"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"BRANCH", type:"command", width:"74px"},
+				{text:"LT,", width:"50px"},
+				{text:"THEN", width:"50px"},
 				{text:";"},
 				{text:"IF 'age' is less than 18 branch to 'then'.", type:"comment"}]);
 		//JUMP ELSE   ; otherwise jump to 'else'. 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"JUMP", type:"command"},
-				{text:"ELSE"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"JUMP", type:"command", width:"74px"},
+				{text:"ELSE", width:"50px"},
 				{text:";"},
 				{text:"otherwise jump to 'else'.", type:"comment"}]);
 		//THEN LOAD REG0, MINORS  ; THEN: load the number of minors into register 0. 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"THEN", type:"label1"},
-				{text:"LOAD", type:"command"},
-				{text:"REG0,"},
-				{text:"MINORS"},
+				[{text:"THEN", type:"label1", width:"50px"},
+				{text:"LOAD", type:"command", width:"74px"},
+				{text:"REG0,", width:"50px"},
+				{text:"MINORS", width:"50px"},
 				{text:";"},
 				{text:"load the number of minors into register 0.", type:"comment"}]);
 		//LOADIMM REG1, 1  ; load the constant value 1 into register 1. 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOADIMM", type:"command"},
-				{text:"REG1,"},
-				{text:"1", type:"constant"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOADIMM", type:"command", width:"74px"},
+				{text:"REG1,", width:"50px"},
+				{text:"1", type:"constant", width:"50px"},
 				{text:";"},
 				{text:"load the constant value 1 into register 1.", type:"comment"}]);
 		//ADD REG0, REG0, REG1 ; add contents of register 1 to register 0.
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"ADD", type:"command"},
-				{text:"REG0,"},
-				{text:"REG0,"},
-				{text:"REG1"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"ADD", type:"command", width:"74px"},
+				{text:"REG0,", width:"50px"},
+				{text:"REG0,", width:"50px"},
+				{text:"REG1", width:"50px"},
 				{text:";"},
 				{text:"add contents of register 1 to register 0.", type:"comment"}]);
 		//STORE REG0, MINORS  ; update number of minors from register 0. 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"STORE", type:"command"},
-				{text:"REG0,"},
-				{text:"MINORS"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"STORE", type:"command", width:"74px"},
+				{text:"REG0,", width:"50px"},
+				{text:"MINORS", width:"50px"},
 				{text:";"},
 				{text:"update number of minors from register 0.", type:"comment"}]);
 		//JUMP ENDIF   ; go to the statement labelled 'endif'. 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"JUMP", type:"command"},
-				{text:"ENDIF"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"JUMP", type:"command", width:"74px"},
+				{text:"ENDIF", width:"50px"},
 				{text:";"},
 				{text:"go to the statement labeled 'endif'", type:"comment"}]);
 		//ELSE LOAD REG0, ADULTS  ; ELSE: load the number of adults into register 0.
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"ELSE", type:"label1"},
-				{text:"LOAD", type:"command"},
-				{text:"REG0,"},
-				{text:"ADULTS"},
+				[{text:"ELSE", type:"label1", width:"50px"},
+				{text:"LOAD", type:"command", width:"74px"},
+				{text:"REG0,", width:"50px"},
+				{text:"ADULTS", width:"50px"},
 				{text:";"},
 				{text:"ELSE: load the number of adults into register 0.", type:"comment"}]);
 		//LOADIMM REG1, 1  ; load the constant value 1 into register 1 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOADIMM", type:"command"},
-				{text:"REG1,"},
-				{text:"1", type:"constant"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOADIMM", type:"command", width:"74px"},
+				{text:"REG1,", width:"50px"},
+				{text:"1", type:"constant", width:"50px"},
 				{text:";"},
 				{text:"load the constant value 1 into register 1", type:"comment"}]);
 		// ADD REG0, REG0, REG1 ; add contents of register 1 to register 0.
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"ADD", type:"command"},
-				{text:"REG0,"},
-				{text:"REG0,"},
-				{text:"REG1"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"ADD", type:"command", width:"74px"},
+				{text:"REG0,", width:"50px"},
+				{text:"REG0,", width:"50px"},
+				{text:"REG1", width:"50px"},
 				{text:";"},
 				{text:"add contents of register 1 to register 0.", type:"comment"}]);
 		//STORE REG0, ADULTS  ; update number of adults from register 0. 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"STORE", type:"command"},
-				{text:"REG0,"},
-				{text:"ADULTS"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"STORE", type:"command", width:"74px"},
+				{text:"REG0,", width:"50px"},
+				{text:"ADULTS", width:"50px"},
 				{text:";"},
 				{text:"update number of adults from register 0.", type:"comment"}]);
 		//ENDIF HALT    ; halt execution of this assembly language program.
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"ENDIF", type:"label1"},
-				{text:"HALT", type:"command"},
+				[{text:"ENDIF", type:"label1", width:"50px"},
+				{text:"HALT", type:"command", width:"74px"},
 				{text:";"},
 				{text:"halt execution of this assembly language program.", type:"comment"}]);
 	} else if (this.figNum == 119) {
 		// Editor Calls
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"X", type:"label1"},
-				{text:".WORD", type:"keyword"},
+				[{text:"X", type:"label1", width:"50px"},
+				{text:".WORD", type:"keyword", width:"74px"},
 				{text:"5", type:"constant const1"},
 				{text:";"},
 				{text:"declare and initialize 'x' to 5 /* first operand */",type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"Y", type:"label1"},
-				{text:".WORD", type:"keyword"},
-				{text:"4", type:"constant const1"},
+				[{text:"Y", type:"label1", width:"50px"},
+				{text:".WORD", type:"keyword", width:"74px"},
+				{text:"4", type:"constant const1", width:"50px"},
 				{text:";"},
 				{text:"declare and initialize 'y' to 4 /* second operand */",type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"Z", type:"label1"},
-				{text:".BLOCK", type:"keyword"},
-				{text:"1", type:"constant const1"},
+				[{text:"Z", type:"label1", width:"50px"},
+				{text:".BLOCK", type:"keyword", width:"74px"},
+				{text:"1", type:"constant const1", width:"50px"},
 				{text:";"},
 				{text:"declare 'z' /* z will hold the product of the operands */",type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"I", type:"label1"},
-				{text:".BLOCK", type:"keyword"},
-				{text:"1", type:"constant const1"},
+				[{text:"I", type:"label1", width:"50px"},
+				{text:".BLOCK", type:"keyword", width:"74px"},
+				{text:"1", type:"constant const1", width:"50px"},
 				{text:";"},
 				{text:"declare 'i' /* i counts the number of loop iterations */",type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOADIMM", type:"command"},
-				{text:"REGA,", type:"reg1"},
-				{text:"0", type:"constant const2"}]);
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOADIMM", type:"command", width:"74px"},
+				{text:"REGA,", type:"reg1", width:"50px"},
+				{text:"0", type:"constant const2", width:"50px"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
 				{text:"STORE", type:"command"},
-				{text:"REGA,", type:"reg1"},
-				{text:"Z", type:"const2"},
+				{text:"REGA,", type:"reg1", width:"50px"},
+				{text:"Z", type:"const2", width:"50px"},
 				{text:";"},
 				{text:"z=0", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOADIMM", type:"command"},
-				{text:"REGA,", type:"reg1"},
-				{text:"1", type:"constant const1"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOADIMM", type:"command", width:"74px"},
+				{text:"REGA,", type:"reg1", width:"50px"},
+				{text:"1", type:"constant const1", width:"50px"},
 				{text:";"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"STORE", type:"command"},
-				{text:"REGA,", type:"reg1"},
-				{text:"I", type:"const2"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"STORE", type:"command", width:"74px"},
+				{text:"REGA,", type:"reg1", width:"50px"},
+				{text:"I", type:"const2", width:"50px"},
 				{text:";"},
 				{text:"i=1", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"LOOP", type:"label1"},
-				{text:"LOAD", type:"command"},
-				{text:"REGA,", type:"reg1"},
-				{text:"I", type:"const2"},
+				[{text:"LOOP", type:"label1", width:"50px"},
+				{text:"LOAD", type:"command", width:"74px"},
+				{text:"REGA,", type:"reg1", width:"50px"},
+				{text:"I", type:"const2", width:"50px"},
 				{text:";"},
 				{text:"while(i<=y)", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOAD", type:"command"},
-				{text:"REGB,", type:"reg1"},
-				{text:"Y", type:"const2"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOAD", type:"command", width:"74px"},
+				{text:"REGB,", type:"reg1", width:"50px"},
+				{text:"Y", type:"const2", width:"50px"},
 				{text:";"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"COMPARE", type:"command"},
-				{text:"REGA,", type:"reg1"},
-				{text:"REGB", type:"reg2"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"COMPARE", type:"command", width:"74px"},
+				{text:"REGA,", type:"reg1", width:"50px"},
+				{text:"REGB", type:"reg2", width:"50px"},
 				{text:";"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"BRANCH", type:"command"},
-				{text:"GT,", type:"cond"},
-				{text:"ENDLP", type:"const2"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"BRANCH", type:"command", width:"74px"},
+				{text:"GT,", type:"cond", width:"50px"},
+				{text:"ENDLP", type:"const2", width:"50px"},
 				{text:";"},
 				{text:"{", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOAD", type:"command"},
-				{text:"REGA,", type:"reg1"},
-				{text:"Z", type:"const2"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOAD", type:"command", width:"74px"},
+				{text:"REGA,", type:"reg1", width:"50px"},
+				{text:"Z", type:"const2", width:"50px"},
 				{text:";"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOAD", type:"command"},
-				{text:"REGB,", type:"reg1"},
-				{text:"X", type:"const2"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOAD", type:"command", width:"74px"},
+				{text:"REGB,", type:"reg1", width:"50px"},
+				{text:"X", type:"const2", width:"50px"},
 				{text:";"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"ADD", type:"command"},
-				{text:"REGC,", type:"reg1"},
-				{text:"REGA,", type:"reg1"},
-				{text:"REGB", type:"reg2"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"ADD", type:"command", width:"74px"},
+				{text:"REGC,", type:"reg1", width:"50px"},
+				{text:"REGA,", type:"reg1", width:"50px"},
+				{text:"REGB", type:"reg2", width:"50px"},
 				{text:";"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"STORE", type:"command"},
-				{text:"REGC,", type:"reg1"},
-				{text:"Z", type:"reg1"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"STORE", type:"command", width:"74px"},
+				{text:"REGC,", type:"reg1", width:"50px"},
+				{text:"Z", type:"reg1", width:"50px"},
 				{text:";"},
 				{text:"z = z + x;", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOAD", type:"command"},
-				{text:"REGA,", type:"reg1"},
-				{text:"I", type:"const2"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOAD", type:"command", width:"74px"},
+				{text:"REGA,", type:"reg1", width:"50px"},
+				{text:"I", type:"const2", width:"50px"},
 				{text:";"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOADIMM", type:"command"},
-				{text:"REGB,", type:"reg1"},
-				{text:"1", type:"constant"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOADIMM", type:"command", width:"74px"},
+				{text:"REGB,", type:"reg1", width:"50px"},
+				{text:"1", type:"constant", width:"50px"},
 				{text:";"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"ADD", type:"command"},
-				{text:"REGC,", type:"reg1"},
-				{text:"REGA,", type:"reg1"},
-				{text:"REGB", type:"reg2"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"ADD", type:"command", width:"74px"},
+				{text:"REGC,", type:"reg1", width:"50px"},
+				{text:"REGA,", type:"reg1", width:"50px"},
+				{text:"REGB", type:"reg2", width:"50px"},
 				{text:";"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"STORE", type:"command"},
-				{text:"REGC,", type:"reg1"},
-				{text:"I", type:"const2"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"STORE", type:"command", width:"74px"},
+				{text:"REGC,", type:"reg1", width:"50px"},
+				{text:"I", type:"const2", width:"50px"},
 				{text:";"},
 				{text:"i = i + 1;", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"JUMP", type:"command"},
-				{text:"LOOP", type:"const2"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"JUMP", type:"command", width:"74px"},
+				{text:"LOOP", type:"const2", width:"50px"},
 				{text:";"},
 				{text:"}", type:"comment"}]);
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"ENDLP", type:"label1"},
-				{text:"HALT", type:"command"},
+				[{text:"ENDLP", type:"label1", width:"50px"},
+				{text:"HALT", type:"command", width:"74px"},
 				{text:";"}]);
 	} else if (this.figNum == 1110) {
 		// Editor Calls
 		// X .WORD 5   ; declare and initialize 'x' to 5 /* first operand */
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"X", type:"label1"},
-				{text:".WORD", type:"keyword"},
-				{text:"5", type:"constant"},
+				[{text:"X", type:"label1", width:"50px"},
+				{text:".WORD", type:"keyword", width:"74px"},
+				{text:"5", type:"constant", width:"50px"},
 				{text:";"},
 				{text:"declare and initialize 'x' to 5 /* first operand */", type:"comment"}]);
 		// Y .WORD 4   ; declare and initialize 'y' to 4 /* second operand */ 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"Y", type:"label1"},
-				{text:".WORD", type:"keyword"},
-				{text:"4", type:"constant"},
+				[{text:"Y", type:"label1", width:"50px"},
+				{text:".WORD", type:"keyword", width:"74px"},
+				{text:"4", type:"constant", width:"50px"},
 				{text:";"},
 				{text:"declare and initialize 'y' to 4 /* second operand */", type:"comment"}]);
 		// Z .BLOCK 1   ; declare 'z' /* z will hold the product of the operands */ 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"Z", type:"label1"},
-				{text:".BLOCK", type:"keyword"},
-				{text:"1", type:"constant"},
+				[{text:"Z", type:"label1", width:"50px"},
+				{text:".BLOCK", type:"keyword", width:"74px"},
+				{text:"1", type:"constant", width:"50px"},
 				{text:";"},
 				{text:"declare 'z' /* z will hold the product of the operands */", type:"comment"}]);
 		// I .BLOCK 1   ; declare 'i' /* i counts the number of loop iterations */ 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"I", type:"label1"},
-				{text:".BLOCK", type:"keyword"},
-				{text:"1", type:"constant"},
+				[{text:"I", type:"label1", width:"50px"},
+				{text:".BLOCK", type:"keyword", width:"74px"},
+				{text:"1", type:"constant", width:"50px"},
 				{text:";"},
 				{text:"declare 'i' /* i counts the number of loop iterations */", type:"comment"}]);
 		//   LOADIMM REG1, 1  ; register 1 holds the constant value 1. 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOADIMM", type:"command"},
-				{text:"REG1,"},
-				{text:"1", type:"constant"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOADIMM", type:"command", width:"74px"},
+				{text:"REG1,", width:"50px"},
+				{text:"1", type:"constant", width:"50px"},
 				{text:";"},
 				{text:"register 1 holds the constant value 1.", type:"comment"}]);
 		//   LOAD REGA, X  ; register A holds the value of variable 'x'.
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOAD", type:"command"},
-				{text:"REGA,"},
-				{text:"X"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOAD", type:"command", width:"74px"},
+				{text:"REGA,", width:"50px"},
+				{text:"X", width:"50px"},
 				{text:";"},
 				{text:"register A holds the value of variable 'x'.", type:"comment"}]);
 		//   LOAD REGB, Y  ; register B holds the value of variable 'y'. 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOAD", type:"command"},
-				{text:"REGB,"},
-				{text:"Y"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOAD", type:"command", width:"74px"},
+				{text:"REGB,", width:"50px"},
+				{text:"Y", width:"50px"},
 				{text:";"},
 				{text:"register B holds the value of variable 'y'.", type:"comment"}]);
 		//   LOADIMM REGC, 0  ; register C holds the value of variable 'z' - initially 0. 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOADIMM", type:"command"},
-				{text:"REGC,"},
-				{text:"0", type:"constant"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOADIMM", type:"command", width:"74px"},
+				{text:"REGC,", width:"50px"},
+				{text:"0", type:"constant", width:"50px"},
 				{text:";"},
 				{text:"register C holds the value of variable 'z' - initially 0.", type:"comment"}]);
 		//   LOADIMM REGD, 1  ; register D holds the value of variable 'i' - initially 1.
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOADIMM", type:"command"},
-				{text:"REGD,"},
-				{text:"1", type:"constant"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOADIMM", type:"command", width:"74px"},
+				{text:"REGD,", width:"50px"},
+				{text:"1", type:"constant", width:"50px"},
 				{text:";"},
 				{text:"register D holds the value of variable 'i' - initially 1.", type:"comment"}]);
 		// LOOP COMPARE REGD, REGB  ; compare register D (the counter 'i') to register B ('y').
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"LOOP", type:"label1"},
-				{text:"COMPARE", type:"command"},
-				{text:"REGD,"},
-				{text:"REGB"},
+				[{text:"LOOP", type:"label1", width:"50px"},
+				{text:"COMPARE", type:"command", width:"74px"},
+				{text:"REGD,", width:"50px"},
+				{text:"REGB", width:"50px"},
 				{text:";"},
 				{text:"compare register D (the counter 'i') to register B ('y').", type:"comment"}]);
 		//   BRANCH GT, ENDLP  ; if 'i' is greater than 'y' then branch to 'endlp'.
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"BRANCH", type:"command"},
-				{text:"GT,"},
-				{text:"ENDLP"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"BRANCH", type:"command", width:"74px"},
+				{text:"GT,", width:"50px"},
+				{text:"ENDLP", width:"50px"},
 				{text:";"},
 				{text:"if 'i' is greater than 'y' then branch to 'endlp'.", type:"comment"}]);
 		//   ADD REGC, REGC, REGA ; otherwise, add the value of 'x' to 'z'.
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"ADD", type:"command"},
-				{text:"REGC,"},
-				{text:"REGC,"},
-				{text:"REGA"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"ADD", type:"command", width:"74px"},
+				{text:"REGC,", width:"50px"},
+				{text:"REGC,", width:"50px"},
+				{text:"REGA", width:"50px"},
 				{text:";"},
 				{text:"otherwise, add the value of 'x' to 'z'.", type:"comment"}]);
 		//   ADD REGD, REGD, REG1 ; add 1 to the counter 'i'.
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"ADD", type:"command"},
-				{text:"REGD,"},
-				{text:"REGD,"},
-				{text:"REG1"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"ADD", type:"command", width:"74px"},
+				{text:"REGD,", width:"50px"},
+				{text:"REGD,", width:"50px"},
+				{text:"REG1", width:"50px"},
 				{text:";"},
 				{text:"add 1 to the counter 'i'.", type:"comment"}]);
 		//   JUMP LOOP   ; return to the top of the loop. 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"JUMP", type:"command"},
-				{text:"LOOP"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"JUMP", type:"command", width:"74px"},
+				{text:"LOOP", width:"50px"},
 				{text:";"},
 				{text:"return to the top of the loop.", type:"comment"}]);
 		// ENDLP STORE REGD, I  ; copy results back to main memory variables.
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"ENDLP", type:"label1"},
-				{text:"STORE", type:"command"},
-				{text:"REGD,"},
-				{text:"I"},
+				[{text:"ENDLP", type:"label1", width:"50px"},
+				{text:"STORE", type:"command", width:"74px"},
+				{text:"REGD,", width:"50px"},
+				{text:"I", width:"50px"},
 				{text:";"},
 				{text:"copy results back to the main memory variables.", type:"comment"}]);
 		//   STORE REGC, Z  ; the product of 'x' and 'y' is saved in variable 'z'.
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"STORE", type:"command"},
-				{text:"REGC,"},
-				{text:"Z"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"STORE", type:"command", width:"74px"},
+				{text:"REGC,", width:"50px"},
+				{text:"Z", width:"50px"},
 				{text:";"},
 				{text:"the product of 'x' and 'y' is saved in variable 'z'.", type:"comment"}]);
 		//   HALT    ; halt execution of this assembly language program.
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"HALT", type:"command"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"HALT", type:"command", width:"74px"},
 				{text:";"},
 				{text:"halt execution of this assembly language program.", type:"comment"}]);
 	} else if (this.figNum == 1111) {
 		// Editor Calls
 		// I .BLOCK 1   ; var i; // Numeric
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"I", type:"label1"},
-				{text:".BLOCK", type:"keyword"},
-				{text:"1", type:"constant"},
+				[{text:"I", type:"label1", width:"50px"},
+				{text:".BLOCK", type:"keyword", width:"74px"},
+				{text:"1", type:"constant", width:"50px"},
 				{text:";"},
 				{text:"var i; // Numeric", type:"comment"}]);
 		// A .BLOCK 30   ; var a = new array(30); // Numeric 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"A", type:"label1"},
-				{text:".BLOCK", type:"keyword"},
-				{text:"30", type:"constant"},
+				[{text:"A", type:"label1", width:"50px"},
+				{text:".BLOCK", type:"keyword", width:"74px"},
+				{text:"30", type:"constant", width:"50px"},
 				{text:";"},
 				{text:"var a = new array(30); // Numeric", type:"comment"}]);
 		//   LOADIMM REGA, 0  ;
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOADIMM", type:"command"},
-				{text:"REGA,"},
-				{text:"0", type:"constant"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOADIMM", type:"command", width:"74px"},
+				{text:"REGA,", width:"50px"},
+				{text:"0", type:"constant", width:"50px"},
 				{text:";"}]);
 		//   STORE REGA, I  ; i = 0;
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"STORE", type:"command"},
-				{text:"REGA,"},
-				{text:"I"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"STORE", type:"command", width:"74px"},
+				{text:"REGA,", width:"50px"},
+				{text:"I", width:"50px"},
 				{text:";"},
 				{text:"i = 0;", type:"constant"}]);
 		// LOOP LOAD REGA, I  ; while (i < 30)
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"LOOP", type:"label1"},
-				{text:"LOAD", type:"command"},
-				{text:"REGA,"},
-				{text:"I"},
+				[{text:"LOOP", type:"label1", width:"50px"},
+				{text:"LOAD", type:"command", width:"74px"},
+				{text:"REGA,", width:"50px"},
+				{text:"I", width:"50px"},
 				{text:";"},
 				{text:"while (i < 30)", type:"comment"}]);
 		//   LOADIMM REGB, 30  ;
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOADIMM", type:"command"},
-				{text:"REGB,"},
-				{text:"30", type:"constant"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOADIMM", type:"command", width:"74px"},
+				{text:"REGB,", width:"50px"},
+				{text:"30", type:"constant", width:"50px"},
 				{text:";"}]);
 		//   COMPARE REGA, REGB  ;
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"COMPARE", type:"command"},
-				{text:"REGA,"},
-				{text:"REGB"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"COMPARE", type:"command", width:"74px"},
+				{text:"REGA,", width:"50px"},
+				{text:"REGB", width:"50px"},
 				{text:";"}]);
 		//   BRANCH GE, ENDLP  ; {
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"BRANCH", type:"command"},
-				{text:"GE,"},
-				{text:"ENDLP"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"BRANCH", type:"command", width:"74px"},
+				{text:"GE,", width:"50px"},
+				{text:"ENDLP", width:"50px"},
 				{text:";"}]);
 		//   LOADIMM REGA, 1  ; Register A assigned the base address of array a
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOADIMM", type:"command"},
-				{text:"REGA,"},
-				{text:"1", type:"constant"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOADIMM", type:"command", width:"74px"},
+				{text:"REGA,", width:"50px"},
+				{text:"1", type:"constant", width:"50px"},
 				{text:";"},
 				{text:"Register A assigned the base address of array a", type:"comment"}]);
 		//   LOAD REGB, I  ; Register B assigned the value of subscript i
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOAD", type:"command"},
-				{text:"REGB,"},
-				{text:"I"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOAD", type:"command", width:"74px"},
+				{text:"REGB,", width:"50px"},
+				{text:"I", width:"50px"},
 				{text:";"},
 				{text:"Register B assigned the value of subscript i", type:"comment"}]);
 		//   ADD REGC, REGA, REGB ; Register C assigned the address of a[i]
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"ADD", type:"command"},
-				{text:"REGC,"},
-				{text:"REGA,"},
-				{text:"REGB"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"ADD", type:"command", width:"74px"},
+				{text:"REGC,", width:"50px"},
+				{text:"REGA,", width:"50px"},
+				{text:"REGB", width:"50px"},
 				{text:";"},
 				{text:"Register C assigned the address of a[i]", type:"comment"}]);
 		//   LOADIMM REGD, -1  ; Register D assigned the constant -1 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOADIMM", type:"command"},
-				{text:"REGD,"},
-				{text:"-1", type:"constant"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOADIMM", type:"command", width:"74px"},
+				{text:"REGD,", width:"50px"},
+				{text:"-1", type:"constant", width:"50px"},
 				{text:";"},
 				{text:"Register D assigned the constant -1", type:"comment"}]);
 		//   STOREIND REGD, REGC  ; a[i] = -1;
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"STOREIND", type:"command"},
-				{text:"REGD,"},
-				{text:"REGC"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"STOREIND", type:"command", width:"74px"},
+				{text:"REGD,", width:"50px"},
+				{text:"REGC", width:"50px"},
 				{text:";"},
 				{text:"a[i] = -1;", type:"comment"}]);
 		//   LOAD REGA, I  ;
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOAD", type:"command"},
-				{text:"REGA,"},
-				{text:"I"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOAD", type:"command", width:"74px"},
+				{text:"REGA,", width:"50px"},
+				{text:"I", width:"50px"},
 				{text:";"}]);
 		//   LOADIMM REGB, 1  ;
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"LOADIMM", type:"command"},
-				{text:"REGB,"},
-				{text:"1", type:"constant"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"LOADIMM", type:"command", width:"74px"},
+				{text:"REGB,", width:"50px"},
+				{text:"1", type:"constant", width:"50px"},
 				{text:";"}]);
 		//   ADD REGC, REGA, REGB ; 
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"ADD", type:"command"},
-				{text:"REGC,"},
-				{text:"REGA,"},
-				{text:"REGB"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"ADD", type:"command", width:"74px"},
+				{text:"REGC,", width:"50px"},
+				{text:"REGA,", width:"50px"},
+				{text:"REGB", width:"50px"},
 				{text:";"}]);
 		//   STORE REGC, I  ; i = i + 1;
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"STORE", type:"command"},
-				{text:"REGC,"},
-				{text:"I"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"STORE", type:"command", width:"74px"},
+				{text:"REGC,", width:"50px"},
+				{text:"I", width:"50px"},
 				{text:";"},
 				{text:"i = i + 1;", type:"comment"}]);
 		//   JUMP LOOP   ; }
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"&nbsp;", type:"label1"},
-				{text:"JUMP", type:"command"},
-				{text:"LOOP"},
+				[{text:"&nbsp;", type:"label1", width:"50px"},
+				{text:"JUMP", type:"command", width:"74px"},
+				{text:"LOOP", width:"50px"},
 				{text:";"},
 				{text:"}", type:"comment"}]);
 		// ENDLP HALT    ;
 		editor1.addRow(editor1.getSelectedRowIndex(),
-				[{text:"ENDLP", type:"label1"},
-				{text:"HALT", type:"command"},
+				[{text:"ENDLP", type:"label1", width:"50px"},
+				{text:"HALT", type:"command", width:"74px"},
 				{text:";"},]);
 	} else if (this.figureMode ==  false) {
 		// Editor Calls
