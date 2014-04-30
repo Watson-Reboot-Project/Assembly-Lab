@@ -3162,6 +3162,7 @@ tabsstuff.controller(assemblycontroller,
 			$scope.architecture(true);
 			if (hasRan) {
 				var temp = $scope.assembler.reset();
+				editor1.selectRowByIndex(editor1.getRowCount()-1,false);
 				hasRan = false;
 			} else if ($scope.assembler.stop == false) {
 				var temp = $scope.assembler.walk();
