@@ -1418,13 +1418,14 @@ var Figure = function(figNum, figureMode) {
 		// Editor Calls
 		// Essentially empty box
 		editor1.setCellClickListener(function(event){
-			console.log('from index, editor1: cell click');
-			console.log('\t' + $(this).attr('class'));
+			//console.log('from index, editor1: cell click');
+			//console.log('\t' + $(this).attr('class'));
 			
 			if($(this).hasClass("insert")){
 				if($(this).css('cursor', 'pointer')) {
 					if($(this).parent().index() >= memPointer-1){
-						editor1.selectRowByIndex($(this).parent().index());
+						editor1.selectRowByIndex($(this).parent().index())
+						console.log("Index: "+$(this).parent().index());
 					}
 				}
 			}
@@ -3138,9 +3139,8 @@ tabsstuff.controller(assemblycontroller,
 	$scope.walk = function() {
 		console.log("Edited Status: "+self.edited);
 		if(self.edited) {
-			console.log("It's been edited.");
+			editor1.selectRowByIndex(editor1.getRowCount()-1,false);
 			var temp = $scope.assembler.preprocessor();
-			console.log("Is it complete? Status: "+$scope.assembler.complete);
 			if($scope.assembler.complete){
 				var tem = $scope.assembler.init();
 				hasRan = false;
