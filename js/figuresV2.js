@@ -539,6 +539,8 @@ var Figure = function(figNum, figureMode) {
     function fLabel(result) {
     	// Function that is called when creating a new label
     	if(result != null){
+    		if(result.length > 7) result = result.substring(0,7);
+    		result = result.toUpperCase();
     		clickedCell.text(result);
     		clickedCell.css("color","black");
     		labels.push(result);
@@ -1458,7 +1460,7 @@ var Figure = function(figNum, figureMode) {
 	            else if($(this).hasClass("label1"))
 	            {
 	            	//console.log("This one will be using the label-maker.");
-	            	createLabelMaker("Create a label", "", fLabel, editorDiv);
+	            	createLabelMaker("Create a label", "You can only use up to 7 characters", fLabel, editorDiv);
 	            }
 	            else if($(this).hasClass("label2"))
 	            {
