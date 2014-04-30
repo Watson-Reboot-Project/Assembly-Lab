@@ -266,7 +266,7 @@ var Figure = function(figNum, figureMode) {
 	var editor1 = new Editor(this.codeID, true, true, 1, -1, true);
 	var editorDiv = document.getElementById(this.codeID);
 	var deleteCell;
-	var edited;
+	this.edited;
 
 	this.word = function(){
 		editor1.addRow(memPointer,
@@ -274,7 +274,7 @@ var Figure = function(figNum, figureMode) {
 				{text:".WORD", type:"keyword", width:"74px"},
 				{text:"&lt;const&gt;", type:"constant const1", width:"60px"}]);
 		memPointer++;
-		edited = true;
+		this.edited = true;
 		console.log(".WORD pressed for "+this.figNum);
 	};
 	
@@ -284,7 +284,7 @@ var Figure = function(figNum, figureMode) {
 				{text:".BLOCK", type:"keyword", width:"74px", width:"60px"},
 				{text:"&lt;const&gt;", type:"constant const1"}]);
 		memPointer++;
-		edited = true;
+		this.edited = true;
 		console.log(".BLOCK pressed for "+this.figNum);
 	};
 	
@@ -294,7 +294,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"LOADIMM", type:"command", width:"74px"},
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;const&gt;", type:"constant const2", width:"60px"}]);
-		edited = true;
+		this.edited = true;
 		console.log("LOADIMM pressed for "+this.figNum);
 	};
 	
@@ -304,7 +304,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"LOAD", type:"command", width:"74px"},
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;label&gt;", type:"label2", width:"60px"}]);
-		edited = true;
+		this.edited = true;
 		console.log("LOAD pressed for "+this.figNum);
 	};
 	
@@ -314,7 +314,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"STORE", type:"command", width:"74px"},
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;label&gt;", type:"label2", width:"60px"}]);
-		edited = true;
+		this.edited = true;
 		console.log("STORE pressed for "+this.figNum);
 	};
 	
@@ -324,7 +324,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"LOADIND", type:"command", width:"74px"},
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
-		edited = true;
+		this.edited = true;
 		console.log("LOADIND pressed for "+this.figNum);
 	};
 	
@@ -334,7 +334,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"STOREIND", type:"command", width:"74px"},
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
-		edited = true;
+		this.edited = true;
 		console.log("STOREIND pressed for "+this.figNum);
 	};
 	
@@ -345,7 +345,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
-		edited = true;
+		this.edited = true;
 		console.log("ADD pressed for "+this.figNum);
 	};
 	
@@ -356,7 +356,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
-		edited = true;
+		this.edited = true;
 		console.log("SUBTRACT pressed for "+this.figNum);
 	};
 	
@@ -367,7 +367,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
-		edited = true;
+		this.edited = true;
 		console.log("AND pressed for "+this.figNum);
 	};
 	
@@ -378,7 +378,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
-		edited = true;
+		this.edited = true;
 		console.log("OR pressed for "+this.figNum);
 	};
 	
@@ -388,7 +388,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"NOT", type:"command", width:"74px"},
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
-		edited = true;
+		this.edited = true;
 		console.log("NOT pressed for "+this.figNum);
 	};
 	
@@ -399,7 +399,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;bits&gt;", type:"constant bits", width:"60px"}]);
-		edited = true;
+		this.edited = true;
 		console.log("ASL pressed for "+this.figNum);
 	};
 	
@@ -410,7 +410,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;bits&gt;", type:"constant bits", width:"50px"}]);
-		edited = true;
+		this.edited = true;
 		console.log("ASL pressed for "+this.figNum);
 	};
 	
@@ -420,7 +420,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"COMPARE", type:"command", width:"74px"},
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
-		edited = true;
+		this.edited = true;
 		console.log("COMPARE pressed for "+this.figNum);
 	};
 	
@@ -430,7 +430,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"BRANCH", type:"command", width:"74px"},
 				{text:"&lt;cond&gt;,", type:"cond", width:"60px"},
 				{text:"&lt;label&gt;", width:"60px"}]);
-		edited = true;
+		this.edited = true;
 		console.log("BRANCH pressed for "+this.figNum);
 	};
 	
@@ -439,7 +439,7 @@ var Figure = function(figNum, figureMode) {
 				[{text:"&nbsp;", type:"label1", width:"60px"},
 				{text:"JUMP", type:"command", width:"74px"},
 				{text:"&lt;label&gt;", type:"label2", width:"60px"}]);
-		edited = true;
+		this.edited = true;
 		console.log("JUMP pressed for "+this.figNum);
 	};
 	
@@ -447,7 +447,7 @@ var Figure = function(figNum, figureMode) {
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1", width:"60px"},
 				{text:"HALT", type:"command", width:"74px"}]);
-		edited = true;
+		this.edited = true;
 	};
 	
 	/* Selector for the available <label>'s */
@@ -496,7 +496,7 @@ var Figure = function(figNum, figureMode) {
         //Function that is called when selecting a function that replaces the text of a single cell
     	if(result != null){
     		clickedCell.text(result);
-    		edited = true;
+    		this.edited = true;
     	}
     }
     
@@ -508,7 +508,7 @@ var Figure = function(figNum, figureMode) {
 			}
 			editor1.deleteRow(deleteCell);
 			console.log("Post-Deletion memPointer = "+memPointer);
-			edited = true;
+			this.edited = true;
 		}
     }
     
@@ -516,7 +516,7 @@ var Figure = function(figNum, figureMode) {
     	//Function that returns results padded with a comma ','
     	if(result != null){
     		clickedCell.text(result + ',');
-    		edited = true;
+    		this.edited = true;
     	}
     }
     
@@ -524,7 +524,7 @@ var Figure = function(figNum, figureMode) {
     	//Function that stores the simple register
     	if(result != null) {
     		clickedCell.text(result);
-    		edited = true;
+    		this.edited = true;
     	}
     }
     
@@ -532,7 +532,7 @@ var Figure = function(figNum, figureMode) {
     	//Function that stores the register and a comma
     	if(result != null) {
     		clickedCell.text(result + ',');
-    		edited = true;
+    		this.edited = true;
     	}
     }
     
@@ -544,7 +544,7 @@ var Figure = function(figNum, figureMode) {
     		clickedCell.text(result);
     		clickedCell.css("color","black");
     		labels.push(result);
-    		edited = true;
+    		this.edited = true;
     	}
     }
 	
@@ -1706,84 +1706,84 @@ var Figure = function(figNum, figureMode) {
 							switch (table[1]) {
 							case ".WORD": // .Word before program
 							case ".BLOCK":
-								if(table[0] == "&lt;label&gt;" || table[2] == "&lt;const&gt;"){
+								if(table[0] == "&lt;label&gt;" || table[2] == "&lt;const&gt;" || table[0] == "<label>" || table[2] == "<const>"){
 									errors.push(i+1);
 								}
 								break;
 							case "HALT":
 								break;
 							case "LOAD":
-								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;label&gt;"){
+								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;label&gt;" || table[2] == "<reg>," || table[3] == "<label>"){
 									errors.push(i+1);
 								}
 								break;
 							case "LOADIMM":
-								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;const&gt;"){
+								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;const&gt;" || table[2] == "<reg>," || table[3] == "<const>"){
 									errors.push(i+1);
 								}
 								break;
 							case "LOADIND":
-								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;"){
+								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;" || table[2] == "<reg>," || table[3] == "<reg>"){
 									errors.push(i+1);
 								}
 								break;
 							case "STORE":
-								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;label&gt;"){
+								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;label&gt;" || table[2] == "<reg>," || table[3] == "<label>"){
 									errors.push(i+1);
 								}
 								break;
 							case "STOREIND":
-								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;"){
+								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;" || table[2] == "<reg>," || table[3] == "<reg>"){
 									errors.push(i+1);
 								}
 								break;
 							case "AND":
-								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;reg&gt;"){
+								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;reg&gt;" || table[2] == "<reg>," || table[3] == "<reg>," || table[4] == "<reg>"){
 									errors.push(i+1);
 								}
 								break;
 							case "ADD":
-								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;reg&gt;"){
+								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;reg&gt;" || table[2] == "<reg>," || table[3] == "<reg>," || table[4] == "<reg>"){
 									errors.push(i+1);
 								}
 								break;
 							case "SUBTRACT":
-								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;reg&gt;"){
+								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;reg&gt;" || table[2] == "<reg>," || table[3] == "<reg>," || table[4] == "<reg>"){
 									errors.push(i+1);
 								}
 								break;
 							case "OR":
-								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;reg&gt;"){
+								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;reg&gt;" || table[2] == "<reg>," || table[3] == "<reg>," || table[4] == "<reg>"){
 									errors.push(i+1);
 								}
 								break;
 							case "ASL":
-								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;bits&gt;"){
+								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;bits&gt;" || table[2] == "<reg>," || table[3] == "<reg>," || table[4] == "<bits>"){
 									errors.push(i+1);
 								}
 								break;
 							case "ASR":
-								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;bits&gt;"){
+								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;," || table[4] == "&lt;bits&gt;" || table[2] == "<reg>," || table[3] == "<reg>," || table[4] == "<bits>"){
 									errors.push(i+1);
 								}
 								break;
 							case "NOT":
-								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;"){
+								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;" || table[2] == "<reg>," || table[3] == "<reg>"){
 									errors.push(i+1);
 								}
 								break;
 							case "COMPARE":
-								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;"){
+								if(table[2] == "&lt;reg&gt;," || table[3] == "&lt;reg&gt;" || table[2] == "<reg>," || table[3] == "<reg>"){
 									errors.push(i+1);
 								}
 								break;
 							case "BRANCH":
-								if(table[2] == "&lt;cond&gt;," || table[3] == "&lt;label&gt;"){
+								if(table[2] == "&lt;cond&gt;," || table[3] == "&lt;label&gt;" || table[2] == "<cond>," || table[3] == "<label>"){
 									errors.push(i+1);
 								}
 								break;
 							case "JUMP":
-								if(table[2] == "&lt;label&gt;"){
+								if(table[2] == "&lt;label&gt;" || table[2] == "<label>"){
 									errors.push(i+1);
 								}
 								break;
@@ -2329,7 +2329,7 @@ var Figure = function(figNum, figureMode) {
 							}
 						}
 						// Signal that program has been parsed
-						edited = false;
+						this.edited = false;
 						return 0;
 					};
 
@@ -3136,9 +3136,11 @@ tabsstuff.controller(assemblycontroller,
 	};
 
 	$scope.walk = function() {
-		if(edited) {
+		console.log("Edited Status: "+self.edited);
+		if(self.edited) {
 			console.log("It's been edited.");
 			var temp = $scope.assembler.preprocessor();
+			console.log("Is it complete? Status: "+$scope.assembler.complete);
 			if($scope.assembler.complete){
 				var tem = $scope.assembler.init();
 				hasRan = false;
