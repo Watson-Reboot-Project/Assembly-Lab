@@ -18,13 +18,17 @@ var Figure = function(figNum, figureMode) {
 	// Flag that disables the Editor Window
 	var cantEdit;
 	
+	this.uniqID;
+	
 	// Assignment of the ID name
 	if(this.figureMode){
 		editorDivID = "fig" + this.figNum + "Div";
 		cantEdit = true;
+		this.uniqID = "figure-"+this.figNum;
 	} else {
 		editorDivID = "editor" + this.figNum;
 		cantEdit = false;
+		this.uniqID = "editor-"+this.figNum;
 	}
 	
 	// Location of the Assembly code div
@@ -69,7 +73,6 @@ var Figure = function(figNum, figureMode) {
 	
 	// Code to be inserted into Text
 	this.htmlString = "<div ng-controller='assemblycontroller"+this.figNum+"' class='container' id='fig"+this.figNum+"'>\
-	<div class='row'>\
 \
 		<div id='"+this.codeID+"' style='width:100%; height:"+this.windowHeight+"; overflow-y:auto;'></div>\
 		<br>\
@@ -262,7 +265,6 @@ var Figure = function(figNum, figureMode) {
 			</div>\
 			</tab></tabset>\
 			<br>\
-		</div>\
 	</div>";
 	
 	// Locate and place the figure in the appropriate spot in the Text
@@ -286,7 +288,7 @@ var Figure = function(figNum, figureMode) {
 	var conditions = ["EQ", "NE", "LT", "LE", "GT", "GE", "CARRY", "NEG", "ZERO", "OVER"];
 	var labels = [];
 	// The Watson Editor used in this lab
-	var editor1 = new Editor(this.codeID, true, true, 1, -1, true);
+	var editor1 = new Editor(this.codeID, "assembly", this.figNum, true, true, 1, -1, true, false, false);
 	// Used to center Dialog Boxes on the appropriate Figure
 	var editorDiv = document.getElementById(this.codeID);
 	var deleteCell;
@@ -303,6 +305,7 @@ var Figure = function(figNum, figureMode) {
 		memPointer++;
 		this.edited = true;
 		//console.log(".WORD pressed for "+this.figNum);
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	// <label> .BLOCK <const>
@@ -314,6 +317,7 @@ var Figure = function(figNum, figureMode) {
 		memPointer++;
 		this.edited = true;
 		//console.log(".BLOCK pressed for "+this.figNum);
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	// 'empty Label' LOADIMM <reg>, <const>
@@ -325,6 +329,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;const&gt;", type:"constant const2", width:"60px"}]);
 		this.edited = true;
 		//console.log("LOADIMM pressed for "+this.figNum);
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	this.load = function(){
@@ -335,6 +340,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;label&gt;", type:"label2", width:"60px"}]);
 		this.edited = true;
 		//console.log("LOAD pressed for "+this.figNum);
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	this.store = function(){
@@ -345,6 +351,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;label&gt;", type:"label2", width:"60px"}]);
 		this.edited = true;
 		//console.log("STORE pressed for "+this.figNum);
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	this.loadIND = function(){
@@ -355,6 +362,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
 		this.edited = true;
 		//console.log("LOADIND pressed for "+this.figNum);
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	this.storeIND = function(){
@@ -365,6 +373,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
 		this.edited = true;
 		//console.log("STOREIND pressed for "+this.figNum);
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	this.add = function(){
@@ -376,6 +385,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
 		this.edited = true;
 		//console.log("ADD pressed for "+this.figNum);
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	this.subtract = function(){
@@ -387,6 +397,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
 		this.edited = true;
 		//console.log("SUBTRACT pressed for "+this.figNum);
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	this.and = function(){
@@ -398,6 +409,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
 		this.edited = true;
 		//console.log("AND pressed for "+this.figNum);
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	this.or = function(){
@@ -409,6 +421,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
 		this.edited = true;
 		//console.log("OR pressed for "+this.figNum);
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	this.not = function(){
@@ -419,6 +432,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
 		this.edited = true;
 		//console.log("NOT pressed for "+this.figNum);
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	this.asl = function(){
@@ -430,6 +444,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;bits&gt;", type:"constant bits", width:"60px"}]);
 		this.edited = true;
 		//console.log("ASL pressed for "+this.figNum);
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	this.asr = function(){
@@ -441,6 +456,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;bits&gt;", type:"constant bits", width:"50px"}]);
 		this.edited = true;
 		//console.log("ASL pressed for "+this.figNum);
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	this.compare = function(){
@@ -451,6 +467,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
 		this.edited = true;
 		//console.log("COMPARE pressed for "+this.figNum);
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	this.branch = function(){
@@ -461,6 +478,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;label&gt;", width:"60px"}]);
 		this.edited = true;
 		//console.log("BRANCH pressed for "+this.figNum);
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	this.jump = function(){
@@ -470,6 +488,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;label&gt;", type:"label2", width:"60px"}]);
 		this.edited = true;
 		//console.log("JUMP pressed for "+this.figNum);
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	this.halt = function(){
@@ -477,6 +496,7 @@ var Figure = function(figNum, figureMode) {
 				[{text:"&nbsp;", type:"label1", width:"60px"},
 				{text:"HALT", type:"command", width:"74px"}]);
 		this.edited = true;
+		ga('send', 'event', 'assembly', 'edit', self.uniqID);
 	};
 	
 	/* Selector for the available <label>'s */
@@ -3246,6 +3266,8 @@ tabsstuff.controller(assemblycontroller,
 			$scope.run();
 			attemptingToRun = true;
 		}
+		
+		ga('send', 'event', 'assembly', 'run', self.uniqID);
 	};
 
 	$scope.walkButton = function() {
@@ -3264,6 +3286,8 @@ tabsstuff.controller(assemblycontroller,
 			$scope.buttons();
 			attemptingToRun = false;
 		}
+		
+		ga('send', 'event', 'assembly', 'walk', self.uniqID);
 	};
 
 	});
