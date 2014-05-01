@@ -1796,6 +1796,7 @@ var Figure = function(figNum, figureMode) {
 						} else {
 							this.complete = true;
 						}
+						
 						return 0;
 					};
 
@@ -1817,6 +1818,7 @@ var Figure = function(figNum, figureMode) {
 						this.startCounter = 0;
 						this.previousCounter = 0;
 						this.programCounter = 0;
+						this.labels = [];
 						
 						this.memory = [];
 						this.memory = new Array(256);
@@ -1844,7 +1846,7 @@ var Figure = function(figNum, figureMode) {
 							}
 							progLine++;
 						}
-
+						
 						this.previousCounter = this.offSet;
 
 						// Begin "assembling" into Machine code in
@@ -3024,10 +3026,10 @@ tabsstuff.controller(assemblycontroller,
 
 			$scope.vars.push({
 				memno : num,
-				con1 : memory[num][0] = $scope.assembler.decimalToHex(temp[num][0], 1),
-				con2 : memory[num][1] = $scope.assembler.decimalToHex(temp[num][1], 1),
-				con3 : memory[num][2] = $scope.assembler.decimalToHex(temp[num][2], 1),
-				con4 : memory[num][3] = $scope.assembler.decimalToHex(temp[num][3], 1)
+				con1 : memory[num][0] = temp[num][0],
+				con2 : memory[num][1] = temp[num][1],
+				con3 : memory[num][2] = temp[num][2],
+				con4 : memory[num][3] = temp[num][3]
 			});
 
 		};
@@ -3035,10 +3037,10 @@ tabsstuff.controller(assemblycontroller,
 		$scope.addmemory = function(num) {
 			$scope.memory.push({
 				memno : num,
-				con1 : memory[num][0] = $scope.assembler.decimalToHex(temp[num][0], 1),
-				con2 : memory[num][1] = $scope.assembler.decimalToHex(temp[num][1], 1),
-				con3 : memory[num][2] = $scope.assembler.decimalToHex(temp[num][2], 1),
-				con4 : memory[num][3] = $scope.assembler.decimalToHex(temp[num][3], 1)
+				con1 : memory[num][0] = temp[num][0],
+				con2 : memory[num][1] = temp[num][1],
+				con3 : memory[num][2] = temp[num][2],
+				con4 : memory[num][3] = temp[num][3]
 			});
 		};
 
@@ -3083,10 +3085,10 @@ tabsstuff.controller(assemblycontroller,
 				content : counter
 			} ];
 			$scope.instructionRegister = [ {
-				con1 : memory[counter][0] = $scope.assembler.decimalToHex(temp[counter][0], 1),
-				con2 : memory[counter][1] = $scope.assembler.decimalToHex(temp[counter][1], 1),
-				con3 : memory[counter][2] = $scope.assembler.decimalToHex(temp[counter][2], 1),
-				con4 : memory[counter][3] = $scope.assembler.decimalToHex(temp[counter][3], 1)
+				con1 : memory[counter][0] = $scope.temp[counter][0],
+				con2 : memory[counter][1] = $scope.temp[counter][1],
+				con3 : memory[counter][2] = $scope.temp[counter][2],
+				con4 : memory[counter][3] = $scope.temp[counter][3]
 			} ];
 		}
 
