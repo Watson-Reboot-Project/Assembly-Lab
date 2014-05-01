@@ -275,7 +275,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;const&gt;", type:"constant const1", width:"60px"}]);
 		memPointer++;
 		this.edited = true;
-		console.log(".WORD pressed for "+this.figNum);
+		//console.log(".WORD pressed for "+this.figNum);
 	};
 	
 	this.block = function(){
@@ -285,7 +285,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;const&gt;", type:"constant const1"}]);
 		memPointer++;
 		this.edited = true;
-		console.log(".BLOCK pressed for "+this.figNum);
+		//console.log(".BLOCK pressed for "+this.figNum);
 	};
 	
 	this.loadIMM = function(){
@@ -295,7 +295,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;const&gt;", type:"constant const2", width:"60px"}]);
 		this.edited = true;
-		console.log("LOADIMM pressed for "+this.figNum);
+		//console.log("LOADIMM pressed for "+this.figNum);
 	};
 	
 	this.load = function(){
@@ -305,7 +305,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;label&gt;", type:"label2", width:"60px"}]);
 		this.edited = true;
-		console.log("LOAD pressed for "+this.figNum);
+		//console.log("LOAD pressed for "+this.figNum);
 	};
 	
 	this.store = function(){
@@ -315,7 +315,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;label&gt;", type:"label2", width:"60px"}]);
 		this.edited = true;
-		console.log("STORE pressed for "+this.figNum);
+		//console.log("STORE pressed for "+this.figNum);
 	};
 	
 	this.loadIND = function(){
@@ -325,7 +325,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
 		this.edited = true;
-		console.log("LOADIND pressed for "+this.figNum);
+		//console.log("LOADIND pressed for "+this.figNum);
 	};
 	
 	this.storeIND = function(){
@@ -335,7 +335,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
 		this.edited = true;
-		console.log("STOREIND pressed for "+this.figNum);
+		//console.log("STOREIND pressed for "+this.figNum);
 	};
 	
 	this.add = function(){
@@ -346,7 +346,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
 		this.edited = true;
-		console.log("ADD pressed for "+this.figNum);
+		//console.log("ADD pressed for "+this.figNum);
 	};
 	
 	this.subtract = function(){
@@ -357,7 +357,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
 		this.edited = true;
-		console.log("SUBTRACT pressed for "+this.figNum);
+		//console.log("SUBTRACT pressed for "+this.figNum);
 	};
 	
 	this.and = function(){
@@ -368,7 +368,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
 		this.edited = true;
-		console.log("AND pressed for "+this.figNum);
+		//console.log("AND pressed for "+this.figNum);
 	};
 	
 	this.or = function(){
@@ -379,7 +379,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"50px"},
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
 		this.edited = true;
-		console.log("OR pressed for "+this.figNum);
+		//console.log("OR pressed for "+this.figNum);
 	};
 	
 	this.not = function(){
@@ -389,7 +389,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
 		this.edited = true;
-		console.log("NOT pressed for "+this.figNum);
+		//console.log("NOT pressed for "+this.figNum);
 	};
 	
 	this.asl = function(){
@@ -400,7 +400,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;bits&gt;", type:"constant bits", width:"60px"}]);
 		this.edited = true;
-		console.log("ASL pressed for "+this.figNum);
+		//console.log("ASL pressed for "+this.figNum);
 	};
 	
 	this.asr = function(){
@@ -411,7 +411,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;bits&gt;", type:"constant bits", width:"50px"}]);
 		this.edited = true;
-		console.log("ASL pressed for "+this.figNum);
+		//console.log("ASL pressed for "+this.figNum);
 	};
 	
 	this.compare = function(){
@@ -421,7 +421,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;reg&gt;,", type:"reg1", width:"60px"},
 				{text:"&lt;reg&gt;", type:"reg2", width:"60px"}]);
 		this.edited = true;
-		console.log("COMPARE pressed for "+this.figNum);
+		//console.log("COMPARE pressed for "+this.figNum);
 	};
 	
 	this.branch = function(){
@@ -431,7 +431,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"&lt;cond&gt;,", type:"cond", width:"60px"},
 				{text:"&lt;label&gt;", width:"60px"}]);
 		this.edited = true;
-		console.log("BRANCH pressed for "+this.figNum);
+		//console.log("BRANCH pressed for "+this.figNum);
 	};
 	
 	this.jump = function(){
@@ -440,7 +440,7 @@ var Figure = function(figNum, figureMode) {
 				{text:"JUMP", type:"command", width:"74px"},
 				{text:"&lt;label&gt;", type:"label2", width:"60px"}]);
 		this.edited = true;
-		console.log("JUMP pressed for "+this.figNum);
+		//console.log("JUMP pressed for "+this.figNum);
 	};
 	
 	this.halt = function(){
@@ -507,7 +507,7 @@ var Figure = function(figNum, figureMode) {
 				memPointer--;
 			}
 			editor1.deleteRow(deleteCell);
-			console.log("Post-Deletion memPointer = "+memPointer);
+			//console.log("Post-Deletion memPointer = "+memPointer);
 			this.edited = true;
 		}
     }
@@ -1425,13 +1425,13 @@ var Figure = function(figNum, figureMode) {
 				if($(this).css('cursor', 'pointer')) {
 					if($(this).parent().index() >= memPointer-1){
 						editor1.selectRowByIndex($(this).parent().index())
-						console.log("Index: "+$(this).parent().index());
+						//console.log("Index: "+$(this).parent().index());
 					}
 				}
 			}
 			else if($(this).hasClass("lineNum")){
-				console.log($(this).parent().parent().parent().parent().parent().index());
-				console.log("Pre-Deletion memPointer = "+memPointer);
+				//console.log($(this).parent().parent().parent().parent().parent().index());
+				//console.log("Pre-Deletion memPointer = "+memPointer);
 				deleteCell = $(this).parent().parent().parent().parent().parent().index();
 				createAlertBox("Delete", "Delete this line?", false, fDelete, editorDiv);
 			}
@@ -1503,9 +1503,9 @@ var Figure = function(figNum, figureMode) {
 
 	
 	var assemblyName = 'assembly' + this.figNum;
-	console.log(assemblyName);
+	//console.log(assemblyName);
 	var assemblycontroller = 'assemblycontroller' + this.figNum;
-	console.log(assemblycontroller);
+	//console.log(assemblycontroller);
 	var tabsstuff = angular
 	.module(assemblyName, [ 'ui.bootstrap' ])
 
@@ -1620,6 +1620,9 @@ var Figure = function(figNum, figureMode) {
 					// Converts a number to a hexidecimal with defined
 					// padding
 					this.decimalToHex = function(d, padding) {
+						if(d == 'A' || d == 'B' || d == 'C' || d == 'D' || d == 'E' || d == 'F'){
+							return d;
+						}
 						var hex = Number(d).toString(16);
 						padding = typeof (padding) === "undefined"
 								|| padding === null ? padding = 2 : padding;
@@ -2821,7 +2824,7 @@ var Figure = function(figNum, figureMode) {
 					this.reset = function() {
 						this.programCounter = this.startCounter;
 						// Need to reset Memory
-						console.log("Reset was called.")
+						//console.log("Reset was called.")
 						for (var i = 0; i < this.startCounter; i++) {
 							this.memory[i][0] = this.initMemory[i][0];
 							this.memory[i][1] = this.initMemory[i][1];
@@ -2848,8 +2851,8 @@ var Figure = function(figNum, figureMode) {
 						this.clearRegister();
 						this.done = false;
 						this.stop = false;
-						console.log("Reset has finished.");
-						console.log("Program Counter: "+this.programCounter);
+						//console.log("Reset has finished.");
+						//console.log("Program Counter: "+this.programCounter);
 						return 0;
 					};
 
@@ -2891,7 +2894,7 @@ var Figure = function(figNum, figureMode) {
 
 
 			});
-console.log(this.figNum);
+//console.log(this.figNum);
 tabsstuff.controller(assemblycontroller,
 	function($scope, assembler, $interval) {
 
@@ -3026,10 +3029,10 @@ tabsstuff.controller(assemblycontroller,
 
 			$scope.vars.push({
 				memno : num,
-				con1 : memory[num][0] = temp[num][0],
-				con2 : memory[num][1] = temp[num][1],
-				con3 : memory[num][2] = temp[num][2],
-				con4 : memory[num][3] = temp[num][3]
+				con1 : memory[num][0] = $scope.assembler.decimalToHex(temp[num][0], 1),
+				con2 : memory[num][1] = $scope.assembler.decimalToHex(temp[num][1], 1),
+				con3 : memory[num][2] = $scope.assembler.decimalToHex(temp[num][2], 1),
+				con4 : memory[num][3] = $scope.assembler.decimalToHex(temp[num][3], 1)
 			});
 
 		};
@@ -3037,13 +3040,14 @@ tabsstuff.controller(assemblycontroller,
 		$scope.addmemory = function(num) {
 			$scope.memory.push({
 				memno : num,
-				con1 : memory[num][0] = temp[num][0],
-				con2 : memory[num][1] = temp[num][1],
-				con3 : memory[num][2] = temp[num][2],
-				con4 : memory[num][3] = temp[num][3]
+				con1 : memory[num][0] = $scope.assembler.decimalToHex(temp[num][0], 1),
+				con2 : memory[num][1] = $scope.assembler.decimalToHex(temp[num][1], 1),
+				con3 : memory[num][2] = $scope.assembler.decimalToHex(temp[num][2], 1),
+				con4 : memory[num][3] = $scope.assembler.decimalToHex(temp[num][3], 1)
 			});
 		};
 
+		
 		if ($scope.varlength != 0) {
 			if(memoryhasran == false){
 				$scope.memory = [];
@@ -3085,10 +3089,10 @@ tabsstuff.controller(assemblycontroller,
 				content : counter
 			} ];
 			$scope.instructionRegister = [ {
-				con1 : memory[counter][0] = $scope.temp[counter][0],
-				con2 : memory[counter][1] = $scope.temp[counter][1],
-				con3 : memory[counter][2] = $scope.temp[counter][2],
-				con4 : memory[counter][3] = $scope.temp[counter][3]
+				con1 : memory[counter][0] = $scope.assembler.decimalToHex(temp[counter][0], 1),
+				con2 : memory[counter][1] = $scope.assembler.decimalToHex(temp[counter][1], 1),
+				con3 : memory[counter][2] = $scope.assembler.decimalToHex(temp[counter][2], 1),
+				con4 : memory[counter][3] = $scope.assembler.decimalToHex(temp[counter][3], 1)
 			} ];
 		}
 
@@ -3139,7 +3143,7 @@ tabsstuff.controller(assemblycontroller,
 	};
 
 	$scope.walk = function() {
-		console.log("Edited Status: "+self.edited);
+		//console.log("Edited Status: "+self.edited);
 		if(self.edited) {
 			editor1.selectRowByIndex(editor1.getRowCount()-1,false);
 			var temp = $scope.assembler.preprocessor();
