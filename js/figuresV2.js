@@ -1,5 +1,9 @@
 /*******************************************************************************
- * A function that creates a new figure based upon the specified number
+ * A function that creates a new figure based upon the specified number.
+ * This number is meant to be unique for each figure or sandbox in the text.
+ * 
+ * Authors: Tommy Bozeman, Jeremiah Laforge, Joshua Laborde, Landon Stanley,
+ *     Steven Wagner, and Richard Waller
  * 
  * @param { figNum } - The figure that you wish to create.
  * @param { mode } - True if inserting figures and false if inserting an editor.
@@ -7,8 +11,14 @@
 var Figure = function(figNum, figureMode) {
 	this.figNum = figNum;
 	this.figureMode = figureMode;
+	
+	// ID of the div element that the code will be inserted into.
 	var editorDivID;
+	
+	// Flag that disables the Editor Window
 	var cantEdit;
+	
+	// Assignment of the ID name
 	if(this.figureMode){
 		editorDivID = "fig" + this.figNum + "Div";
 		cantEdit = true;
@@ -17,10 +27,14 @@ var Figure = function(figNum, figureMode) {
 		cantEdit = false;
 	}
 	
+	// Location of the Assembly code div
 	this.codeID = "code"+editorDivID;
 
+	// Window height variable to give specified heights to code windows
+	// Mostly used for figures
 	this.windowHeight;
 	
+	// Assignment of code window height
 	if(this.figureMode){
 		if(this.figNum == 113) {
 			// Figure 11.3 Height
@@ -50,8 +64,10 @@ var Figure = function(figNum, figureMode) {
 		this.windowHeight = "250px";
 	}
 		
+	// Used for certain cases when the 'this' keyword is out of scope
 	var self = this;
 	
+	// Code to be inserted into Text
 	this.htmlString = "<div ng-controller='assemblycontroller"+this.figNum+"' class='container' id='fig"+this.figNum+"'>\
 	<div class='row'>\
 \
@@ -248,26 +264,37 @@ var Figure = function(figNum, figureMode) {
 			<br>\
 		</div>\
 	</div>";
+	
+	// Locate and place the figure in the appropriate spot in the Text
 	var divName = document.getElementById(editorDivID);
 	divName.innerHTML = this.htmlString;
 	
-	
+	// Controller logic for editor
 	var len = 0;
+	// Identifies where the .BLOCK and .WORD portions are
 	var memPointer = 0;
+	// Used for code alteration
 	var clickedCell;
 	var clickedCellNum;
+	// Used for deletion
 	var deleteFlag = false;
+	// Used for simple value checking
 	var registers = ["REG0", "REG1", "REG2", "REG3",
 			"REG4", "REG5", "REG6", "REG7",
 			"REG8", "REG9", "REGA", "REGB", 
 			"REGC", "REGD", "REGE", "REGF"];
 	var conditions = ["EQ", "NE", "LT", "LE", "GT", "GE", "CARRY", "NEG", "ZERO", "OVER"];
 	var labels = [];
+	// The Watson Editor used in this lab
 	var editor1 = new Editor(this.codeID, true, true, 1, -1, true);
+	// Used to center Dialog Boxes on the appropriate Figure
 	var editorDiv = document.getElementById(this.codeID);
 	var deleteCell;
+	// Flag used to determine if the program has been altered.
 	this.edited;
 
+	// Insertion logic for the different commands
+	// <label> .WORD <const>
 	this.word = function(){
 		editor1.addRow(memPointer,
 				[{text:"&lt;label&gt;", type:"label1", width:"60px"},
@@ -278,6 +305,7 @@ var Figure = function(figNum, figureMode) {
 		//console.log(".WORD pressed for "+this.figNum);
 	};
 	
+	// <label> .BLOCK <const>
 	this.block = function(){
 		editor1.addRow(memPointer,
 				[{text:"&lt;label&gt;", type:"label1", width:"60px"},
@@ -288,6 +316,7 @@ var Figure = function(figNum, figureMode) {
 		//console.log(".BLOCK pressed for "+this.figNum);
 	};
 	
+	// 'empty Label' LOADIMM <reg>, <const>
 	this.loadIMM = function(){
 		editor1.addRow(editor1.getSelectedRowIndex(),
 				[{text:"&nbsp;", type:"label1", width:"60px"},
