@@ -24,7 +24,6 @@ var Figure = function(figNum, figureMode) {
 	if(this.figureMode){
 		editorDivID = "fig" + this.figNum + "Div";
 		cantEdit = true;
-		this.uniqID = "figure-"+this.figNum;
 	} else {
 		editorDivID = "editor" + this.figNum;
 		cantEdit = false;
@@ -43,24 +42,31 @@ var Figure = function(figNum, figureMode) {
 		if(this.figNum == 113) {
 			// Figure 11.3 Height
 			this.windowHeight = "195px";
+			this.uniqID = "figure-assemblytotal";
 		} else if(this.figNum == 114) {
 			// Figure 11.4 Height
 			this.windowHeight = "160px";
+			this.uniqID = "figure-assemblydec";
 		} else if(this.figNum == 115) {
 			// Figure 11.5 Height
 			this.windowHeight = "275px";
+			this.uniqID = "figure-minorcode";
 		} else if(this.figNum == 116) {
 			// Figure 11.6 Height
 			this.windowHeight = "390px";
+			this.uniqID = "figure-minorcounter";
 		} else if(this.figNum == 119) {
 			// Figure 11.9 Height
 			this.windowHeight = "470px";
+			this.uniqID = "figure-assemblytimes";
 		} else if(this.figNum == 1110) {
 			// Figure 11.10 Height
 			this.windowHeight = "375px";
+			this.uniqID = "figure-optimizedtimes";
 		} else if(this.figNum == 1111) {
 			// Figure 11.11 Height
 			this.windowHeight = "415px";
+			this.uniqID = "figure-initializing30";
 		}
 	
 	} else {
