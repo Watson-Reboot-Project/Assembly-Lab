@@ -13,10 +13,25 @@
 	<link rel='stylesheet' href='css/jquery-ui-1.10.4.custom.css'>
 	<link type='text/css' rel='stylesheet' href='css/editor.css'/>
 	<link rel='stylesheet' href='lib/assembly.css'>
+	
+	<script type='text/javascript' src='lib/js/angular.js'></script>
+	<script type='text/javascript' src='lib/js/jQuery.js'></script>
+	<script type='text/javascript' src='lib/js/less.js'></script>
+	<script type='text/javascript' src='lib/js/ui-bootstrap-0.10.0.js'></script>
+	<script type='text/javascript' src='lib/js/tabs.js'></script>
+	<script type='text/javascript' src='lib/js/ui-bootstrap.js'></script>
+	<script type='text/javascript' src='js/editor.js'></script>
+	<script type='text/javascript' src='js/jquery-ui.js'></script>
+	<script type='text/javascript' src='js/WatsonDialogs.js'></script>
+	<script type='text/javascript' src='js/WatsonDataStore.js'></script>
+    	<script src='js/figuresV2.js'></script>
 	</head>
 	
 	<!-- controller for the lab -->
 	<body>
+	
+		<h1>Overview</h1>
+		<p>This page was used during production to create and test the Assembly lab before it was sent to the textbook. As a result, not all of the functionality is neccesarily present.</p>
 	
 		<h1 class='text-center'>Figure 11.3</h1>
 		<div id='fig113Div'></div>
@@ -47,7 +62,7 @@
 		<p>And here's the demon that is Figure 11.11. :/</p>
 		
 		<h1 class='text-center'>Sandbox 1</h1>
-		<div id='editor1'></div>
+		<div id='editor3'></div>
 		<p>Here's one of the new ones. This is an editable sandbox you can play with.</p>
 		
 		<h1 class='text-center'>Sandbox 2</h1>
@@ -55,17 +70,7 @@
 		<p>Here's another one to serve as a sanity check. Ideally both should work without messing the other up.</p>
 		
 		<!-- need to get it working so i dont need the online repositories -->
-    	<script type='text/javascript' src='lib/js/angular.js'></script>
-	<script type='text/javascript' src='lib/js/jQuery.js'></script>
-	<script type='text/javascript' src='lib/js/less.js'></script>
-	<script type='text/javascript' src='lib/js/ui-bootstrap-0.10.0.js'></script>
-	<script type='text/javascript' src='lib/js/tabs.js'></script>
-	<script type='text/javascript' src='lib/js/ui-bootstrap.js'></script>
-	<script type='text/javascript' src='js/editor.js'></script>
-	<script type='text/javascript' src='js/jquery-ui.js'></script>
-	<script type='text/javascript' src='js/WatsonDialogs.js'></script>
-	<script type='text/javascript' src='js/WatsonDataStore.js'></script>
-    	<script src='js/figuresV2.js'></script>
+    	
     	
     	
 		<script>var fig113 = new Figure(113, true);
@@ -75,7 +80,7 @@
 				var fig119 = new Figure(119, true);
 				var fig1110 = new Figure(1110, true);
 				var fig1111 = new Figure(1111, true);
-				var editor1 = new Figure(1, false);
+				var editor3 = new Figure(3, false);
 				var editor2 = new Figure(2, false);
 				
 				angular.bootstrap(document.getElementById("fig113"), ['assembly113']);
@@ -85,7 +90,7 @@
 				angular.bootstrap(document.getElementById("fig119"), ['assembly119']);
 				angular.bootstrap(document.getElementById("fig1110"), ['assembly1110']);
 				angular.bootstrap(document.getElementById("fig1111"), ['assembly1111']);
-				angular.bootstrap(document.getElementById("editor1"), ['assembly1']);
+				angular.bootstrap(document.getElementById("editor3"), ['assembly3']);
 				angular.bootstrap(document.getElementById("editor2"), ['assembly2']);
 				
 		</script>
